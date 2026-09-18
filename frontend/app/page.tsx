@@ -5,12 +5,9 @@ import { Section } from '@/components/layout/Section';
 import { getArchiveProjects, getClientLogos } from '@/lib/contract';
 
 export default function Home() {
-  // Fixture stores archive_no descending (06..01); the "LAB ARCHIVE" teaser is meant to
-  // preview the earliest three entries (01, 02, 03), so sort ascending before slicing
-  // rather than relying on fixture iteration order.
-  const latestThree = [...getArchiveProjects()]
-    .sort((a, b) => a.archive_no.localeCompare(b.archive_no))
-    .slice(0, 3);
+  // getArchiveProjects() returns entries sorted ascending by archive_no (01..06);
+  // the "LAB ARCHIVE" teaser previews the earliest three entries.
+  const latestThree = getArchiveProjects().slice(0, 3);
   const logos = getClientLogos();
 
   return (

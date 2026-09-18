@@ -15,6 +15,7 @@
 // doesn't solve deployability if frontend/ is ever built as a standalone unit (a deploy
 // pipeline that only has frontend/ on disk) — the local copy makes frontend/ self-contained.
 import fixture from '../data/rest-contract.json';
+import { slugify } from './slugify';
 
 export interface ArchiveProject {
   archive_no: string;
@@ -44,15 +45,10 @@ export interface SiteSetting {
   og_image: { url: string | null; alt: string | null };
 }
 
-function slugify(title: string): string {
-  return title
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/(^-|-$)/g, '');
-}
-
 export function getArchiveProjects(): ArchiveProject[] {
-  return fixture.archive_projects as ArchiveProject[];
+  return [...(fixture.archive_projects as ArchiveProject[])].sort((a, b) =>
+    a.archive_no.localeCompare(b.archive_no)
+  );
 }
 
 export function getArchiveProject(slug: string): ArchiveProject | undefined {
