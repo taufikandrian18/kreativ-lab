@@ -8,12 +8,16 @@ class Test_Revalidate_Webhook extends TestCase {
 
     public function tearDown(): void {
         WP_Mock::tearDown();
+        putenv( 'KSL_REVALIDATE_URL' );
+        putenv( 'KSL_REVALIDATE_SECRET' );
     }
 
     public function test_fires_webhook_for_published_archive_project() {
+        putenv( 'KSL_REVALIDATE_URL=https://front.example/api/revalidate' );
+        putenv( 'KSL_REVALIDATE_SECRET=shh' );
+
         WP_Mock::userFunction( 'get_post_type' )->andReturn( 'archive_project' );
-        WP_Mock::userFunction( 'getenv' )->with( 'KSL_REVALIDATE_URL' )->andReturn( 'https://front.example/api/revalidate' );
-        WP_Mock::userFunction( 'getenv' )->with( 'KSL_REVALIDATE_SECRET' )->andReturn( 'shh' );
+        WP_Mock::userFunction( 'wp_json_encode' )->andReturnUsing( fn( $data ) => json_encode( $data ) );
 
         WP_Mock::userFunction( 'wp_remote_post' )
             ->once()
