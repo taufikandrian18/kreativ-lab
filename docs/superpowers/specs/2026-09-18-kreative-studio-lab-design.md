@@ -1,0 +1,392 @@
+# Kreative Studio Lab — Website Design Spec
+
+Date: 2026-09-18
+Status: Awaiting user review
+Author: Taufik + Claude
+
+---
+
+## 1. Purpose and scope
+
+Build the public website for Kreative Studio Lab, a creative production studio working
+in product development and creative production. The site replaces the PDF company
+profile (`KREATIVE STUDIO LAB - create live archive.pdf`, 26 pages) as the studio's
+primary business-development artifact.
+
+Success means: a prospective client lands on the site, understands within one screen
+that this is a production studio with real manufacturing capability, browses the six
+LAB ARCHIVE case studies, recognises at least one logo from the client wall, and
+contacts the studio. It must do this as well on a mid-range Android phone on 4G as on
+a desktop.
+
+### In scope (v1)
+
+Seven route types, six case studies, one client logo wall, one contact path.
+
+### Out of scope (v1)
+
+Multi-language toggle, blog or journal, client login, e-commerce, newsletter capture,
+case-study filtering or search. Revisit after launch.
+
+---
+
+## 2. Platform architecture
+
+**Decision: headless WordPress.** WordPress is the content store and admin surface.
+Next.js is the rendering layer. WordPress renders zero HTML to the public.
+
+```
+WordPress (private subdomain)      Next.js (public)
+┌─────────────────────────┐        ┌──────────────────────────┐
+│ ACF Pro                 │        │ App Router               │
+│ CPT: archive_project    │ ──────▶│ Static generation        │
+│ CPT: client_logo        │  REST  │ ISR revalidate on webhook│
+│ Options: contact, meta  │        │ next/image pipeline      │
+└─────────────────────────┘        └──────────────────────────┘
+        publish hook ──────────────────────▶ /api/revalidate
+```
+
+### Rationale
+
+The studio's archive is numbered and grows — the deck already labels entries `01`
+through `06` and calls itself `ISSUE 001`. Entry `07` will exist. Someone who is not a
+developer needs to add it. That is the entire case for a CMS, and it is sufficient.
+
+The reason WordPress does not render is scroll ownership. GSAP ScrollTrigger and
+ScrollSmoother take control of scroll position and pin behaviour. A WordPress theme
+layer — especially once a page builder is installed by a future maintainer — competes
+for that control and breaks pinning in ways that are hard to diagnose. Demoting
+WordPress to a JSON source removes the conflict permanently rather than by convention.
+
+### Rejected alternatives
+
+- **Classic hand-built WP theme.** One system, cheaper hosting. Rejected because the
+  no-page-builder rule is unenforceable over the site's lifetime.
+- **Astro static, no CMS.** Fastest and cheapest. Rejected because adding case study
+  `07` would require a developer.
+
+### Hosting
+
+Not yet decided by the client. The Next.js front-end targets Vercel or any Node host;
+WordPress targets any PHP 8.2+ host. These are independent choices. Deployment detail
+belongs in the implementation plan, not here.
+
+---
+
+## 3. Content model
+
+### CPT: `archive_project`
+
+| Field | Type | Notes |
+|---|---|---|
+| `archive_no` | text | Zero-padded, e.g. `01`. Displayed as a corner counter. |
+| `title` | post title | e.g. "N8N Collective" |
+| `client` | text | e.g. "Nathan Tjoe A On" |
+| `industry` | text | e.g. "Clothing Brand" |
+| `year_range` | text | e.g. "2025 – 2026" |
+| `scope` | repeater (text) | Renders as the asterisked SCOPE OF WORK list |
+| `lab` | select | `product` \| `creative` \| `both` |
+| `hero_image` | image | Full-bleed opener |
+| `gallery` | gallery | Ordered; drives the scrolling right panel |
+| `accent_color` | colour picker | Per-project accent; see §5 |
+
+Six entries at launch:
+
+| No | Title | Client | Industry | Year |
+|---|---|---|---|---|
+| 01 | N8N Collective | Nathan Tjoe A On | Clothing Brand | 2025 – 2026 |
+| 02 | DRX Wear | DRX Wear | Sport Brand Apparel | 2024 – 2025 |
+| 03 | Howard Smith | Howard Smith | Otomotive Manufacture | 2025 |
+| 04 | Cargloss Helmet | Cargloss Helmet | Otomotive Manufacture | 2024 – 2025 |
+| 05 | XL Smart Axiata | XL Smart Axiata | Telekomunikasi | 2025 – 2026 |
+| 06 | Kemenpora | Kemenpora | Sport Event National | 2025 |
+
+Industry values are reproduced verbatim from the deck, including "Otomotive". Correct
+these in the CMS at content-entry time if the studio wants them corrected; do not
+silently change them in code.
+
+### CPT: `client_logo`
+
+`name`, `logo` (SVG preferred, PNG accepted), `order`. 25 entries at launch: Deus,
+BMW Motorrad, Unionwell, Jägermeister, Howard Smith, Jameson, Von Dutch, Shiny Bright,
+Compass, XLSmart, Cargloss, B-LOG, Pocari Sweat, N8N, J&T Express, Garuda Indonesia,
+Pertamina, Chelsea, Erspo, DRX, Kominfo, Kemenpora, Sampoerna, Grand Hyatt, and one
+mark not legible in the deck export — confirm with the studio.
+
+### Options page
+
+`phone_primary`, `phone_secondary`, `email`, `instagram`, `address`, `og_image`.
+Values come from the deck's closing card and are entered in the CMS, not hardcoded.
+
+---
+
+## 4. Routes
+
+| Route | Source | Notes |
+|---|---|---|
+| `/` | static + latest 3 archive | Hero, manifesto, who we are, two labs, archive teaser, client wall, closing |
+| `/about` | static | WHO WE ARE long form, THINK / DESIGN / CRAFT / EXPERIENCE |
+| `/product-lab` | static | Capability list, process imagery |
+| `/creative-lab` | static | Capability list, production imagery |
+| `/archive` | all `archive_project` | Six entries, numbered |
+| `/archive/[slug]` | one `archive_project` | Hero, scope, gallery |
+| `/contact` | options | Contact details, no form in v1 |
+
+No contact form in v1. The studio's deck lists two WhatsApp-capable numbers and an
+email; a form adds spam handling, a mail transport dependency, and a data-protection
+question for no measured gain. Add one post-launch if the studio asks.
+
+---
+
+## 5. Design tokens
+
+### Colour
+
+```css
+--k-red:    #F81010;  /* sampled from deck; see caveat */
+--k-black:  #000000;
+--k-paper:  #FFFFFF;
+```
+
+Three colours. No greys — apparent greys in the deck are halftone screens of black,
+reproduced as image content, not as CSS colour.
+
+**Caveat on `--k-red`:** sampled from JPEG-compressed deck exports, clustering at
+`(248,16,16)` and `(248,0,0)`. The true brand value is most likely a pure or near-pure
+red and may be specified as a Pantone. It is defined here as a single token so that
+replacing it with the studio's real value is a one-line change. Ask for the brand guide.
+
+Per-project `accent_color` exists because the case studies are chromatically distinct —
+N8N is saturated blue, DRX is red, Howard Smith is pink and black, Cargloss is
+multicolour, XL Smart is green and blue, Kemenpora is a four-colour system. The accent
+tints only that project's own counter and keyline, never the site chrome.
+
+### Typography
+
+Licensed Helvetica Now Condensed is unavailable; free substitutes confirmed by the
+client.
+
+```css
+--font-display: 'Anton', sans-serif;      /* compressed black grotesque */
+--font-body:    'Archivo', sans-serif;    /* variable, neutral grotesque */
+```
+
+`Anton` is the closest free match to the compressed black grotesque used for
+`LAB ARCHIVE`, `SCOPE OF WORK`, `WHO WE ARE`, `PRODUCT LAB`. It ships one weight only,
+which is acceptable because the deck uses that lockup at a single weight.
+
+`Archivo` (variable, 100–900) covers body copy and the medium-weight capability lists.
+
+Both self-hosted as subset woff2, `font-display: swap`, preloaded. No Google Fonts
+network request.
+
+Display type is set flush-left, tight (`letter-spacing: -0.02em`), and large —
+`clamp(3rem, 12vw, 11rem)` for section openers. The deck sets headlines hard against
+the page edge; the web version matches this down to a 16px minimum gutter.
+
+### Scale and grid
+
+12-column grid. Gutter 16px on mobile, 32px from 768px, 48px from 1280px. Max content
+width 1680px. Spread sections use a 50/50 split at ≥1024px that collapses to stacked
+below 1024px.
+
+---
+
+## 6. Motion
+
+### Stack
+
+`gsap`, `ScrollTrigger`, `ScrollSmoother`. Nothing else.
+
+Three.js, Locomotive Scroll, Framer Motion, and React Bits are explicitly excluded.
+Three.js because the identity is print-editorial and a 3D scene contradicts it at a
+cost of roughly 600 KB. Locomotive because ScrollSmoother does the same work while
+sharing ScrollTrigger's internals rather than racing them, and because Locomotive's
+transform-based virtual scroll degrades mobile momentum scrolling. Framer Motion
+because it duplicates GSAP. This exclusion is a design decision, not an oversight;
+reversing it means re-opening this spec.
+
+### Per-section vocabulary
+
+| Section | Motion |
+|---|---|
+| Hero | Video loop, `KREATE LIVE` marquee band, headline clip-path mask reveal |
+| Manifesto | Line-by-line reveal on a 60ms stagger |
+| Who we are | THINK / DESIGN / CRAFT / EXPERIENCE stagger up, halftone cards |
+| Two labs | Pinned; two circles converge into the Venn on scrub |
+| Lab capability lists | Reveal per line, red keyline wipe left to right |
+| Archive index | Six rows; `01`–`06` counter increments in the fixed corner |
+| Case study | Pinned left hero, scrolling right gallery — mirrors the deck spread |
+| Client wall | Logo grid, opacity stagger on a 40ms interval |
+| Closing | `LET'S CREATE SOMETHING THAT LIVES.` with CREATE and LIVES in red |
+
+### Rules
+
+Animate `transform` and `opacity` only. Anything else is a bug. No layout-triggering
+property inside a scroll handler. All ScrollTriggers registered through a single
+`useGSAP` context per route so they tear down on navigation.
+
+### Reduced motion
+
+`prefers-reduced-motion: reduce` disables ScrollSmoother, replaces every scrub with its
+static end-state, stops all marquees, and swaps the hero video for
+`hero-still-reduced.jpg`. The site must be fully legible and navigable in this state.
+
+---
+
+## 7. Mobile
+
+Mobile is the priority surface, not the fallback.
+
+- ScrollSmoother is disabled below 1024px. Native scroll and momentum are preserved.
+- Every pinned section becomes a stacked section. No pinning below 1024px.
+- The Venn convergence becomes two stacked circles, no scrub.
+- Marquees continue — a CSS transform loop is cheap and carries the brand.
+- `100vh` is never used; `100svh` / `100dvh` only, so the mobile URL bar does not cause
+  a layout jump.
+- Tap targets minimum 44×44px.
+- The hero video is served at 720p below 768px.
+
+---
+
+## 8. Video
+
+The hero loop is an 8.0s, 1920×1080, 24fps clip; source is 6.07 MB at roughly 6 Mbps.
+
+**Decision: H.264 MP4 only. No HLS, no WebM.**
+
+HLS was requested and is rejected. It exists for adaptive bitrate on long-form video;
+for an 8-second decorative loop it adds a manifest, segment files, and the hls.js
+runtime (~40 KB) while complicating reliable autoplay-loop on iOS Safari. If the studio
+later publishes a real 2–3 minute brand film, HLS becomes appropriate for that asset
+and only that asset.
+
+WebM was specified in an earlier draft and is also rejected, on measurement rather than
+principle. Transcoding this source produced:
+
+| Output | Codec | Size |
+|---|---|---|
+| `hero-1080.mp4` | H.264 CRF 27 | 1.31 MB |
+| `hero-720.mp4` | H.264 CRF 28 | 1.00 MB |
+| `hero-1080.webm` | VP9 CRF 36 | 2.53 MB |
+| `hero-720.webm` | VP9 CRF 38 | 1.18 MB |
+
+VP9 is roughly twice the size of H.264 at every tier on this content, because the source
+is an AI-generated image sequence with high-frequency detail that VP9 handles poorly.
+Shipping MP4 alone is both smaller and simpler, and H.264 has universal support
+including iOS.
+
+Delivery: `<video muted loop playsinline preload="metadata">` with
+`poster="hero-poster.jpg"`; 720p source below 768px, 1080p above.
+
+---
+
+## 9. Images
+
+All 26 deck pages were extracted at their embedded resolution of 2048×1448 (175 ppi),
+totalling 8.2 MB. Derivatives generated at 1920 / 1280 / 768 / 420px wide in WebP q82:
+104 files, 8.8 MB, averaging 179 KB at 1920.
+
+**Known limitation, accepted by the client:** these are deck exports, not originals.
+2048px is adequate for full-bleed at 1× and for any phone, and soft on a 2× desktop
+display at full-bleed. Where a page is used full-bleed on desktop, prefer a crop over
+an upscale.
+
+**Halftone compression:** halftone pages compress badly — page 01 is 507 KB and page 10
+is 621 KB at 1920, against a 179 KB average, because dither noise is worst-case for
+lossy codecs. Where a halftone treatment is decorative rather than content, apply it as
+a CSS or SVG filter over a clean photograph instead of shipping a pre-halftoned raster.
+
+Raw pages are in `assets/raw/`, derivatives in `assets/web/`, video in `assets/video/`.
+
+**Page-to-section mapping is not yet verified.** The ordering assumed during extraction
+is plausible but unconfirmed. Verifying each of the 26 pages against its target section
+is an explicit task in the implementation plan, and no layout work should depend on the
+assumed order until that task is done.
+
+---
+
+## 10. Performance budget
+
+Measured on a mid-range Android over simulated 4G, on `/` and `/archive/[slug]`.
+
+| Metric | Budget |
+|---|---|
+| LCP | < 2.5s |
+| CLS | < 0.05 |
+| INP | < 200ms |
+| JS transferred, initial route | < 180 KB gzipped |
+| Largest single image, initial viewport | < 200 KB |
+
+GSAP core plus ScrollTrigger plus ScrollSmoother is roughly 70 KB gzipped, which is the
+majority of the JS budget and the reason nothing else joins it.
+
+Every image below the fold is lazy. The hero video does not block LCP — the poster frame
+is the LCP element and is preloaded.
+
+---
+
+## 11. Accessibility
+
+WCAG 2.2 AA.
+
+Red `#F81010` on white measures 4.0:1, which fails AA for body text. Red is therefore
+restricted to display type at 24px and above, and to non-informational keylines. It is
+never used for body copy or small labels. If the studio's real brand red differs, this
+ratio must be re-measured and this rule re-derived.
+
+All motion respects `prefers-reduced-motion`. Pinned sections remain keyboard-reachable
+in document order. Every image carries meaningful alt text drawn from its project's
+client and scope.
+
+---
+
+## 12. Testing
+
+Motion-heavy sites fail in ways unit tests do not catch, so the weight is on visual and
+behavioural checks rather than coverage percentage.
+
+| Layer | Approach |
+|---|---|
+| Content mapping | Snapshot test per `archive_project`: the six entries' `archive_no`, `client`, `industry`, `year_range` and `scope` length match the table in §3 |
+| WP → Next contract | Contract test against a recorded REST fixture; a field rename in ACF must fail the build, not ship an empty section |
+| Layout | Playwright screenshots at 390 / 768 / 1280 / 1920 on every route, diffed against approved baselines |
+| Motion teardown | Assert `ScrollTrigger.getAll().length === 0` after navigating away from each route — the single most likely source of a memory leak here |
+| Reduced motion | Full Playwright pass with `prefers-reduced-motion: reduce`; every route must render its static end-state and remain navigable |
+| Mobile scroll | Manual check on a real iOS and a real Android device that native momentum is intact and no `100vh` jump occurs. Emulation does not reproduce this. |
+| Performance | Lighthouse CI on `/` and one `/archive/[slug]`, failing the build on any §10 budget breach |
+| Accessibility | axe-core in CI, plus a manual keyboard pass through every pinned section |
+
+The mobile scroll check is deliberately manual. Momentum scrolling and URL-bar
+behaviour are the two things this build is most likely to get wrong and the two things
+no emulator reproduces faithfully.
+
+---
+
+## 13. Decomposition
+
+This spec is larger than one implementation plan should cover. It decomposes into four
+sequential stages, each with its own plan:
+
+1. **Content layer** — WordPress, ACF field groups, both CPTs, options page, REST
+   shape, revalidate webhook. Deliverable: stable JSON for six projects and 25 logos.
+2. **Shell and design system** — Next.js app, tokens, fonts, grid, typography scale,
+   image pipeline, static routes with no motion. Deliverable: the whole site correct
+   and legible, entirely still.
+3. **Motion system** — GSAP context, ScrollSmoother setup, the nine section behaviours
+   in §6, reduced-motion paths, mobile disabling.
+4. **Content population and hardening** — page-to-section verification (§9), real
+   assets if the studio supplies them, performance and accessibility passes.
+
+Stage 2 must be independently shippable. If motion is cut for time, the site still
+works.
+
+---
+
+## 14. Open questions
+
+1. Brand red — exact hex or Pantone from the studio's brand guide.
+2. The one illegible logo on the client wall.
+3. Hosting target for both WordPress and the front-end.
+4. Whether deck spellings such as "Otomotive" should be corrected.
+5. Vector (SVG) artwork for the crossed-K mark — currently raster only.
