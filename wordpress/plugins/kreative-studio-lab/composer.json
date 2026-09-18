@@ -1,0 +1,12 @@
+{
+  "name": "kreative-studio-lab/plugin",
+  "require-dev": {
+    "10up/wp_mock": "^1.0",
+    "phpunit/phpunit": "^10.5"
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "KSL\\Tests\\": "tests/"
+    }
+  }
+}

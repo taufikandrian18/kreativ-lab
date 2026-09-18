@@ -1,0 +1,11 @@
+{
+  "core": "WordPress/WordPress#6.6",
+  "phpVersion": "8.2",
+  "plugins": [
+    "./wordpress/plugins/advanced-custom-fields-pro",
+    "./wordpress/plugins/kreative-studio-lab"
+  ],
+  "config": {
+    "WP_DEBUG": true
+  }
+}
