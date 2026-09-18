@@ -1,4 +1,20 @@
-import fixture from '../../wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json';
+// Local mirror of Stage 1's frozen fixture at
+// wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json — copied here
+// (not imported cross-directory) because Next.js's production bundler (Turbopack)
+// refuses to resolve module imports that reach outside the app's own project directory
+// ("Module not found", confirmed via `npm run build`, independent of the sandbox's
+// separate Google Fonts network limitation). Vitest's plain Node/Vite resolution
+// tolerated the cross-directory import fine, which is why this only surfaced once a
+// real `next build` ran. Re-sync with `npm run sync-fixture` whenever Stage 1's fixture
+// is deliberately regenerated; `fixture-sync.test.ts` fails loudly if the two drift.
+//
+// Alternative considered and rejected: Next.js's `turbopack.root` config (next.config.ts)
+// can widen Turbopack's resolution root to a parent directory, letting the original
+// cross-directory import resolve as-is with no duplication. Not used here because it
+// widens filesystem-watch scope for a monorepo-wide config change to fix one import, and
+// doesn't solve deployability if frontend/ is ever built as a standalone unit (a deploy
+// pipeline that only has frontend/ on disk) — the local copy makes frontend/ self-contained.
+import fixture from '../data/rest-contract.json';
 
 export interface ArchiveProject {
   archive_no: string;

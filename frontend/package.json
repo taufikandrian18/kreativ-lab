@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "vitest run"
+    "test": "vitest run",
+    "sync-fixture": "cp ../wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json ./data/rest-contract.json"
   },
   "dependencies": {
     "next": "16.3.5",
