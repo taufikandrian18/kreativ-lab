@@ -44,10 +44,14 @@ class Test_REST_Contract extends TestCase {
     }
 
     public function test_shape_client_logo_produces_stable_contract() {
+        // 'order' as a string, not an int: confirmed live against a real WordPress instance
+        // that ACF's 'number' field type can round-trip through get_field() as "2" rather
+        // than 2, even though the field is typed 'number'. Locks in shape_client_logo()'s
+        // explicit (int) cast so this can't silently regress back to a numeric string.
         $raw = [
             'name'  => 'BMW Motorrad',
             'logo'  => [ 'url' => 'https://example.test/bmw.svg', 'alt' => 'BMW Motorrad logo' ],
-            'order' => 2,
+            'order' => '2',
         ];
 
         $shaped = KSL_REST_Contract::shape_client_logo( $raw );

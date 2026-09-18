@@ -1,0 +1,301 @@
+{
+  "archive_projects": [
+    {
+      "archive_no": "06",
+      "title": "Kemenpora",
+      "client": "Kemenpora",
+      "industry": "Sport Event National",
+      "year_range": "2025",
+      "scope": [],
+      "lab": "product",
+      "hero_image": {
+        "url": null,
+        "alt": null
+      },
+      "gallery": [],
+      "accent_color": null
+    },
+    {
+      "archive_no": "05",
+      "title": "XL Smart Axiata",
+      "client": "XL Smart Axiata",
+      "industry": "Telekomunikasi",
+      "year_range": "2025 – 2026",
+      "scope": [],
+      "lab": "both",
+      "hero_image": {
+        "url": null,
+        "alt": null
+      },
+      "gallery": [],
+      "accent_color": null
+    },
+    {
+      "archive_no": "04",
+      "title": "Cargloss Helmet",
+      "client": "Cargloss Helmet",
+      "industry": "Otomotive Manufacture",
+      "year_range": "2024 – 2025",
+      "scope": [],
+      "lab": "creative",
+      "hero_image": {
+        "url": null,
+        "alt": null
+      },
+      "gallery": [],
+      "accent_color": null
+    },
+    {
+      "archive_no": "03",
+      "title": "Howard Smith",
+      "client": "Howard Smith",
+      "industry": "Otomotive Manufacture",
+      "year_range": "2025",
+      "scope": [],
+      "lab": "creative",
+      "hero_image": {
+        "url": null,
+        "alt": null
+      },
+      "gallery": [],
+      "accent_color": null
+    },
+    {
+      "archive_no": "02",
+      "title": "DRX Wear",
+      "client": "DRX Wear",
+      "industry": "Sport Brand Apparel",
+      "year_range": "2024 – 2025",
+      "scope": [],
+      "lab": "both",
+      "hero_image": {
+        "url": null,
+        "alt": null
+      },
+      "gallery": [],
+      "accent_color": null
+    },
+    {
+      "archive_no": "01",
+      "title": "N8N Collective",
+      "client": "Nathan Tjoe A On",
+      "industry": "Clothing Brand",
+      "year_range": "2025 – 2026",
+      "scope": [],
+      "lab": "both",
+      "hero_image": {
+        "url": null,
+        "alt": null
+      },
+      "gallery": [],
+      "accent_color": null
+    }
+  ],
+  "client_logos": [
+    {
+      "name": "Grand Hyatt",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 24
+    },
+    {
+      "name": "Sampoerna",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 23
+    },
+    {
+      "name": "Kemenpora",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 22
+    },
+    {
+      "name": "Kominfo",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 21
+    },
+    {
+      "name": "DRX",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 20
+    },
+    {
+      "name": "Erspo",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 19
+    },
+    {
+      "name": "Chelsea",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 18
+    },
+    {
+      "name": "Pertamina",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 17
+    },
+    {
+      "name": "Garuda Indonesia",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 16
+    },
+    {
+      "name": "J&T Express",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 15
+    },
+    {
+      "name": "N8N",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 14
+    },
+    {
+      "name": "Pocari Sweat",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 13
+    },
+    {
+      "name": "B-LOG",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 12
+    },
+    {
+      "name": "Cargloss",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 11
+    },
+    {
+      "name": "XLSmart",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 10
+    },
+    {
+      "name": "Compass",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 9
+    },
+    {
+      "name": "Shiny Bright",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 8
+    },
+    {
+      "name": "Von Dutch",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 7
+    },
+    {
+      "name": "Jameson",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 6
+    },
+    {
+      "name": "Howard Smith",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 5
+    },
+    {
+      "name": "Jägermeister",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 4
+    },
+    {
+      "name": "Unionwell",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 3
+    },
+    {
+      "name": "BMW Motorrad",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 2
+    },
+    {
+      "name": "Deus",
+      "logo": {
+        "url": null,
+        "alt": null
+      },
+      "order": 1
+    }
+  ],
+  "site_settings": [
+    {
+      "phone_primary": "",
+      "phone_secondary": "",
+      "email": "",
+      "instagram": "",
+      "address": "",
+      "og_image": {
+        "url": null,
+        "alt": null
+      }
+    }
+  ]
+}

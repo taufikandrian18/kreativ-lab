@@ -80,7 +80,11 @@ class KSL_REST_Contract {
                 'url' => $raw['logo']['url'] ?? null,
                 'alt' => $raw['logo']['alt'] ?? null,
             ],
-            'order' => $raw['order'],
+            // Cast explicitly: confirmed live that ACF's 'number' field type can round-trip
+            // through get_field() as a numeric string ("24") rather than an int, even though
+            // the field is typed 'number'. The contract's job is a stable shape regardless of
+            // ACF's own quirks, not passing through whatever it happens to return.
+            'order' => (int) $raw['order'],
         ];
     }
 
