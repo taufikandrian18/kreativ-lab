@@ -2,7 +2,7 @@
   "name": "kreative-studio-lab/plugin",
   "require-dev": {
     "10up/wp_mock": "^1.0",
-    "phpunit/phpunit": "^10.5"
+    "phpunit/phpunit": "^9.6"
   },
   "autoload-dev": {
     "psr-4": {

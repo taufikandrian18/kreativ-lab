@@ -1,5 +1,5 @@
 <?php
-// tests/test-plugin-bootstrap.php
+// tests/PluginBootstrapTest.php
 use PHPUnit\Framework\TestCase;
 
 class Test_Plugin_Bootstrap extends TestCase {

@@ -6,7 +6,7 @@
 
 **Architecture:** A single custom WordPress plugin (`kreative-studio-lab`) registers both CPTs and their ACF field groups entirely in PHP (never through the ACF admin UI), so the schema is version-controlled and diffable. A dedicated REST-contract layer reshapes ACF's raw field output into a stable JSON shape via `register_rest_field`, decoupling the public API from ACF's internal field names — an ACF field rename must fail a test, not silently break the front-end. A `save_post` hook fires a signed webhook to the Next.js ISR endpoint on publish.
 
-**Tech Stack:** WordPress 6.x, PHP 8.2+, ACF Pro (fields registered via `acf_add_local_field_group`, not the UI), `@wordpress/env` (wp-env) for the local Docker instance, WP-CLI, Composer, PHPUnit 10 with `10up/wp_mock` for unit tests, integration checks run against wp-env via WP-CLI/curl.
+**Tech Stack:** WordPress 6.x, PHP 8.2+, ACF Pro (fields registered via `acf_add_local_field_group`, not the UI), `@wordpress/env` (wp-env) for the local Docker instance, WP-CLI, Composer, PHPUnit 9.6 with `10up/wp_mock ^1.0` for unit tests (WP_Mock 1.x requires PHPUnit `^9.6`; PHPUnit 10 is incompatible with it and was corrected during Task 1 execution — see plan's implementation ledger), integration checks run against wp-env via WP-CLI/curl.
 
 **Spec:** `docs/superpowers/specs/2026-09-18-kreative-studio-lab-design.md` — this plan implements §2 (architecture), §3 (content model), and the "Content layer" stage of §13. Executors should read both documents; this plan does not restate rationale already covered there.
 
@@ -81,7 +81,7 @@ Each `class-*.php` file owns exactly one registration concern (one CPT, one fiel
   "name": "kreative-studio-lab/plugin",
   "require-dev": {
     "10up/wp_mock": "^1.0",
-    "phpunit/phpunit": "^10.5"
+    "phpunit/phpunit": "^9.6"
   },
   "autoload-dev": {
     "psr-4": {
@@ -90,6 +90,10 @@ Each `class-*.php` file owns exactly one registration concern (one CPT, one fiel
   }
 }
 ```
+
+Note: originally specified as `^10.5`; corrected to `^9.6` during execution when `composer install`
+failed with an unresolvable dependency — WP_Mock 1.x hard-requires PHPUnit `^9.6`. See the
+implementation ledger for the ruling.
 
 - [ ] **Step 2: Install dependencies**
 
@@ -118,6 +122,21 @@ WP_Mock::bootstrap();
   </testsuites>
 </phpunit>
 ```
+
+> **Correction (post-execution, see implementation ledger):** `<directory>tests</directory>`
+> with no `suffix` attribute defaults to PHPUnit 9's built-in filter of `Test.php`. Every test
+> filename shown below and throughout the rest of this plan (`test-plugin-bootstrap.php`,
+> `test-cpt-registration.php`, `test-acf-field-schema.php`, `test-rest-contract.php`,
+> `test-seed-data-shape.php`, `test-revalidate-webhook.php`) was written in WordPress
+> convention, not PHPUnit's, so a bare `vendor/bin/phpunit` run discovered zero tests. The
+> per-step "Run: vendor/bin/phpunit tests/test-x.php" commands below still worked as written,
+> because passing a file directly as a CLI argument bypasses suite discovery — which is why
+> this wasn't caught until Task 9's full-suite run. The actual, corrected filenames are
+> `PluginBootstrapTest.php`, `CptRegistrationTest.php`, `AcfFieldSchemaTest.php`,
+> `RestContractTest.php`, `SeedDataShapeTest.php`, `RevalidateWebhookTest.php` — class names,
+> namespaces, and test method names are unchanged. `phpunit.xml` itself needed no edit. See the
+> ledger's Ruling entry for the full record; this plan's inline code blocks below are left as
+> originally written for historical accuracy and should not be copy-pasted by filename.
 
 - [ ] **Step 5: Write the failing bootstrap test**
 
