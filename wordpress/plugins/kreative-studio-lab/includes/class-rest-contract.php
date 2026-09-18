@@ -16,6 +16,12 @@ class KSL_REST_Contract {
             'ksl_logo',
             [ 'get_callback' => [ __CLASS__, 'get_client_logo_field' ] ]
         );
+
+        register_rest_field(
+            KSL_CPT_Site_Setting::SLUG,
+            'ksl_site_setting',
+            [ 'get_callback' => [ __CLASS__, 'get_site_setting_field' ] ]
+        );
     }
 
     public static function get_archive_project_field( array $post ): array {
@@ -24,7 +30,9 @@ class KSL_REST_Contract {
             'client'       => get_field( 'client', $post['id'] ),
             'industry'     => get_field( 'industry', $post['id'] ),
             'year_range'   => get_field( 'year_range', $post['id'] ),
-            'scope'        => get_field( 'scope', $post['id'] ) ?: [],
+            // 'scope' is a textarea (ACF free), not a repeater (ACF Pro) — see spec §3
+            // amendment. Default is '', not [], to match the textarea field's real return type.
+            'scope'        => get_field( 'scope', $post['id'] ) ?: '',
             'lab'          => get_field( 'lab', $post['id'] ),
             'hero_image'   => get_field( 'hero_image', $post['id'] ),
             'gallery'      => get_field( 'gallery', $post['id'] ) ?: [],
@@ -41,7 +49,7 @@ class KSL_REST_Contract {
             'client'       => $raw['client'],
             'industry'     => $raw['industry'],
             'year_range'   => $raw['year_range'],
-            'scope'        => array_map( fn( $row ) => $row['item'], $raw['scope'] ),
+            'scope'        => self::split_scope_lines( $raw['scope'] ),
             'lab'          => $raw['lab'],
             'hero_image'   => [
                 'url' => $raw['hero_image']['url'] ?? null,
@@ -73,6 +81,45 @@ class KSL_REST_Contract {
                 'alt' => $raw['logo']['alt'] ?? null,
             ],
             'order' => $raw['order'],
+        ];
+    }
+
+    /**
+     * Splits a newline-delimited textarea value into a trimmed, non-empty-line array —
+     * the same shape the frontend always received when 'scope' was an ACF Pro repeater.
+     */
+    private static function split_scope_lines( string $scope ): array {
+        $lines = preg_split( '/\r\n|\r|\n/', $scope );
+        return array_values( array_filter(
+            array_map( 'trim', $lines ),
+            fn( $line ) => $line !== ''
+        ) );
+    }
+
+    public static function get_site_setting_field( array $post ): array {
+        $raw = [
+            'phone_primary'   => get_field( 'phone_primary', $post['id'] ),
+            'phone_secondary' => get_field( 'phone_secondary', $post['id'] ),
+            'email'           => get_field( 'email', $post['id'] ),
+            'instagram'       => get_field( 'instagram', $post['id'] ),
+            'address'         => get_field( 'address', $post['id'] ),
+            'og_image'        => get_field( 'og_image', $post['id'] ),
+        ];
+
+        return self::shape_site_setting( $raw );
+    }
+
+    public static function shape_site_setting( array $raw ): array {
+        return [
+            'phone_primary'   => $raw['phone_primary'],
+            'phone_secondary' => $raw['phone_secondary'],
+            'email'           => $raw['email'],
+            'instagram'       => $raw['instagram'],
+            'address'         => $raw['address'],
+            'og_image'        => [
+                'url' => $raw['og_image']['url'] ?? null,
+                'alt' => $raw['og_image']['alt'] ?? null,
+            ],
         ];
     }
 }

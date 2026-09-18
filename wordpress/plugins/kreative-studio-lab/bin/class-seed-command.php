@@ -11,7 +11,8 @@ class KSL_Seed_Command {
     public static function seed(): void {
         self::seed_archive_projects();
         self::seed_client_logos();
-        WP_CLI::success( 'Seeded archive_project and client_logo content.' );
+        self::seed_site_setting();
+        WP_CLI::success( 'Seeded archive_project, client_logo, and site_setting content.' );
     }
 
     private static function seed_archive_projects(): void {
@@ -51,6 +52,25 @@ class KSL_Seed_Command {
             update_field( 'name', $entry['name'], $post_id );
             update_field( 'order', $entry['order'], $post_id );
         }
+    }
+
+    /**
+     * Creates the one and only 'site_setting' post (replaces the ACF options page — see
+     * spec §3 amendment). Contact values ship empty: they were never transcribed from the
+     * deck, and this command does not fabricate phone/email/Instagram data.
+     */
+    private static function seed_site_setting(): void {
+        $post_id = wp_insert_post( [
+            'post_type'   => KSL_CPT_Site_Setting::SLUG,
+            'post_title'  => 'Site Settings',
+            'post_status' => 'publish',
+        ] );
+
+        update_field( 'phone_primary', '', $post_id );
+        update_field( 'phone_secondary', '', $post_id );
+        update_field( 'email', '', $post_id );
+        update_field( 'instagram', '', $post_id );
+        update_field( 'address', '', $post_id );
     }
 }
 

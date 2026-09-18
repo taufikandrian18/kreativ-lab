@@ -3,18 +3,12 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-class KSL_ACF_Options_Page {
+class KSL_ACF_Fields_Site_Setting {
     public static function register(): void {
-        acf_add_options_page( [
-            'page_title' => 'Site Options',
-            'menu_title' => 'Site Options',
-            'menu_slug'  => 'ksl-options',
-        ] );
-
         acf_add_local_field_group( [
-            'key'    => 'group_ksl_options',
-            'title'  => 'Contact Details',
-            'fields' => [
+            'key'      => 'group_ksl_site_setting',
+            'title'    => 'Contact Details',
+            'fields'   => [
                 [
                     'key'   => 'field_ksl_phone_primary',
                     'label' => 'Primary Phone',
@@ -56,9 +50,9 @@ class KSL_ACF_Options_Page {
             'location' => [
                 [
                     [
-                        'param'    => 'options_page',
+                        'param'    => 'post_type',
                         'operator' => '==',
-                        'value'    => 'ksl-options',
+                        'value'    => KSL_CPT_Site_Setting::SLUG,
                     ],
                 ],
             ],

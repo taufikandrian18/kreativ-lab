@@ -34,19 +34,16 @@ class KSL_ACF_Fields_Archive_Project {
                     'type'  => 'text',
                 ],
                 [
-                    'key'        => 'field_ksl_scope',
-                    'label'      => 'Scope of Work',
-                    'name'       => 'scope',
-                    'type'       => 'repeater',
-                    'layout'     => 'table',
-                    'sub_fields' => [
-                        [
-                            'key'   => 'field_ksl_scope_item',
-                            'label' => 'Item',
-                            'name'  => 'item',
-                            'type'  => 'text',
-                        ],
-                    ],
+                    'key'          => 'field_ksl_scope',
+                    'label'        => 'Scope of Work',
+                    'name'         => 'scope',
+                    // Was 'repeater' (ACF Pro only, no license — see spec §3 amendment).
+                    // One scope item per line; KSL_REST_Contract::shape_archive_project()
+                    // splits this into the same array-of-strings shape the frontend always
+                    // received, so the public contract is unaffected by this storage change.
+                    'type'         => 'textarea',
+                    'instructions' => 'One scope-of-work item per line.',
+                    'new_lines'    => '',
                 ],
                 [
                     'key'     => 'field_ksl_lab',

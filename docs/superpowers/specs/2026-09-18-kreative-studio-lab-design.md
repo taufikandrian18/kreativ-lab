@@ -75,6 +75,14 @@ belongs in the implementation plan, not here.
 
 ## 3. Content model
 
+> **Amendment (2026-09-18, post-approval, pre-launch):** this section originally specified
+> ACF Pro fields (`scope` as a repeater, contact details as an ACF options page). The studio
+> does not hold an ACF Pro license and chose not to buy one, so both are descoped to
+> free-ACF-compatible equivalents below. The public REST contract shape (what Next.js
+> consumes) is unchanged in both cases — this is purely how WordPress stores and edits the
+> data, not what the frontend receives. See the content-layer implementation ledger for the
+> full rationale.
+
 ### CPT: `archive_project`
 
 | Field | Type | Notes |
@@ -84,7 +92,7 @@ belongs in the implementation plan, not here.
 | `client` | text | e.g. "Nathan Tjoe A On" |
 | `industry` | text | e.g. "Clothing Brand" |
 | `year_range` | text | e.g. "2025 – 2026" |
-| `scope` | repeater (text) | Renders as the asterisked SCOPE OF WORK list |
+| `scope` | textarea, one item per line (was: repeater, ACF Pro only — see amendment above) | Split on newline in the REST contract layer into the same array shape the frontend always received; renders as the asterisked SCOPE OF WORK list |
 | `lab` | select | `product` \| `creative` \| `both` |
 | `hero_image` | image | Full-bleed opener |
 | `gallery` | gallery | Ordered; drives the scrolling right panel |
@@ -113,10 +121,18 @@ Compass, XLSmart, Cargloss, B-LOG, Pocari Sweat, N8N, J&T Express, Garuda Indone
 Pertamina, Chelsea, Erspo, DRX, Kominfo, Kemenpora, Sampoerna, Grand Hyatt, and one
 mark not legible in the deck export — confirm with the studio.
 
-### Options page
+### CPT: `site_setting` (was: ACF options page — see amendment above)
 
-`phone_primary`, `phone_secondary`, `email`, `instagram`, `address`, `og_image`.
-Values come from the deck's closing card and are entered in the CMS, not hardcoded.
+`acf_add_options_page()` is an ACF Pro-only function; without a license there is no options
+page to attach fields to. Replaced with a singleton-by-convention CPT (`site_setting`,
+`rest_base` `site-settings`) carrying one published post: `phone_primary`, `phone_secondary`,
+`email`, `instagram`, `address`, `og_image`. "Singleton by convention" means WordPress has no
+native concept of exactly-one-post — this is enforced editorially (`wp ksl seed` creates
+exactly one), not technically; the frontend reads `data[0]` from the collection endpoint.
+Values come from the deck's closing card and are entered in the CMS, not hardcoded — seed data
+ships with these fields empty because the actual phone/email/Instagram values were never
+transcribed from the deck (same conservative stance as the client-logo list's one unconfirmed
+mark in §3).
 
 ---
 
@@ -130,7 +146,7 @@ Values come from the deck's closing card and are entered in the CMS, not hardcod
 | `/creative-lab` | static | Capability list, production imagery |
 | `/archive` | all `archive_project` | Six entries, numbered |
 | `/archive/[slug]` | one `archive_project` | Hero, scope, gallery |
-| `/contact` | options | Contact details, no form in v1 |
+| `/contact` | `site_setting` (singleton) | Contact details, no form in v1 |
 
 No contact form in v1. The studio's deck lists two WhatsApp-capable numbers and an
 email; a form adds spam handling, a mail transport dependency, and a data-protection

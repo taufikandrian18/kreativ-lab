@@ -46,4 +46,23 @@ class Test_CPT_Registration extends TestCase {
         KSL_CPT_Client_Logo::register();
         $this->assertTrue( true );
     }
+
+    public function test_site_setting_registers_with_show_in_rest() {
+        // Replaces the ACF options page — see spec §3 amendment.
+        WP_Mock::userFunction( '__', [ 'return' => function ( $text ) { return $text; } ] );
+        WP_Mock::userFunction( 'register_post_type' )
+            ->once()
+            ->with(
+                'site_setting',
+                Mockery::on( function ( $args ) {
+                    return $args['public'] === true
+                        && $args['show_in_rest'] === true
+                        && $args['show_ui'] === true
+                        && $args['rest_base'] === 'site-settings';
+                } )
+            );
+
+        KSL_CPT_Site_Setting::register();
+        $this->assertTrue( true );
+    }
 }

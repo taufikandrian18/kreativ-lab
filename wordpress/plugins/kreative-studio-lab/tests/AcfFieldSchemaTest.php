@@ -68,9 +68,9 @@ class Test_ACF_Field_Schema extends TestCase {
         $this->assertSame( $expected, $names );
     }
 
-    public function test_options_page_field_names_match_spec() {
-        WP_Mock::userFunction( 'acf_add_options_page', [ 'times' => 1 ] );
-
+    public function test_site_setting_field_names_match_spec() {
+        // Was KSL_ACF_Options_Page (ACF Pro only, no license — see spec §3 amendment).
+        // No acf_add_options_page() call: this field group targets a real CPT.
         $captured = null;
         WP_Mock::userFunction( 'acf_add_local_field_group' )
             ->once()
@@ -78,7 +78,7 @@ class Test_ACF_Field_Schema extends TestCase {
                 $captured = $group;
             } );
 
-        KSL_ACF_Options_Page::register();
+        KSL_ACF_Fields_Site_Setting::register();
 
         $names = array_map( fn( $f ) => $f['name'], $captured['fields'] );
         $expected = [
@@ -88,5 +88,25 @@ class Test_ACF_Field_Schema extends TestCase {
         sort( $names );
         sort( $expected );
         $this->assertSame( $expected, $names );
+    }
+
+    public function test_archive_project_scope_field_is_plain_textarea() {
+        // Locks in the free-ACF descope: 'scope' must stay a textarea, not regress back to
+        // a 'repeater' (ACF Pro only — see spec §3 amendment).
+        $captured = null;
+        WP_Mock::userFunction( 'acf_add_local_field_group' )
+            ->once()
+            ->andReturnUsing( function ( $group ) use ( &$captured ) {
+                $captured = $group;
+            } );
+
+        KSL_ACF_Fields_Archive_Project::register();
+
+        $scope_field = array_values( array_filter(
+            $captured['fields'],
+            fn( $f ) => $f['name'] === 'scope'
+        ) )[0];
+
+        $this->assertSame( 'textarea', $scope_field['type'] );
     }
 }

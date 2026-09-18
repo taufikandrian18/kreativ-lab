@@ -15,17 +15,19 @@ define( 'KSL_PLUGIN_DIR', __DIR__ );
 
 require_once KSL_PLUGIN_DIR . '/includes/class-cpt-archive-project.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-cpt-client-logo.php';
+require_once KSL_PLUGIN_DIR . '/includes/class-cpt-site-setting.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-acf-fields-archive-project.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-acf-fields-client-logo.php';
-require_once KSL_PLUGIN_DIR . '/includes/class-acf-options-page.php';
+require_once KSL_PLUGIN_DIR . '/includes/class-acf-fields-site-setting.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-rest-contract.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-revalidate-webhook.php';
 
 add_action( 'init', [ 'KSL_CPT_Archive_Project', 'register' ] );
 add_action( 'init', [ 'KSL_CPT_Client_Logo', 'register' ] );
+add_action( 'init', [ 'KSL_CPT_Site_Setting', 'register' ] );
 add_action( 'acf/init', [ 'KSL_ACF_Fields_Archive_Project', 'register' ] );
 add_action( 'acf/init', [ 'KSL_ACF_Fields_Client_Logo', 'register' ] );
-add_action( 'acf/init', [ 'KSL_ACF_Options_Page', 'register' ] );
+add_action( 'acf/init', [ 'KSL_ACF_Fields_Site_Setting', 'register' ] );
 add_action( 'rest_api_init', [ 'KSL_REST_Contract', 'register' ] );
 add_action( 'save_post', [ 'KSL_Revalidate_Webhook', 'maybe_fire' ], 10, 2 );
 

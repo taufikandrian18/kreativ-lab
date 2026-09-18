@@ -36,6 +36,21 @@ class Test_Revalidate_Webhook extends TestCase {
         $this->assertTrue( true );
     }
 
+    public function test_fires_webhook_for_published_site_setting() {
+        // site_setting replaced the ACF options page, which could never fire save_post —
+        // see spec §3 amendment. This locks in that new coverage.
+        putenv( 'KSL_REVALIDATE_URL=https://front.example/api/revalidate' );
+        putenv( 'KSL_REVALIDATE_SECRET=shh' );
+
+        WP_Mock::userFunction( 'get_post_type' )->andReturn( 'site_setting' );
+        WP_Mock::userFunction( 'wp_json_encode' )->andReturnUsing( fn( $data ) => json_encode( $data ) );
+        WP_Mock::userFunction( 'wp_remote_post' )->once();
+
+        $post = (object) [ 'ID' => 7, 'post_status' => 'publish' ];
+        KSL_Revalidate_Webhook::maybe_fire( 7, $post );
+        $this->assertTrue( true );
+    }
+
     public function test_does_not_fire_for_unrelated_post_type() {
         WP_Mock::userFunction( 'get_post_type' )->andReturn( 'post' );
         WP_Mock::userFunction( 'wp_remote_post' )->never();

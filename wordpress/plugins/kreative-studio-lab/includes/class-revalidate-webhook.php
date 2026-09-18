@@ -7,6 +7,9 @@ class KSL_Revalidate_Webhook {
     const RELEVANT_TYPES = [
         'archive_project',
         'client_logo',
+        // Added when the ACF options page (which never fires save_post) was replaced by
+        // a real CPT — see spec §3 amendment. This is new coverage, not a behavior change.
+        'site_setting',
     ];
 
     public static function maybe_fire( int $post_id, $post ): void {

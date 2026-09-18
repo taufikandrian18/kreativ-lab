@@ -10,8 +10,9 @@ WP_Mock::bootstrap();
 // implementation ledger).
 require_once dirname( __DIR__ ) . '/includes/class-cpt-archive-project.php';
 require_once dirname( __DIR__ ) . '/includes/class-cpt-client-logo.php';
+require_once dirname( __DIR__ ) . '/includes/class-cpt-site-setting.php';
 require_once dirname( __DIR__ ) . '/includes/class-acf-fields-archive-project.php';
 require_once dirname( __DIR__ ) . '/includes/class-acf-fields-client-logo.php';
-require_once dirname( __DIR__ ) . '/includes/class-acf-options-page.php';
+require_once dirname( __DIR__ ) . '/includes/class-acf-fields-site-setting.php';
 require_once dirname( __DIR__ ) . '/includes/class-rest-contract.php';
 require_once dirname( __DIR__ ) . '/includes/class-revalidate-webhook.php';
