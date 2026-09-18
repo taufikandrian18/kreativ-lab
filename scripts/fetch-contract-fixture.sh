@@ -6,17 +6,21 @@ OUT="wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json"
 
 mkdir -p "$(dirname "$OUT")"
 
-# -L: WordPress's REST API 301-redirects a bare "?query" collection URL to a trailing-slash
-# form ("/route/?query") via redirect_canonical. Without -L, curl returns an empty 301 body
-# and the json_decode below fails hard. Never caught until this script was actually run
-# against a live instance for the first time.
-projects=$(curl -sfL "${BASE_URL}/wp-json/wp/v2/archive-projects?per_page=100&_fields=id,ksl_project")
-logos=$(curl -sfL "${BASE_URL}/wp-json/wp/v2/client-logos?per_page=100&_fields=id,ksl_logo")
+# Using WordPress's always-available "?rest_route=" query form rather than the pretty
+# "/wp-json/..." path, which depends on rewrite rules being flushed for the site's permalink
+# structure. A fresh `wp core install` defaults to plain permalinks with no flush, so pretty
+# REST URLs may not resolve at all — confirmed live against a real instance, where the pretty
+# form fell through to a normal theme page render instead of JSON. rest_route= works
+# regardless of permalink settings, so it's used here instead of requiring a permalink/flush
+# step as a Task 9 prerequisite. -L is kept as a harmless safety net even though this form
+# shouldn't redirect.
+projects=$(curl -sfL "${BASE_URL}/?rest_route=/wp/v2/archive-projects&per_page=100&_fields=id,ksl_project")
+logos=$(curl -sfL "${BASE_URL}/?rest_route=/wp/v2/client-logos&per_page=100&_fields=id,ksl_logo")
 # site-settings replaced the ACF options page (no ACF Pro license — see spec §3 amendment).
 # It's a real CPT with a normal collection endpoint, so it's fetched the same way; the
 # original plan never fetched the options page at all (it had no collection endpoint to
 # fetch from), so this is new coverage, not a change to prior behavior.
-settings=$(curl -sfL "${BASE_URL}/wp-json/wp/v2/site-settings?per_page=100&_fields=id,ksl_site_setting")
+settings=$(curl -sfL "${BASE_URL}/?rest_route=/wp/v2/site-settings&per_page=100&_fields=id,ksl_site_setting")
 
 python3 -c "
 import json, sys
