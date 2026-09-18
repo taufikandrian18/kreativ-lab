@@ -8,16 +8,23 @@ mkdir -p "$(dirname "$OUT")"
 
 projects=$(curl -sf "${BASE_URL}/wp-json/wp/v2/archive-projects?per_page=100&_fields=id,ksl_project")
 logos=$(curl -sf "${BASE_URL}/wp-json/wp/v2/client-logos?per_page=100&_fields=id,ksl_logo")
+# site-settings replaced the ACF options page (no ACF Pro license — see spec §3 amendment).
+# It's a real CPT with a normal collection endpoint, so it's fetched the same way; the
+# original plan never fetched the options page at all (it had no collection endpoint to
+# fetch from), so this is new coverage, not a change to prior behavior.
+settings=$(curl -sf "${BASE_URL}/wp-json/wp/v2/site-settings?per_page=100&_fields=id,ksl_site_setting")
 
 python3 -c "
 import json, sys
 projects = json.loads(sys.argv[1])
 logos = json.loads(sys.argv[2])
+settings = json.loads(sys.argv[3])
 out = {
     'archive_projects': [p['ksl_project'] for p in projects],
     'client_logos': [l['ksl_logo'] for l in logos],
+    'site_settings': [s['ksl_site_setting'] for s in settings],
 }
 print(json.dumps(out, indent=2, ensure_ascii=False))
-" "$projects" "$logos" > "$OUT"
+" "$projects" "$logos" "$settings" > "$OUT"
 
 echo "Wrote $OUT"
