@@ -6,13 +6,17 @@ OUT="wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json"
 
 mkdir -p "$(dirname "$OUT")"
 
-projects=$(curl -sf "${BASE_URL}/wp-json/wp/v2/archive-projects?per_page=100&_fields=id,ksl_project")
-logos=$(curl -sf "${BASE_URL}/wp-json/wp/v2/client-logos?per_page=100&_fields=id,ksl_logo")
+# -L: WordPress's REST API 301-redirects a bare "?query" collection URL to a trailing-slash
+# form ("/route/?query") via redirect_canonical. Without -L, curl returns an empty 301 body
+# and the json_decode below fails hard. Never caught until this script was actually run
+# against a live instance for the first time.
+projects=$(curl -sfL "${BASE_URL}/wp-json/wp/v2/archive-projects?per_page=100&_fields=id,ksl_project")
+logos=$(curl -sfL "${BASE_URL}/wp-json/wp/v2/client-logos?per_page=100&_fields=id,ksl_logo")
 # site-settings replaced the ACF options page (no ACF Pro license — see spec §3 amendment).
 # It's a real CPT with a normal collection endpoint, so it's fetched the same way; the
 # original plan never fetched the options page at all (it had no collection endpoint to
 # fetch from), so this is new coverage, not a change to prior behavior.
-settings=$(curl -sf "${BASE_URL}/wp-json/wp/v2/site-settings?per_page=100&_fields=id,ksl_site_setting")
+settings=$(curl -sfL "${BASE_URL}/wp-json/wp/v2/site-settings?per_page=100&_fields=id,ksl_site_setting")
 
 python3 -c "
 import json, sys
