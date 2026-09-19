@@ -53,7 +53,13 @@ describe('/archive/[slug] (spec §4, §6)', () => {
   });
 
   it('404s on a slug that is not a case study', async () => {
-    await expect(renderSlug('not-a-real-project')).rejects.toThrow();
+    // Asserting on the digest, not merely that something threw: Review Focus #1 is
+    // "must render the 404, NOT throw on an undefined archive_no", and a bare
+    // .rejects.toThrow() passes for both — deleting notFound() would leave it green
+    // while the route crashed on ARCHIVE_OPENER_PAGE[undefined].
+    await expect(renderSlug('not-a-real-project')).rejects.toMatchObject({
+      digest: expect.stringContaining('NEXT_HTTP_ERROR_FALLBACK;404'),
+    });
   });
 
   it('uses no alpha-composited grey, which spec §5 forbids', async () => {

@@ -91,3 +91,42 @@ export function archiveGalleryPages(archiveNo: string): readonly number[] {
   pages.forEach((page) => deckSrc(page, 1920));
   return pages;
 }
+
+/**
+ * What each deck page depicts, transcribed from the Depicts column of
+ * frontend/content/page-section-mapping.md.
+ *
+ * Spec §11: "Every image carries meaningful alt text drawn from its project's client and
+ * scope." A case-study gallery section contains no heading, caption or body text — the
+ * spreads are the case study — so an empty alt removes the whole section from the
+ * accessibility tree. These descriptions are what a sighted visitor gets from the page.
+ */
+export const DECK_PAGE_ALT: Readonly<Record<number, string>> = Object.freeze({
+  3: 'Studio portrait: a sewing machine foot in high-contrast halftone, and the four pillars as photographic cards — think, design, craft, experience',
+  9: 'Campaign photography with a car, a promotional tile grid, and flat-lays of caps, hoodies and tees',
+  10: 'Denim product close-ups and street campaign photography under Tokyo signage',
+  11: 'Studio shoot of grey hoodies and sweats, and flat-lays of caps, hoodie and tees',
+  13: 'Red, white and navy jersey product shots, boxed retail packaging, trading-card inserts and a lanyard, with a bar-setting campaign photo',
+  14: 'Red Honda-branded polo jersey product shots and a group campaign photo of four men in jerseys',
+  16: 'Helmet and fender detail shots on a Triumph motorcycle, and campaign photography of a model in helmet and leather jacket',
+  18: 'Vespa scooter campaign photography with models in pastel helmets, and lifestyle shots on grass',
+  20: 'Surf and moto rally event photography — banners, riders and surfers on the beach — with vest, shirt and long-sleeve product shots',
+  21: 'Quarter-zip jacket product shots and stage photography from the Ookla Speedtest Awards',
+  23: 'Event brochure, towels, water bottles, cap, lanyards and VVIP, VIP, crew and visitor access bands',
+});
+
+/**
+ * The description for a deck page, prefixed with the client so a screen-reader user
+ * landing mid-gallery knows whose work this is. Throws rather than returning a bare
+ * client name, so a new gallery page cannot ship with nothing to announce.
+ */
+export function deckPageAlt(page: number, prefix?: string): string {
+  const description = DECK_PAGE_ALT[page];
+  if (!description) {
+    throw new RangeError(
+      `no alt description for deck page ${page} — add it to DECK_PAGE_ALT in lib/deck.ts, ` +
+        `transcribed from the Depicts column of content/page-section-mapping.md`
+    );
+  }
+  return prefix ? `${prefix} — ${description}` : description;
+}

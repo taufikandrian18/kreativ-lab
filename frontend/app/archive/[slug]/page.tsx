@@ -3,7 +3,7 @@ import { DeckFigure } from '@/components/media/DeckFigure';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
 import { getArchiveProject, getArchiveProjects } from '@/lib/contract';
-import { ARCHIVE_OPENER_PAGE, archiveGalleryPages } from '@/lib/deck';
+import { ARCHIVE_OPENER_PAGE, archiveGalleryPages, deckPageAlt } from '@/lib/deck';
 import { slugify } from '@/lib/slugify';
 
 export async function generateStaticParams() {
@@ -58,11 +58,18 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
 
       <section className="bg-k-black text-k-paper">
         <div className="section-shell py-24">
-          {/* alt="" on each gallery page: they are further views of the work the opener
-              already describes, and repeating the client name on each adds noise. */}
+          {/* This section has no heading, caption or body text — the spreads are the
+              case study. An empty alt would remove all of it from the accessibility
+              tree, so each spread carries its own description from the deck mapping,
+              prefixed with the client for a reader who lands mid-gallery. */}
           <StaggerReveal className="flex flex-col gap-8">
             {galleryPages.map((page) => (
-              <DeckFigure key={page} page={page} alt="" sizes="100vw" />
+              <DeckFigure
+                key={page}
+                page={page}
+                alt={deckPageAlt(page, project.client)}
+                sizes="100vw"
+              />
             ))}
           </StaggerReveal>
         </div>

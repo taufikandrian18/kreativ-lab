@@ -9,8 +9,8 @@ provisional extraction-order assumption in spec §9.
 | 02 | "KREATE LIVE STUDIO LAB" statement copy ("More than creativity... We Create Live.") against a red/black "KREATE LIVE" halftone marquee panel | / | manifesto |
 | 03 | "WHO WE ARE" headline, long-form studio description, and THINK / DESIGN / CRAFT / EXPERIENCE four-card grid | /about | who we are (long form) + THINK/DESIGN/CRAFT/EXPERIENCE grid |
 | 04 | "Different disciplines. One creative ecosystem." with two overlapping circles (PRODUCT LAB / CREATIVE LAB) merging into the K-mark, paired with "One Studio. Two Labs." | / | two labs |
-| 05 | "PRODUCT LAB" headline, "Where Ideas Become Products" copy, Capabilities list (Print & Packaging, Brand Products, Spatial Experience, Custom Solutions), production photography | /product-lab | capability list + process imagery |
-| 06 | "CREATIVE LAB" headline, "Where Products Become Stories" copy, Capabilities list (Creative Direction, Photography, Film, etc.), studio/BTS photography | /creative-lab | capability list + production imagery |
+| 05 | "PRODUCT LAB" headline, "Where Ideas Become Products" copy, Capabilities list — Print & Packaging (Packaging Design & Production, Premium Gift Sets, Printing Production, Publications), Brand Products (Brand Merchandise, Corporate Merchandise, Event Merchandise, Apparel Development, Uniform Development), Spatial Experience (Retail Display, Exhibition Production), Custom Solutions (Custom Product Development) — plus production photography | /product-lab | capability list + process imagery |
+| 06 | "CREATIVE LAB" headline, "Where Products Become Stories" copy, Capabilities list (Creative Direction, Product Photography, Campaign Photography, Editorial, Lookbook, Lifestyle Photography, Brand Film, Video Campaign, TV Commercial, Motion Graphics, Content Production, Social Media Assets), studio/BTS photography | /creative-lab | capability list + production imagery |
 | 07 | Standalone statement page: "Every great outcome starts with a thoughtful process." on white, K STUDIOLAB mark only | /archive | index opener |
 | 08 | N8N Collective case study opener: "SCOPE OF WORK" list, blue-toned hero photo (model on vintage BMW), client/industry/year block, "LAB ARCHIVE 01" | /archive/[slug] (n8n-collective) | case study — hero + scope of work |
 | 09 | N8N Collective gallery: campaign photos with car, sale/promo tile grid, product flat-lays (caps, hoodies, tees), "LAB ARCHIVE 01" | /archive/[slug] (n8n-collective) | case study — scrolling gallery |
@@ -33,6 +33,12 @@ provisional extraction-order assumption in spec §9.
 | 26 | Contact card: K STUDIOLAB mark and two phone numbers (+62 813 1131 9739, +62 812 7230 0977) plus kreativestudiolab@gmail.com on a black footer band | /contact | contact details |
 
 ## Notes
+
+- **Rows 05 and 06 were re-transcribed on 2026-09-19** at 1920px, replacing the
+  group-level summary for page 05 and resolving the "etc." on page 06. Both lists now
+  match `app/product-lab/page.tsx` and `app/creative-lab/page.tsx` item for item, and
+  those routes' tests assert every item — so this document stays the source of truth
+  rather than trailing the code.
 
 - **Page 07 was ambiguous and was assigned by decision, not by evidence.** It is a
   standalone statement ("Every great outcome starts with a thoughtful process.") that no

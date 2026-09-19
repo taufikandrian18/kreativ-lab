@@ -1,7 +1,7 @@
 import { DeckFigure } from '@/components/media/DeckFigure';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
-import { ABOUT_PAGE } from '@/lib/deck';
+import { ABOUT_PAGE, deckPageAlt } from '@/lib/deck';
 
 // Transcribed verbatim from assets/web/page-03-1920.webp on 2026-09-19. Do not
 // paraphrase: spec §3 treats deck copy as the studio's own words.
@@ -30,12 +30,12 @@ export default function About() {
             ))}
           </div>
 
-          {/* alt="": every word page 03 carries — the headline, all three paragraphs and
-              the four pillar labels — is live text directly above and below it. A
-              description would announce the same copy a second time. */}
+          {/* The words on page 03 are all live text above and below, but its artwork is
+              not: a halftone studio portrait and four photographic pillar cards. The alt
+              describes the picture, not the copy. */}
           <DeckFigure
             page={ABOUT_PAGE}
-            alt=""
+            alt={deckPageAlt(ABOUT_PAGE)}
             sizes="(min-width: 1024px) 80vw, 100vw"
             className="mt-16"
             priority
