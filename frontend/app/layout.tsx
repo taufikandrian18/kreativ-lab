@@ -8,6 +8,7 @@ import "@fontsource-variable/archivo/wght.css";
 import "./globals.css";
 import { SiteHeader } from "@/components/chrome/SiteHeader";
 import { SiteFooter } from "@/components/chrome/SiteFooter";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 
 export const metadata: Metadata = {
   title: "Kreative Studio Lab",
@@ -19,8 +20,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html lang="en" className="antialiased">
       <body>
         <SiteHeader />
-        {children}
-        <SiteFooter />
+        <MotionProvider>
+          {children}
+          <SiteFooter />
+        </MotionProvider>
       </body>
     </html>
   );
