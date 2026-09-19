@@ -1,4 +1,5 @@
 import { DeckFigure } from '@/components/media/DeckFigure';
+import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 
 // Deck page 02 per content/page-section-mapping.md: the KREATE LIVE halftone marquee
@@ -14,6 +15,7 @@ export function Manifesto() {
         page={PAGE}
         alt="More than creativity — the Kreative Studio Lab statement: We Create Live."
         sizes="100vw"
+        parallax={PARALLAX_SPEEDS.figure}
       />
       <div className="section-shell py-20">
         <MaskReveal as="h2" className="display-type">

@@ -1,4 +1,5 @@
 import { DeckFigure } from '@/components/media/DeckFigure';
+import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
 import { ABOUT_PAGE, deckPageAlt } from '@/lib/deck';
@@ -39,6 +40,7 @@ export default function About() {
             sizes="(min-width: 1024px) 80vw, 100vw"
             className="mt-16"
             priority
+            parallax={PARALLAX_SPEEDS.figure}
           />
 
           <StaggerReveal className="mt-16 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">

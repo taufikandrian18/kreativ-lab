@@ -1,6 +1,8 @@
 import { describe, it, expect, afterEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import gsap from 'gsap';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { CapabilityList } from './CapabilityList';
 
 function setReducedMotion(reduce: boolean) {
@@ -42,11 +44,17 @@ describe('CapabilityList (spec §6)', () => {
     expect(container.querySelectorAll('[data-capability-group-name]')).toHaveLength(0);
   });
 
-  it('renders the keyline at its end state under reduced motion', () => {
+  it('carries no keyline decoration', () => {
+    // Spec §6 prescribed "a red keyline wipe left to right" above each group. Removed on
+    // the studio's call of 2026-09-19 — recorded as a §6 amendment in the spec. The
+    // per-line stagger stays; the hairline and the revealed-state machinery it needed
+    // both go, so nothing is left that only exists to drive a rule nobody wanted.
     setReducedMotion(true);
     const { container } = render(<CapabilityList groups={GROUPS} />);
-    const list = container.querySelector('[data-capability-list]') as HTMLElement;
-    expect(list.dataset.revealed).toBe('true');
+    expect(container.querySelector('.k-keyline')).toBeNull();
+    expect(container.querySelector('[data-revealed]')).toBeNull();
+    const globals = readFileSync(join(__dirname, '../../app/globals.css'), 'utf-8');
+    expect(globals).not.toContain('k-keyline');
   });
 
   it('renders every item as real text under reduced motion', () => {

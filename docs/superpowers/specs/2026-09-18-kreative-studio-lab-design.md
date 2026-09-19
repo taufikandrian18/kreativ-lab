@@ -230,11 +230,45 @@ reversing it means re-opening this spec.
 | Manifesto | Line-by-line reveal on a 60ms stagger |
 | Who we are | THINK / DESIGN / CRAFT / EXPERIENCE stagger up, halftone cards |
 | Two labs | Pinned; two circles converge into the Venn on scrub |
-| Lab capability lists | Reveal per line, red keyline wipe left to right |
+| Lab capability lists | Reveal per line (keyline wipe removed — see amendment below) |
 | Archive index | Six rows; `01`–`06` counter increments in the fixed corner |
 | Case study | Pinned left hero, scrolling right gallery — mirrors the deck spread |
-| Client wall | Logo grid, opacity stagger on a 40ms interval |
+| Client wall | Name grid in display type, 40ms stagger, red-and-scale on hover (see amendment below) |
 | Closing | `LET'S CREATE SOMETHING THAT LIVES.` with CREATE and LIVES in red |
+
+> **Amendment (2026-09-19, post-Stage-4):** parallax is added to the vocabulary. Every
+> deck figure on every route drifts against the page — 0.85 for a full-bleed section
+> figure, 0.92 for a stacked gallery spread, both named in `lib/parallax.ts` so the whole
+> site drifts by the same amounts. The studio's note was that the design reads as generic
+> without depth. Implemented as a scrubbed ScrollTrigger on `yPercent`, deliberately not
+> ScrollSmoother's `data-speed`: the smoother runs only above 1024px and only if it
+> initialised, and its runtime state has never been confirmed in a browser, whereas this
+> works at every width either way. Drift is capped at 12% of the element's own height so
+> a figure cannot slide out of its section, and is disabled entirely under reduced
+> motion, where the content sits exactly where the layout put it.
+>
+> Parallax alone does not answer "generic". It adds depth to the elements that exist; it
+> does not change that every section is the same full-width stack of headline, figure and
+> list, on a 12-column grid the routes barely use. That is a layout question and it is
+> still open.
+
+> **Amendment (2026-09-19, post-Stage-4):** the client wall is a grid of client names
+> set in display type, not a grid of marks. The 24 marks do not exist as files — every
+> `client_logo` entry carries a null image URL and the deck supplies only page 24, a
+> single raster with all of them baked in — so a per-mark hover was not buildable. Each
+> name flips to red and scales up under the cursor, which is the interaction the studio
+> asked for; the 40ms stagger is unchanged. This is weaker than the real thing and
+> knowingly so: a wall of names reads as a client list, a wall of marks reads as proof.
+> When the artwork arrives, each cell takes an `<img>` and the grid, stagger and hover
+> stay as they are. Deck page 24 is no longer used by any route.
+
+> **Amendment (2026-09-19, post-Stage-4):** the red keyline wipe above each capability
+> group is removed. It was the one piece of this vocabulary the studio rejected on
+> sight — a hairline rule drawing itself above a list reads as a template flourish
+> rather than as the studio's own motion. The per-line stagger stays; nothing replaces
+> the keyline. `.k-keyline` and the `data-revealed` state that existed only to drive it
+> are deleted from `CapabilityList`, and `CapabilityList.test.tsx` now asserts their
+> absence so the rule cannot return by accident.
 
 ### Rules
 

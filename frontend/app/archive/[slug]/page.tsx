@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { DeckFigure } from '@/components/media/DeckFigure';
+import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
 import { getArchiveProject, getArchiveProjects } from '@/lib/contract';
@@ -42,6 +43,7 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
             sizes="100vw"
             className="mt-12"
             priority
+            parallax={PARALLAX_SPEEDS.figure}
           />
 
           {project.scope.length > 0 ? (
@@ -69,6 +71,7 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
                 page={page}
                 alt={deckPageAlt(page, project.client)}
                 sizes="100vw"
+                parallax={PARALLAX_SPEEDS.gallery}
               />
             ))}
           </StaggerReveal>

@@ -48,12 +48,13 @@ describe('server-rendered marquee (spec §6)', () => {
 describe('server-rendered capability list (spec §6)', () => {
   // The jsdom test resolves the preference to 'reduced' and so never exercises
   // 'unknown' — the prerender path, and the exact path that shipped the motion branch
-  // to every visitor in Stage 3. This is that path.
-  it('ships its keyline at the end state, so it is drawn before any JS runs', () => {
+  // to every visitor in Stage 3. This is that path: the content must be in the HTML
+  // before any JS runs, whatever the motion does afterwards.
+  it('ships every capability as real text, so the list never depends on motion', () => {
     const html = ssr(
       <CapabilityList groups={[{ name: 'Print & Packaging', items: ['Premium Gift Sets'] }]} />
     );
-    expect(html).toContain('data-revealed="true"');
+    expect(html).toContain('Print &amp; Packaging');
     expect(html).toContain('Premium Gift Sets');
   });
 });

@@ -1,4 +1,5 @@
 import { DeckFigure } from '@/components/media/DeckFigure';
+import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { CONTACT_PAGE } from '@/lib/deck';
 import { STUDIO_CONTACT, telHref } from '@/lib/studio-contact';
@@ -40,6 +41,7 @@ export default function Contact() {
             alt=""
             sizes="(min-width: 1024px) 70vw, 100vw"
             className="mt-16"
+            parallax={PARALLAX_SPEEDS.figure}
           />
         </div>
       </section>
