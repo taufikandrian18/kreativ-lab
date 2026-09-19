@@ -6,6 +6,8 @@ import type { Metadata } from "next";
 import "@fontsource/anton/latin-400.css";
 import "@fontsource-variable/archivo/wght.css";
 import "./globals.css";
+import { SiteHeader } from "@/components/chrome/SiteHeader";
+import { SiteFooter } from "@/components/chrome/SiteFooter";
 
 export const metadata: Metadata = {
   title: "Kreative Studio Lab",
@@ -15,7 +17,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="en" className="antialiased">
-      <body>{children}</body>
+      <body>
+        <SiteHeader />
+        {children}
+        <SiteFooter />
+      </body>
     </html>
   );
 }
