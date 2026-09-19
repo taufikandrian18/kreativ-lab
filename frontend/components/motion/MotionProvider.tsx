@@ -11,6 +11,7 @@ gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 export function MotionProvider({ children }: { children: React.ReactNode }) {
   const wrapper = useRef<HTMLDivElement>(null);
+  const content = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
   const [enabled, setEnabled] = useState(false);
 
@@ -47,10 +48,16 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
   useLayoutEffect(() => {
     if (!enabled) return;
 
+    if (!wrapper.current || !content.current) return;
+
     const ctx = gsap.context(() => {
+      // Elements, not selector strings. gsap.context() scopes a selector string to the
+      // DESCENDANTS of its scope element, and '#smooth-wrapper' IS the scope element —
+      // so the selector matched nothing, create() silently did nothing, and the site
+      // shipped with no smoother. It threw no error and the suite could not see it.
       ScrollSmoother.create({
-        wrapper: '#smooth-wrapper',
-        content: '#smooth-content',
+        wrapper: wrapper.current,
+        content: content.current,
         smooth: 1.1,
         effects: true,
       });
@@ -61,7 +68,9 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <div id="smooth-wrapper" ref={wrapper}>
-      <div id="smooth-content">{children}</div>
+      <div id="smooth-content" ref={content}>
+        {children}
+      </div>
     </div>
   );
 }
