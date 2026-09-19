@@ -12,7 +12,6 @@ import { ClientWall } from './ClientWall';
 
 const BELOW_FOLD = [
   ['Manifesto', <Manifesto key="m" />],
-  ['TwoLabs', <TwoLabs key="t" />],
   ['ArchiveTeaser', <ArchiveTeaser key="a" />],
 ] as const;
 
@@ -29,15 +28,21 @@ describe('below-the-fold imagery (spec §10)', () => {
     });
   }
 
-  it('WhoWeAre renders no imagery at all', () => {
+  it('WhoWeAre lazy-loads its four pillar photographs', () => {
     const { container } = render(<WhoWeAre />);
-    expect(container.querySelectorAll('img')).toHaveLength(0);
+    const images = Array.from(container.querySelectorAll('img'));
+    expect(images).toHaveLength(4);
+    for (const img of images) expect(img.getAttribute('loading')).toBe('lazy');
   });
 
-  it('ClientWall renders no imagery either, now that the wall is set in type', () => {
-    // It used to render deck page 24, the composite raster of every mark. The type grid
-    // replaced it, so there is no image here to lazy-load.
+  it('ClientWall paints its marks through CSS masks, so it has no <img> to lazy-load', () => {
     const { container } = render(<ClientWall />);
+    expect(container.querySelectorAll('img')).toHaveLength(0);
+    expect(container.querySelectorAll('[data-client-mark]').length).toBeGreaterThan(0);
+  });
+
+  it('TwoLabs draws circles rather than loading the composite raster', () => {
+    const { container } = render(<TwoLabs />);
     expect(container.querySelectorAll('img')).toHaveLength(0);
   });
 });

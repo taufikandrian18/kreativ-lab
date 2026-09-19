@@ -47,7 +47,11 @@ export function Hero() {
       </div>
 
       <div className="shell-inline relative flex flex-1 items-end pb-24">
-        <MaskReveal as="h1" className="display-type max-w-[16ch]">
+        {/* mix-blend-difference, not a scrim: the showreel cuts to near-white frames and
+            white-on-white made the headline vanish. Difference blending inverts the
+            headline against whatever is behind it — black over a white frame, white over a
+            dark one — and costs no grey, which spec §5 forbids as a CSS colour. */}
+        <MaskReveal as="h1" className="display-type max-w-[16ch] mix-blend-difference">
           CLEAN IN FORM. SHARP IN FUNCTION.
         </MaskReveal>
       </div>

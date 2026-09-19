@@ -1,13 +1,6 @@
 import Link from 'next/link';
-import { DeckFigure } from '@/components/media/DeckFigure';
-import { PARALLAX_SPEEDS } from '@/lib/parallax';
+import { LabsVenn } from '@/components/sections/LabsVenn';
 import { MaskReveal } from '@/components/motion/MaskReveal';
-
-// Deck page 04 per content/page-section-mapping.md: the two overlapping PRODUCT LAB /
-// CREATIVE LAB circles merging into the K-mark.
-// Spec §6 specifies this section pinned with the circles converging on scrub. Pinning
-// is Stage 5's severable tail; this static composition is what Stage 5 animates.
-const PAGE = 4;
 
 export function TwoLabs() {
   return (
@@ -20,13 +13,7 @@ export function TwoLabs() {
           Different disciplines. One creative ecosystem.
         </p>
 
-        <DeckFigure
-          page={PAGE}
-          alt="Product Lab and Creative Lab as two overlapping circles merging into the studio mark"
-          sizes="(min-width: 1024px) 60vw, 100vw"
-          className="mt-12"
-          parallax={PARALLAX_SPEEDS.figure}
-        />
+        <LabsVenn />
 
         <div className="mt-12 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
           <Link

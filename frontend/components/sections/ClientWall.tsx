@@ -1,25 +1,17 @@
-import { getClientLogos } from '@/lib/contract';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
+import { CLIENT_MARKS } from '@/lib/client-marks';
 
 /**
- * Spec §6 asks for a "logo grid, opacity stagger on a 40ms interval". The marks do not
- * exist as files: the fixture's client_logo entries all carry a null image URL, and the
- * deck supplies only page 24, a single raster with every mark baked into it. Stage 3
- * shipped that raster; hovering one brand inside a flat JPEG is not possible, and the
- * names were announced twice — once in the image alt, once in a visually-hidden list.
+ * Spec §6: "logo grid, opacity stagger on a 40ms interval".
  *
- * So the wall is set in type instead: one cell per client, on the 12-column grid, each
- * flipping to red and scaling up under the cursor. Red is allowed here because these are
- * display type at 24px and over, per spec §5.
- *
- * This is weaker than the real thing and deliberately so — a wall of names reads as a
- * client list, a wall of marks reads as proof. When the 24 logo files arrive, each cell
- * takes an <img> and the grid, the stagger and the hover all stay as they are.
+ * Stage 3 shipped deck page 24 as one composite raster and Stage 4 replaced it with the
+ * client names in type, both on the finding that no logo artwork existed. The fixture
+ * carries none — but the deck page does, as black marks on white, and they lift out
+ * cleanly. Each is an alpha mask, so the mark is painted by `background-color` and the
+ * hover that the type grid had — red, scaled up — works identically on a real logo.
  */
 export function ClientWall() {
-  const logos = getClientLogos();
-
   return (
     <section className="bg-k-paper text-k-black">
       <div className="section-shell">
@@ -28,17 +20,35 @@ export function ClientWall() {
         </MaskReveal>
 
         <StaggerReveal
-          className="mt-12 grid grid-cols-12 gap-x-4 gap-y-6 sm:gap-x-8 lg:gap-x-12"
+          className="mt-12 grid grid-cols-12 gap-x-4 gap-y-10 sm:gap-x-8 lg:gap-x-12"
           stagger={0.04}
         >
-          {logos.map((logo) => (
-            <p
-              key={logo.name}
+          {CLIENT_MARKS.map((mark) => (
+            <div
+              key={mark.name}
               data-testid="client-cell"
-              className="font-display hover:text-k-red col-span-6 origin-left text-2xl tracking-tight transition-[color,transform] duration-300 ease-out hover:scale-110 sm:col-span-4 lg:col-span-3"
+              role="img"
+              aria-label={mark.name}
+              className="hover:text-k-red col-span-6 flex items-center transition-[color,transform] duration-300 ease-out hover:scale-110 sm:col-span-4 lg:col-span-3"
             >
-              {logo.name}
-            </p>
+              <span
+                data-client-mark
+                aria-hidden="true"
+                style={{
+                  maskImage: `url(${mark.file})`,
+                  WebkitMaskImage: `url(${mark.file})`,
+                  maskRepeat: 'no-repeat',
+                  WebkitMaskRepeat: 'no-repeat',
+                  maskPosition: 'left center',
+                  WebkitMaskPosition: 'left center',
+                  maskSize: 'contain',
+                  WebkitMaskSize: 'contain',
+                  backgroundColor: 'currentcolor',
+                  aspectRatio: `${mark.w} / ${mark.h}`,
+                }}
+                className="block h-12 w-full lg:h-14"
+              />
+            </div>
           ))}
         </StaggerReveal>
       </div>
