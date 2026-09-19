@@ -22,7 +22,7 @@ export function ClientWall() {
 
   return (
     <section className="bg-k-paper text-k-black">
-      <div className="section-shell py-24">
+      <div className="section-shell">
         <MaskReveal as="h2" className="display-type">
           OUR CLIENT
         </MaskReveal>

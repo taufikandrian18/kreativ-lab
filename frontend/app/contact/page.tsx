@@ -8,7 +8,7 @@ export default function Contact() {
   return (
     <main>
       <section className="bg-k-black text-k-paper">
-        <div className="section-shell flex min-h-[70svh] flex-col justify-center py-24">
+        <div className="section-shell flex min-h-[70svh] flex-col justify-center">
           <MaskReveal as="h1" className="display-type">
             LET&apos;S <span className="text-k-red">TALK</span>
           </MaskReveal>

@@ -11,7 +11,7 @@ export default function NotFound() {
   return (
     <main>
       <section className="bg-k-black text-k-paper">
-        <div className="section-shell flex min-h-[70svh] flex-col justify-center py-24">
+        <div className="section-shell flex min-h-[70svh] flex-col justify-center">
           <p className="font-display text-k-red text-3xl tracking-tight">404</p>
           <h1 className="display-type mt-2">NOT FOUND</h1>
           <p className="font-body mt-6 max-w-[48ch] text-lg">

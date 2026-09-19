@@ -24,7 +24,7 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
   return (
     <main>
       <section className="bg-k-paper text-k-black">
-        <div className="section-shell py-24">
+        <div className="section-shell">
           <p className="font-display text-k-red text-3xl tracking-tight">{project.archive_no}</p>
           <MaskReveal as="h1" className="display-type mt-2">
             {project.client}
@@ -59,7 +59,7 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
       </section>
 
       <section className="bg-k-black text-k-paper">
-        <div className="section-shell py-24">
+        <div className="section-shell">
           {/* This section has no heading, caption or body text — the spreads are the
               case study. An empty alt would remove all of it from the accessibility
               tree, so each spread carries its own description from the deck mapping,

@@ -12,7 +12,7 @@ const PAGE = 4;
 export function TwoLabs() {
   return (
     <section className="bg-k-paper text-k-black">
-      <div className="section-shell py-24">
+      <div className="section-shell">
         <MaskReveal as="h2" className="display-type max-w-[14ch]">
           One Studio. Two Labs.
         </MaskReveal>

@@ -37,7 +37,7 @@ export default function CreativeLab() {
   return (
     <main>
       <section className="bg-k-paper text-k-black">
-        <div className="section-shell py-24">
+        <div className="section-shell">
           <MaskReveal as="h1" className="display-type">
             CREATIVE <span className="text-k-red">LAB</span>
           </MaskReveal>

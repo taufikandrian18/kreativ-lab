@@ -8,7 +8,7 @@ export function Hero() {
   const preference = useMotionPreference();
 
   return (
-    <section className="bg-k-black text-k-paper relative min-h-[100svh] overflow-hidden">
+    <section className="bg-k-black text-k-paper relative flex min-h-[100svh] overflow-hidden">
       {/* Spec §10: the poster frame is the LCP element and is preloaded. React hoists
           this into <head>, ahead of the deck images further down the page. */}
       <link rel="preload" as="image" href="/video/hero-poster.jpg" fetchPriority="high" />
@@ -39,11 +39,14 @@ export function Hero() {
         />
       )}
 
-      <div className="absolute inset-x-0 top-1/3 opacity-90">
+      {/* Sits in the upper third so it clears the headline, which anchors to the
+          bottom. At top-1/3 the two overlapped by 51px in a 784px viewport — measured in
+          a browser, since jsdom has no layout and cannot see a collision. */}
+      <div className="absolute inset-x-0 top-[15%] opacity-90">
         <Marquee text="KREATE LIVE" className="text-k-red" />
       </div>
 
-      <div className="section-shell relative flex min-h-[100svh] items-end pb-20">
+      <div className="shell-inline relative flex flex-1 items-end pb-24">
         <MaskReveal as="h1" className="display-type max-w-[16ch]">
           CLEAN IN FORM. SHARP IN FUNCTION.
         </MaskReveal>

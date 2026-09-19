@@ -52,21 +52,37 @@ body {
 /* Spec §5 grid: 16px gutter on mobile, 32px from 768px, 48px from 1280px, capped at
    1680px. Tailwind's default `sm:`/`lg:` fire at 640px and 1024px, which steps the
    ladder too early and caps nothing, so the ladder lives here instead. */
+/* Spec §5 grid: 16px gutter on mobile, 32px from 768px, 48px from 1280px, capped at
+   1680px. Tailwind's default `sm:`/`lg:` fire at 640px and 1024px, which steps the
+   ladder too early and caps nothing, so the ladder lives here instead.
+
+   Two classes, because the fixed header needs the same horizontal ladder and none of
+   the vertical rhythm — it is a bar, not a section. */
+.shell-inline,
 .section-shell {
   width: 100%;
   max-width: var(--width-content-max);
   margin-inline: auto;
   padding-inline: 1rem;
-  padding-block: inherit;
+}
+
+/* The display type runs to 176px. A flat 96px of section padding left one screen
+   holding the end of one section and the start of the next, which is what made the page
+   read as a pile rather than a sequence. The rhythm scales with the same viewport the
+   type scales with, and lives here so no section can drift out of step. */
+.section-shell {
+  padding-block: clamp(5rem, 11vw, 11rem);
 }
 
 @media (min-width: 768px) {
+  .shell-inline,
   .section-shell {
     padding-inline: 2rem;
   }
 }
 
 @media (min-width: 1280px) {
+  .shell-inline,
   .section-shell {
     padding-inline: 3rem;
   }

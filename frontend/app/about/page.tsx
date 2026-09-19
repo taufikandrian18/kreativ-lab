@@ -18,7 +18,7 @@ export default function About() {
   return (
     <main>
       <section className="bg-k-paper text-k-black">
-        <div className="section-shell py-24">
+        <div className="section-shell">
           <MaskReveal as="h1" className="display-type text-k-red">
             WHO WE ARE
           </MaskReveal>
