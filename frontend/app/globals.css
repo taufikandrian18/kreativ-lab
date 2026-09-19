@@ -11,8 +11,8 @@
   --color-k-black: #000000;
   --color-k-paper: #FFFFFF;
 
-  --font-display: var(--font-anton), sans-serif;
-  --font-body: var(--font-archivo), sans-serif;
+  --font-display: 'Anton', sans-serif;
+  --font-body: 'Archivo Variable', sans-serif;
 
   --spacing-gutter-mobile: 1rem;    /* 16px */
   --spacing-gutter-tablet: 2rem;    /* 32px */
