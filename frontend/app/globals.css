@@ -32,3 +32,19 @@ body {
   font-size: clamp(3rem, 12vw, 11rem);
   line-height: 0.95;
 }
+
+@keyframes k-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.k-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: k-marquee 18s linear infinite;
+}
+
+.k-marquee-track[data-animated='false'] {
+  animation: none;
+}
