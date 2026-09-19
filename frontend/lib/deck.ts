@@ -52,3 +52,42 @@ export const ARCHIVE_OPENER_PAGE: Readonly<Record<string, number>> = Object.free
   '05': 19,
   '06': 22,
 });
+
+// Single-page routes, verified in frontend/content/page-section-mapping.md.
+export const ABOUT_PAGE = 3;
+export const PRODUCT_LAB_PAGE = 5;
+export const CREATIVE_LAB_PAGE = 6;
+export const CONTACT_PAGE = 26;
+
+// Page 07 ("Every great outcome starts with a thoughtful process.") is recorded as
+// ambiguous in the mapping document, which declined to assign it. Assigned here by the
+// studio's call of 2026-09-19 as the /archive index opener — /archive is the only route
+// in spec §4 with no deck page of its own, and page 07 sits immediately before the first
+// case study in the deck. The mapping document's page 07 row is updated to match.
+export const PROCESS_STATEMENT_PAGE = 7;
+
+// Each case study's gallery pages, in deck order, verified in the mapping document.
+export const ARCHIVE_GALLERY_PAGES: Readonly<Record<string, readonly number[]>> =
+  Object.freeze({
+    '01': Object.freeze([9, 10, 11]),
+    '02': Object.freeze([13, 14]),
+    '03': Object.freeze([16]),
+    '04': Object.freeze([18]),
+    '05': Object.freeze([20, 21]),
+    '06': Object.freeze([23]),
+  });
+
+export function archiveGalleryPages(archiveNo: string): readonly number[] {
+  const pages = ARCHIVE_GALLERY_PAGES[archiveNo];
+  if (!pages) {
+    throw new RangeError(
+      `no gallery mapping for archive_no ${archiveNo} — add it to ARCHIVE_GALLERY_PAGES ` +
+        `in lib/deck.ts, verified against content/page-section-mapping.md`
+    );
+  }
+  // Not decoration: this runs assertPage over every mapped page at call time, so a
+  // typo'd page number throws during the static render rather than 404ing into a
+  // blank gallery at runtime — the Stage 2 failure this module exists to prevent.
+  pages.forEach((page) => deckSrc(page, 1920));
+  return pages;
+}

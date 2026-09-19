@@ -11,7 +11,7 @@ provisional extraction-order assumption in spec §9.
 | 04 | "Different disciplines. One creative ecosystem." with two overlapping circles (PRODUCT LAB / CREATIVE LAB) merging into the K-mark, paired with "One Studio. Two Labs." | / | two labs |
 | 05 | "PRODUCT LAB" headline, "Where Ideas Become Products" copy, Capabilities list (Print & Packaging, Brand Products, Spatial Experience, Custom Solutions), production photography | /product-lab | capability list + process imagery |
 | 06 | "CREATIVE LAB" headline, "Where Products Become Stories" copy, Capabilities list (Creative Direction, Photography, Film, etc.), studio/BTS photography | /creative-lab | capability list + production imagery |
-| 07 | Standalone statement page: "Every great outcome starts with a thoughtful process." on white, K STUDIOLAB mark only | ambiguous — needs studio confirmation | ambiguous — needs studio confirmation |
+| 07 | Standalone statement page: "Every great outcome starts with a thoughtful process." on white, K STUDIOLAB mark only | /archive | index opener |
 | 08 | N8N Collective case study opener: "SCOPE OF WORK" list, blue-toned hero photo (model on vintage BMW), client/industry/year block, "LAB ARCHIVE 01" | /archive/[slug] (n8n-collective) | case study — hero + scope of work |
 | 09 | N8N Collective gallery: campaign photos with car, sale/promo tile grid, product flat-lays (caps, hoodies, tees), "LAB ARCHIVE 01" | /archive/[slug] (n8n-collective) | case study — scrolling gallery |
 | 10 | N8N Collective gallery: denim product close-ups and street/lifestyle campaign photos in Tokyo signage setting, "LAB ARCHIVE 01" | /archive/[slug] (n8n-collective) | case study — scrolling gallery |
@@ -34,14 +34,12 @@ provisional extraction-order assumption in spec §9.
 
 ## Notes
 
-- **Page 07 is genuinely ambiguous.** It is a standalone statement ("Every great outcome
-  starts with a thoughtful process.") sitting between the Creative Lab page (06) and the
-  first LAB ARCHIVE case study (08). Spec §6's motion vocabulary has no named section for
-  a process statement, and spec §4's route table has no matching slot either — the closest
-  candidates are an /archive index intro or a home-page divider before the "archive teaser"
-  block, but nothing in the deck or spec confirms either. Per spec §14's precedent (carry
-  forward the illegible client logo rather than resolve it by assumption), this is left as
-  ambiguous rather than assigned.
+- **Page 07 was ambiguous and was assigned by decision, not by evidence.** It is a
+  standalone statement ("Every great outcome starts with a thoughtful process.") that no
+  spec §4 route and no spec §6 motion section names. On 2026-09-19 the studio assigned it
+  as the `/archive` index opener, because `/archive` is the only route in §4 with no deck
+  page of its own and page 07 sits immediately before the first case study in the deck.
+  Recorded here as a decision so a later reader does not mistake it for a verified match.
 - **No dedicated `/archive` index page exists in the deck.** Spec §6 describes an "Archive
   index" motion section ("Six rows; `01`–`06` counter increments in the fixed corner"), but
   none of the 26 pages shows six entries listed together with counters — each case study's
