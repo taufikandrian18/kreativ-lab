@@ -236,6 +236,22 @@ reversing it means re-opening this spec.
 | Client wall | Name grid in display type, 40ms stagger, red-and-scale on hover (see amendment below) |
 | Closing | `LET'S CREATE SOMETHING THAT LIVES.` with CREATE and LIVES in red |
 
+> **Amendment (2026-09-19, post-Stage-4):** parallax is added to the vocabulary. Every
+> deck figure on every route drifts against the page — 0.85 for a full-bleed section
+> figure, 0.92 for a stacked gallery spread, both named in `lib/parallax.ts` so the whole
+> site drifts by the same amounts. The studio's note was that the design reads as generic
+> without depth. Implemented as a scrubbed ScrollTrigger on `yPercent`, deliberately not
+> ScrollSmoother's `data-speed`: the smoother runs only above 1024px and only if it
+> initialised, and its runtime state has never been confirmed in a browser, whereas this
+> works at every width either way. Drift is capped at 12% of the element's own height so
+> a figure cannot slide out of its section, and is disabled entirely under reduced
+> motion, where the content sits exactly where the layout put it.
+>
+> Parallax alone does not answer "generic". It adds depth to the elements that exist; it
+> does not change that every section is the same full-width stack of headline, figure and
+> list, on a 12-column grid the routes barely use. That is a layout question and it is
+> still open.
+
 > **Amendment (2026-09-19, post-Stage-4):** the client wall is a grid of client names
 > set in display type, not a grid of marks. The 24 marks do not exist as files — every
 > `client_logo` entry carries a null image URL and the deck supplies only page 24, a

@@ -1,4 +1,5 @@
 import { DeckFigure } from '@/components/media/DeckFigure';
+import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { CapabilityList, type CapabilityGroup } from '@/components/sections/CapabilityList';
 import { PRODUCT_LAB_PAGE } from '@/lib/deck';
@@ -64,6 +65,7 @@ export default function ProductLab() {
             alt="Product Lab process: pattern cutting, material sampling, and packaging and merchandise prototyping"
             sizes="100vw"
             className="mt-20"
+            parallax={PARALLAX_SPEEDS.figure}
           />
         </div>
       </section>

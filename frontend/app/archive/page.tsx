@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { DeckFigure } from '@/components/media/DeckFigure';
+import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
 import { getArchiveProjects } from '@/lib/contract';
@@ -23,6 +24,7 @@ export default function ArchiveIndex() {
             sizes="(min-width: 1024px) 70vw, 100vw"
             className="mt-12"
             priority
+            parallax={PARALLAX_SPEEDS.figure}
           />
 
           <StaggerReveal className="mt-20">

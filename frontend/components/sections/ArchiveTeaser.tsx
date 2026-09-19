@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getArchiveProjects } from '@/lib/contract';
 import { slugify } from '@/lib/slugify';
 import { DeckFigure } from '@/components/media/DeckFigure';
+import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { ARCHIVE_OPENER_PAGE } from '@/lib/deck';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
@@ -33,6 +34,7 @@ export function ArchiveTeaser() {
                     page={ARCHIVE_OPENER_PAGE[project.archive_no]}
                     alt=""
                     sizes="(min-width: 640px) 33vw, 100vw"
+                    parallax={PARALLAX_SPEEDS.gallery}
                   />
                   <p
                     data-testid="teaser-no"
