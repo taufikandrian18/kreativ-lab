@@ -11,7 +11,7 @@ export function ArchiveTeaser() {
 
   return (
     <section className="bg-k-black text-k-paper">
-      <div className="px-4 py-24 sm:px-8 lg:px-12">
+      <div className="section-shell py-24">
         <MaskReveal as="h2" className="display-type">
           LAB ARCHIVE
         </MaskReveal>
@@ -32,7 +32,9 @@ export function ArchiveTeaser() {
                     sizes="(min-width: 640px) 33vw, 100vw"
                     width={img.width}
                     height={img.height}
-                    alt={`${project.client} — ${project.industry}`}
+                    loading="lazy"
+        decoding="async"
+        alt={`${project.client} — ${project.industry}`}
                     className="h-auto w-full"
                   />
                   <p
@@ -51,7 +53,7 @@ export function ArchiveTeaser() {
 
         <Link
           href="/archive"
-          className="font-body mt-16 inline-block text-xs tracking-widest uppercase"
+          className="font-body mt-16 inline-block py-3 text-xs tracking-widest uppercase"
         >
           View all six
         </Link>

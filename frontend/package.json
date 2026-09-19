@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "vitest run lib/fixture-sync.test.ts",
+    "prebuild": "vitest run lib/fixture-sync.test.ts tests/assets.test.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",

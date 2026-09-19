@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { existsSync, readdirSync } from 'node:fs';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 // A missing derivative does not fail a build — it 404s into a blank section at
@@ -36,5 +36,18 @@ describe('deck and video assets are present in public/ (spec §9, §8)', () => {
     ]) {
       expect(existsSync(join(videoDir, file)), `missing ${file}`).toBe(true);
     }
+  });
+});
+
+describe('the asset check gates the build, not just the test run', () => {
+  it('runs in prebuild, so a missing derivative cannot reach a deployed page', () => {
+    // lib/deck.ts validates the page NUMBER at build time, but nothing validates that
+    // the file exists — and a missing derivative 404s into a blank section, which is
+    // exactly the Stage 2 failure. This suite is that existence check; it only gates
+    // anything if the build runs it.
+    const pkg = JSON.parse(
+      readFileSync(join(__dirname, '../package.json'), 'utf-8')
+    ) as { scripts: Record<string, string> };
+    expect(pkg.scripts.prebuild).toContain('tests/assets.test.ts');
   });
 });

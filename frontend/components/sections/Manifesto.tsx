@@ -18,10 +18,12 @@ export function Manifesto() {
         sizes="100vw"
         width={img.width}
         height={img.height}
+        loading="lazy"
+        decoding="async"
         alt="More than creativity — the Kreative Studio Lab statement: We Create Live."
         className="h-auto w-full"
       />
-      <div className="px-4 py-20 sm:px-8 lg:px-12">
+      <div className="section-shell py-20">
         <MaskReveal as="h2" className="display-type">
           WE CREATE <span className="text-k-red">LIVE.</span>
         </MaskReveal>

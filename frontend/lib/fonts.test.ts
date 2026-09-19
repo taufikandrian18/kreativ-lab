@@ -22,6 +22,16 @@ describe('fonts are self-hosted (spec §5)', () => {
     expect(layout).toContain('@fontsource-variable/archivo/wght.css');
   });
 
+  it('preloads both faces, which @fontsource CSS imports do not do on their own', () => {
+    // Spec §5: "Both self-hosted as subset woff2, font-display: swap, preloaded."
+    // Without the preload the woff2 is only discovered when the CSS that references it
+    // has parsed, so `swap` shows a system grotesque on the display lockup first.
+    expect(layout).toContain('rel="preload"');
+    expect(layout).toContain('as="font"');
+    expect(layout).toContain('anton-latin-400-normal.woff2');
+    expect(layout).toContain('archivo-latin-wght-normal.woff2');
+  });
+
   it('points the display and body tokens at the self-hosted family names', () => {
     expect(globals).toContain("--font-display: 'Anton'");
     expect(globals).toContain("--font-body: 'Archivo Variable'");

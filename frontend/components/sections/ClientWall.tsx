@@ -19,7 +19,7 @@ export function ClientWall() {
 
   return (
     <section className="bg-k-paper text-k-black">
-      <div className="px-4 py-24 sm:px-8 lg:px-12">
+      <div className="section-shell py-24">
         <MaskReveal as="h2" className="display-type">
           OUR CLIENT
         </MaskReveal>
@@ -30,7 +30,9 @@ export function ClientWall() {
           sizes="100vw"
           width={img.width}
           height={img.height}
-          alt={`Client wall: ${logos.map((l) => l.name).join(', ')}`}
+          loading="lazy"
+        decoding="async"
+        alt={`Client wall: ${logos.map((l) => l.name).join(', ')}`}
           className="mt-12 h-auto w-full"
         />
 

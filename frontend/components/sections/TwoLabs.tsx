@@ -13,7 +13,7 @@ export function TwoLabs() {
 
   return (
     <section className="bg-k-paper text-k-black">
-      <div className="px-4 py-24 sm:px-8 lg:px-12">
+      <div className="section-shell py-24">
         <MaskReveal as="h2" className="display-type max-w-[14ch]">
           One Studio. Two Labs.
         </MaskReveal>
@@ -27,7 +27,9 @@ export function TwoLabs() {
           sizes="(min-width: 1024px) 60vw, 100vw"
           width={img.width}
           height={img.height}
-          alt="Product Lab and Creative Lab as two overlapping circles merging into the studio mark"
+          loading="lazy"
+        decoding="async"
+        alt="Product Lab and Creative Lab as two overlapping circles merging into the studio mark"
           className="mt-12 h-auto w-full"
         />
 

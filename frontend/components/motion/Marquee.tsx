@@ -1,11 +1,14 @@
 'use client';
 
-import { prefersReducedMotion } from '@/lib/motion-env';
+import { useMotionPreference } from '@/lib/use-motion-preference';
 
 const REPEATS = 8;
 
 export function Marquee({ text, className = '' }: { text: string; className?: string }) {
-  const animated = !prefersReducedMotion();
+  // Halted until the preference is known, so the track cannot translate in the
+  // prerendered HTML before hydration. The CSS carries the same rule as a media query,
+  // so the marquee is still static for a reduced-motion visitor with JS disabled.
+  const animated = useMotionPreference() === 'full';
 
   return (
     <div className={`overflow-hidden ${className}`}>
