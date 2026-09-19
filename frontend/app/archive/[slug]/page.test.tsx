@@ -28,9 +28,11 @@ describe('/archive/[slug] (spec §4, §6)', () => {
 
   it('renders the opener page and every gallery page for the study', async () => {
     const { container } = await renderSlug('n8n-collective');
-    const sources = Array.from(container.querySelectorAll('img')).map((img) =>
-      img.getAttribute('src')
-    );
+    const sources = Array.from(container.querySelectorAll('img'))
+      .map((img) => img.getAttribute('src'))
+      // n8n-collective also carries a studio reel, which renders as its poster in jsdom
+      // (the suite defaults to reduced motion). This assertion is about deck coverage.
+      .filter((src) => src?.startsWith('/deck/'));
     expect(sources).toEqual([
       '/deck/page-08-1920.webp',
       '/deck/page-09-1920.webp',

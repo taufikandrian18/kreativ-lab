@@ -3,6 +3,8 @@ import { DeckFigure } from '@/components/media/DeckFigure';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
+import { CaseStudyReel } from '@/components/sections/CaseStudyReel';
+import { ARCHIVE_REELS } from '@/lib/archive-reels';
 import { getArchiveProject, getArchiveProjects } from '@/lib/contract';
 import { ARCHIVE_OPENER_PAGE, archiveGalleryPages, deckPageAlt } from '@/lib/deck';
 import { slugify } from '@/lib/slugify';
@@ -20,6 +22,7 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
 
   const openerPage = ARCHIVE_OPENER_PAGE[project.archive_no];
   const galleryPages = archiveGalleryPages(project.archive_no);
+  const reel = ARCHIVE_REELS[project.archive_no];
 
   return (
     <main>
@@ -64,6 +67,16 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
               case study. An empty alt would remove all of it from the accessibility
               tree, so each spread carries its own description from the deck mapping,
               prefixed with the client for a reader who lands mid-gallery. */}
+          {/* The studio's own footage where it exists. It leads the gallery: a spread is
+              a photograph of the work, a reel is the work moving. */}
+          {reel ? (
+            <div className="mb-8 grid grid-cols-12">
+              <div className="col-span-12 sm:col-span-8 lg:col-span-5">
+                <CaseStudyReel reel={reel} client={project.client} />
+              </div>
+            </div>
+          ) : null}
+
           <StaggerReveal className="flex flex-col gap-8">
             {galleryPages.map((page) => (
               <DeckFigure

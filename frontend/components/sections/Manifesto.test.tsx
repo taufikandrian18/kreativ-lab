@@ -8,13 +8,21 @@ import { Manifesto } from './Manifesto';
 // verbatim, and the panel is its own cropped asset holding its own column.
 describe('Manifesto', () => {
   it('sets the studio statement as live text rather than as image content', () => {
-    render(<Manifesto />);
+    const { container } = render(<Manifesto />);
     expect(screen.getByText(/More than creativity\. Ideas are everywhere\./i)).toBeInTheDocument();
     expect(
       screen.getByText(/creativity doesn't end with making something beautiful/i)
     ).toBeInTheDocument();
-    expect(screen.getByText('It grows through experimentation.')).toBeInTheDocument();
-    expect(screen.getByText('Every detail.')).toBeInTheDocument();
+    // The ladder splits each step's verb from its clause so the verb can carry the
+    // display face, and the Every-block splits the repeated word from the noun that
+    // changes — so both are matched on the line's own text, not on a single text node.
+    const lines = Array.from(container.querySelectorAll('li')).map((li) =>
+      li.textContent?.replace(/\s+/g, ' ').trim()
+    );
+    expect(lines).toContain('It grows through experimentation.');
+    // "Every" and the noun are separate spans with a flex gap, so the DOM text has no
+    // space between them — the gap is layout, not a character.
+    expect(lines).toContain('Everydetail.');
   });
 
   it('leads and closes on the two verified display lines', () => {
