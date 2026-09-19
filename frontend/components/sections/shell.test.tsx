@@ -17,7 +17,6 @@ import { Closing } from './Closing';
 const globals = readFileSync(join(__dirname, '../../app/globals.css'), 'utf-8');
 
 const SECTIONS = [
-  ['Hero', <Hero key="h" />],
   ['Manifesto', <Manifesto key="m" />],
   ['WhoWeAre', <WhoWeAre key="w" />],
   ['TwoLabs', <TwoLabs key="t" />],
@@ -27,6 +26,14 @@ const SECTIONS = [
 ] as const;
 
 describe('section shell (spec §5)', () => {
+  it('Hero takes the horizontal ladder only, by design', () => {
+    // A full-bleed viewport section, not a stacked rhythm one — .section-shell's vertical
+    // padding pushed its headline into the marquee. tests/rhythm.test.tsx owns that.
+    const { container } = render(<Hero />);
+    expect(container.querySelector('.shell-inline')).not.toBeNull();
+    expect(container.querySelector('.section-shell')).toBeNull();
+  });
+
   for (const [name, node] of SECTIONS) {
     it(`${name} lays its content out on the shared shell`, () => {
       const { container } = render(node);

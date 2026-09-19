@@ -3,9 +3,12 @@ import { render, screen } from '@testing-library/react';
 import { TwoLabs } from './TwoLabs';
 
 describe('TwoLabs', () => {
-  it('renders deck page 04', () => {
-    render(<TwoLabs />);
-    expect(screen.getByRole('img')).toHaveAttribute('src', '/deck/page-04-1920.webp');
+  it('draws the two labs as live circles instead of deck page 04', () => {
+    // Page 04 bakes both circles into one raster, and two circles inside one image
+    // cannot converge. Spec §6 wants them meeting on scrub, so they are elements now.
+    const { container } = render(<TwoLabs />);
+    expect(container.querySelector('img')).toBeNull();
+    expect(container.querySelectorAll('[data-lab-circle]')).toHaveLength(2);
   });
 
   it('links to both lab routes', () => {
