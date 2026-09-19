@@ -14,7 +14,6 @@ const BELOW_FOLD = [
   ['Manifesto', <Manifesto key="m" />],
   ['TwoLabs', <TwoLabs key="t" />],
   ['ArchiveTeaser', <ArchiveTeaser key="a" />],
-  ['ClientWall', <ClientWall key="c" />],
 ] as const;
 
 describe('below-the-fold imagery (spec §10)', () => {
@@ -32,6 +31,13 @@ describe('below-the-fold imagery (spec §10)', () => {
 
   it('WhoWeAre renders no imagery at all', () => {
     const { container } = render(<WhoWeAre />);
+    expect(container.querySelectorAll('img')).toHaveLength(0);
+  });
+
+  it('ClientWall renders no imagery either, now that the wall is set in type', () => {
+    // It used to render deck page 24, the composite raster of every mark. The type grid
+    // replaced it, so there is no image here to lazy-load.
+    const { container } = render(<ClientWall />);
     expect(container.querySelectorAll('img')).toHaveLength(0);
   });
 });

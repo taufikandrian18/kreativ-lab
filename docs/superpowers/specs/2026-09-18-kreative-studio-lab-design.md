@@ -233,8 +233,18 @@ reversing it means re-opening this spec.
 | Lab capability lists | Reveal per line (keyline wipe removed — see amendment below) |
 | Archive index | Six rows; `01`–`06` counter increments in the fixed corner |
 | Case study | Pinned left hero, scrolling right gallery — mirrors the deck spread |
-| Client wall | Logo grid, opacity stagger on a 40ms interval |
+| Client wall | Name grid in display type, 40ms stagger, red-and-scale on hover (see amendment below) |
 | Closing | `LET'S CREATE SOMETHING THAT LIVES.` with CREATE and LIVES in red |
+
+> **Amendment (2026-09-19, post-Stage-4):** the client wall is a grid of client names
+> set in display type, not a grid of marks. The 24 marks do not exist as files — every
+> `client_logo` entry carries a null image URL and the deck supplies only page 24, a
+> single raster with all of them baked in — so a per-mark hover was not buildable. Each
+> name flips to red and scales up under the cursor, which is the interaction the studio
+> asked for; the 40ms stagger is unchanged. This is weaker than the real thing and
+> knowingly so: a wall of names reads as a client list, a wall of marks reads as proof.
+> When the artwork arrives, each cell takes an `<img>` and the grid, stagger and hover
+> stay as they are. Deck page 24 is no longer used by any route.
 
 > **Amendment (2026-09-19, post-Stage-4):** the red keyline wipe above each capability
 > group is removed. It was the one piece of this vocabulary the studio rejected on
