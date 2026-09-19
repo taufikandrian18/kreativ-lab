@@ -26,6 +26,17 @@ body {
   font-family: var(--font-body);
 }
 
+/* The middle step the type scale never had. Two sizes — 176px display and 16px body —
+   meant nothing could be subordinate to anything, so every block shouted equally and the
+   page read as a template. This is the first use of the three-step scale the 2026-09-19
+   editorial amendment proposes. */
+.type-subhead {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 2.6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
 .display-type {
   font-family: var(--font-display);
   letter-spacing: -0.02em;

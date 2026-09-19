@@ -20,14 +20,22 @@ const BODY = [
   "At KREATIVE STUDIO LAB, we believe creativity doesn't end with making something beautiful.",
 ] as const;
 
+// A real sequence — understanding, then experimentation, then craft, then meaning — so
+// each step is set further right than the one before it. The escalation is in the
+// indentation rather than in a numbered marker, because the reader does not need to count
+// the steps, only to feel them climb. The verb carries the display face; the rest stays
+// body, so the four lines scan as one gesture.
 const LADDER = [
-  'It begins with understanding.',
-  'It grows through experimentation.',
-  'It comes to life through craftsmanship.',
-  'And it becomes meaningful when people experience it.',
+  { verb: 'It begins', rest: 'with understanding.' },
+  { verb: 'It grows', rest: 'through experimentation.' },
+  { verb: 'It comes to life', rest: 'through craftsmanship.' },
+  { verb: 'And it becomes meaningful', rest: 'when people experience it.' },
 ] as const;
 
-const EVERY = ['Every product.', 'Every detail.', 'Every story.', 'Every experience.'] as const;
+// Anaphora: "Every" repeats and the noun is what changes, so the noun is what is set
+// large. The repetition is the rhythm; the nouns are the content. Scale does the work
+// here because spec §5 allows no grey to quiet the repeated word.
+const EVERY = ['product', 'detail', 'story', 'experience'] as const;
 
 export function Manifesto() {
   return (
@@ -44,39 +52,47 @@ export function Manifesto() {
               className="display-type"
             />
 
-            <p className="font-body mt-12 max-w-[42ch] text-xl">{OPENING}</p>
+            <p className="type-subhead mt-10 max-w-[18ch]">{OPENING}</p>
 
-            <div className="mt-8 max-w-[52ch]">
+            <div className="mt-8 max-w-[46ch]">
               {BODY.map((paragraph) => (
-                <p key={paragraph.slice(0, 20)} className="font-body mt-5 text-lg">
+                <p key={paragraph.slice(0, 20)} className="font-body mt-5 text-base leading-relaxed">
                   {paragraph}
                 </p>
               ))}
             </div>
 
-            <ul className="mt-12 max-w-[52ch]">
-              {LADDER.map((line, index) => (
-                <SlideIn key={line} from="left" delay={index * 0.06}>
-                  <li className="font-body py-1 text-lg">{line}</li>
+            <ol className="mt-14">
+              {LADDER.map((step, index) => (
+                <SlideIn key={step.verb} from="left" delay={index * 0.06}>
+                  <li className="py-1.5" style={{ paddingInlineStart: `${index * 2.5}rem` }}>
+                    <span className="type-subhead">{step.verb}</span>{' '}
+                    <span className="font-body text-base">{step.rest}</span>
+                  </li>
+                </SlideIn>
+              ))}
+            </ol>
+
+            <ul className="mt-14">
+              {EVERY.map((noun, index) => (
+                <SlideIn key={noun} from="left" delay={index * 0.05}>
+                  <li className="flex items-baseline gap-3">
+                    <span className="font-body text-xs tracking-[0.3em] uppercase">Every</span>
+                    <span className="font-display text-5xl leading-[0.95] tracking-tight lg:text-6xl">
+                      {noun}.
+                    </span>
+                  </li>
                 </SlideIn>
               ))}
             </ul>
 
-            <ul className="mt-10">
-              {EVERY.map((line, index) => (
-                <SlideIn key={line} from="left" delay={index * 0.05}>
-                  <li className="font-display text-3xl leading-tight tracking-tight">{line}</li>
-                </SlideIn>
-              ))}
-            </ul>
-
-            <p className="font-body mt-10 text-lg">Because we don&apos;t simply create.</p>
+            <p className="font-body mt-14 text-base">Because we don&apos;t simply create.</p>
 
             <WordReveal
               as="p"
               text="We Create Live."
               accent={['live.']}
-              className="display-type mt-6"
+              className="display-type mt-4"
             />
           </div>
 
