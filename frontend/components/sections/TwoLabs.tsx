@@ -1,0 +1,51 @@
+import Link from 'next/link';
+import { deckImage } from '@/lib/deck';
+import { MaskReveal } from '@/components/motion/MaskReveal';
+
+// Deck page 04 per content/page-section-mapping.md: the two overlapping PRODUCT LAB /
+// CREATIVE LAB circles merging into the K-mark.
+// Spec §6 specifies this section pinned with the circles converging on scrub. Pinning
+// is Stage 5's severable tail; this static composition is what Stage 5 animates.
+const PAGE = 4;
+
+export function TwoLabs() {
+  const img = deckImage(PAGE);
+
+  return (
+    <section className="bg-k-paper text-k-black">
+      <div className="px-4 py-24 sm:px-8 lg:px-12">
+        <MaskReveal as="h2" className="display-type max-w-[14ch]">
+          One Studio. Two Labs.
+        </MaskReveal>
+        <p className="font-body mt-6 max-w-[48ch] text-lg">
+          Different disciplines. One creative ecosystem.
+        </p>
+
+        <img
+          src={img.src}
+          srcSet={img.srcSet}
+          sizes="(min-width: 1024px) 60vw, 100vw"
+          width={img.width}
+          height={img.height}
+          alt="Product Lab and Creative Lab as two overlapping circles merging into the studio mark"
+          className="mt-12 h-auto w-full"
+        />
+
+        <div className="mt-12 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
+          <Link
+            href="/product-lab"
+            className="font-display border-k-black col-span-12 border-t-2 pt-4 text-4xl tracking-tight sm:col-span-6"
+          >
+            PRODUCT LAB
+          </Link>
+          <Link
+            href="/creative-lab"
+            className="font-display border-k-black col-span-12 border-t-2 pt-4 text-4xl tracking-tight sm:col-span-6"
+          >
+            CREATIVE LAB
+          </Link>
+        </div>
+      </div>
+    </section>
+  );
+}
