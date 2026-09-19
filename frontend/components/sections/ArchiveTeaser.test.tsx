@@ -15,8 +15,11 @@ describe('ArchiveTeaser', () => {
   });
 
   it('pairs each entry with its verified opener page image', () => {
-    render(<ArchiveTeaser />);
-    const images = screen.getAllByRole('img');
+    // querySelectorAll, not getAllByRole('img'): these images carry alt="" because the
+    // link already states the client and industry as visible text, and an empty alt
+    // correctly removes the img role from the accessibility tree.
+    const { container } = render(<ArchiveTeaser />);
+    const images = Array.from(container.querySelectorAll('img'));
     expect(images[0]).toHaveAttribute('src', '/deck/page-08-1920.webp');
     expect(images[1]).toHaveAttribute('src', '/deck/page-12-1920.webp');
     expect(images[2]).toHaveAttribute('src', '/deck/page-15-1920.webp');

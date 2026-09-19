@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import { getArchiveProjects } from '@/lib/contract';
 import { slugify } from '@/lib/slugify';
-import { ARCHIVE_OPENER_PAGE, deckImage } from '@/lib/deck';
+import { DeckFigure } from '@/components/media/DeckFigure';
+import { ARCHIVE_OPENER_PAGE } from '@/lib/deck';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
 
@@ -18,7 +19,6 @@ export function ArchiveTeaser() {
 
         <StaggerReveal className="mt-12 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
           {preview.map((project) => {
-            const img = deckImage(ARCHIVE_OPENER_PAGE[project.archive_no]);
             return (
               <article
                 key={project.archive_no}
@@ -26,16 +26,13 @@ export function ArchiveTeaser() {
                 className="col-span-12 sm:col-span-4"
               >
                 <Link href={`/archive/${slugify(project.title)}`}>
-                  <img
-                    src={img.src}
-                    srcSet={img.srcSet}
+                  {/* alt="": this link already states the client and the industry as
+                      visible text below, so a description would be announced twice and
+                      would bloat the link's accessible name. */}
+                  <DeckFigure
+                    page={ARCHIVE_OPENER_PAGE[project.archive_no]}
+                    alt=""
                     sizes="(min-width: 640px) 33vw, 100vw"
-                    width={img.width}
-                    height={img.height}
-                    loading="lazy"
-        decoding="async"
-        alt={`${project.client} — ${project.industry}`}
-                    className="h-auto w-full"
                   />
                   <p
                     data-testid="teaser-no"

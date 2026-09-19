@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { deckImage } from '@/lib/deck';
+import { DeckFigure } from '@/components/media/DeckFigure';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 
 // Deck page 04 per content/page-section-mapping.md: the two overlapping PRODUCT LAB /
@@ -9,8 +9,6 @@ import { MaskReveal } from '@/components/motion/MaskReveal';
 const PAGE = 4;
 
 export function TwoLabs() {
-  const img = deckImage(PAGE);
-
   return (
     <section className="bg-k-paper text-k-black">
       <div className="section-shell py-24">
@@ -21,16 +19,11 @@ export function TwoLabs() {
           Different disciplines. One creative ecosystem.
         </p>
 
-        <img
-          src={img.src}
-          srcSet={img.srcSet}
+        <DeckFigure
+          page={PAGE}
+          alt="Product Lab and Creative Lab as two overlapping circles merging into the studio mark"
           sizes="(min-width: 1024px) 60vw, 100vw"
-          width={img.width}
-          height={img.height}
-          loading="lazy"
-        decoding="async"
-        alt="Product Lab and Creative Lab as two overlapping circles merging into the studio mark"
-          className="mt-12 h-auto w-full"
+          className="mt-12"
         />
 
         <div className="mt-12 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">

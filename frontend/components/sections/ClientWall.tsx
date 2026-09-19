@@ -1,5 +1,5 @@
 import { getClientLogos } from '@/lib/contract';
-import { deckImage } from '@/lib/deck';
+import { DeckFigure } from '@/components/media/DeckFigure';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 
 // Deck page 24 per content/page-section-mapping.md: the OUR CLIENT wall, a single
@@ -14,7 +14,6 @@ import { MaskReveal } from '@/components/motion/MaskReveal';
 const PAGE = 24;
 
 export function ClientWall() {
-  const img = deckImage(PAGE);
   const logos = getClientLogos();
 
   return (
@@ -24,16 +23,11 @@ export function ClientWall() {
           OUR CLIENT
         </MaskReveal>
 
-        <img
-          src={img.src}
-          srcSet={img.srcSet}
+        <DeckFigure
+          page={PAGE}
+          alt={`Client wall: ${logos.map((l) => l.name).join(', ')}`}
           sizes="100vw"
-          width={img.width}
-          height={img.height}
-          loading="lazy"
-        decoding="async"
-        alt={`Client wall: ${logos.map((l) => l.name).join(', ')}`}
-          className="mt-12 h-auto w-full"
+          className="mt-12"
         />
 
         <ul className="sr-only">

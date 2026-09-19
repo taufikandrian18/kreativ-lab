@@ -1,38 +1,48 @@
-import { Container } from '@/components/layout/Container';
-import { Section } from '@/components/layout/Section';
-import { getSiteSetting } from '@/lib/contract';
+import { DeckFigure } from '@/components/media/DeckFigure';
+import { MaskReveal } from '@/components/motion/MaskReveal';
+import { CONTACT_PAGE } from '@/lib/deck';
+import { STUDIO_CONTACT, telHref } from '@/lib/studio-contact';
 
 export default function Contact() {
-  const settings = getSiteSetting();
-  const hasContactInfo = settings.phone_primary || settings.email;
-
   return (
     <main>
-      <Section>
-        <Container>
-          <h1 className="display-type">CONTACT</h1>
-          {hasContactInfo ? (
-            <dl className="font-body text-xl mt-8 space-y-4">
-              {settings.phone_primary && (
-                <div>
-                  <dt className="text-sm text-k-black/60">Phone</dt>
-                  <dd>{settings.phone_primary}</dd>
-                </div>
-              )}
-              {settings.email && (
-                <div>
-                  <dt className="text-sm text-k-black/60">Email</dt>
-                  <dd>{settings.email}</dd>
-                </div>
-              )}
-            </dl>
-          ) : (
-            <p className="font-body text-lg mt-8 text-k-black/60">
-              Contact details pending — not yet entered in the CMS.
-            </p>
-          )}
-        </Container>
-      </Section>
+      <section className="bg-k-black text-k-paper">
+        <div className="section-shell flex min-h-[70svh] flex-col justify-center py-24">
+          <MaskReveal as="h1" className="display-type">
+            LET&apos;S <span className="text-k-red">TALK</span>
+          </MaskReveal>
+
+          <ul className="mt-12">
+            {STUDIO_CONTACT.phones.map((phone) => (
+              <li key={phone}>
+                <a
+                  href={telHref(phone)}
+                  className="font-display inline-block py-3 text-3xl tracking-tight"
+                >
+                  {phone}
+                </a>
+              </li>
+            ))}
+            <li>
+              <a
+                href={`mailto:${STUDIO_CONTACT.email}`}
+                className="font-display inline-block py-3 text-3xl tracking-tight break-all"
+              >
+                {STUDIO_CONTACT.email}
+              </a>
+            </li>
+          </ul>
+
+          {/* alt="": the numbers and the email are directly above as live text, so a
+              description would announce them a second time. */}
+          <DeckFigure
+            page={CONTACT_PAGE}
+            alt=""
+            sizes="(min-width: 1024px) 70vw, 100vw"
+            className="mt-16"
+          />
+        </div>
+      </section>
     </main>
   );
 }
