@@ -381,21 +381,70 @@ no emulator reproduces faithfully.
 
 ## 13. Decomposition
 
-This spec is larger than one implementation plan should cover. It decomposes into four
-sequential stages, each with its own plan:
+> **Amendment (2026-09-19, post-Stage-2, pre-launch):** the original four-stage
+> decomposition below is superseded. It layered the build horizontally — all structure,
+> then all motion, then all content — and asserted that Stage 2 was "independently
+> shippable."
+>
+> That assertion contradicted §1. §1 defines success as a prospective client
+> understanding within one screen that this is a production studio with real
+> manufacturing capability. A still page with no imagery and no hero cannot do that, so
+> Stage 2 was never independently shippable in the sense §1 requires. Stage 2 shipped on
+> 2026-09-18 and demonstrated exactly this: correct routing, correct data, passing tests,
+> and a page that reads as an unstyled document. The defect was in this section, not in
+> the Stage 2 implementation.
+>
+> **Governing rule, replacing "Stage 2 must be independently shippable":** every stage
+> must be visually complete for the routes it covers. No stage delivers structure
+> without identity. A stage may cover fewer routes; it may not cover a route halfway.
 
-1. **Content layer** — WordPress, ACF field groups, both CPTs, options page, REST
-   shape, revalidate webhook. Deliverable: stable JSON for six projects and 25 logos.
-2. **Shell and design system** — Next.js app, tokens, fonts, grid, typography scale,
-   image pipeline, static routes with no motion. Deliverable: the whole site correct
-   and legible, entirely still.
-3. **Motion system** — GSAP context, ScrollSmoother setup, the nine section behaviours
-   in §6, reduced-motion paths, mobile disabling.
-4. **Content population and hardening** — page-to-section verification (§9), real
-   assets if the studio supplies them, performance and accessibility passes.
+### Superseded staging (2026-09-18)
 
-Stage 2 must be independently shippable. If motion is cut for time, the site still
-works.
+1. Content layer. 2. Shell and design system, still. 3. Motion system. 4. Content
+population and hardening. Retained here for the record only.
+
+### Current staging (2026-09-19)
+
+**Stage 1 — Content layer.** Complete. WordPress, both CPTs, REST shape, frozen fixture
+at `wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json`. WordPress
+is not in the render path; the front-end reads a committed copy of that fixture.
+
+**Stage 2 — Data and routing foundation.** Complete, retained. Next.js app, contract
+types, fixture loader, seven routes, layout primitives, test suite. Its visual output is
+superseded by Stage 3, but its data layer, routing, and tests carry forward unchanged.
+
+**Stage 3 — Homepage vertical slice and shared foundation.** The homepage taken to full
+visual and motion fidelity, and in doing so, building the foundation every later route
+reuses: self-hosted Anton and Archivo per §5, the navigation and footer shell, the
+imagery pipeline against `assets/web/`, the hero video per §8, the GSAP context and
+ScrollSmoother setup per §6, and the three reusable motion primitives — marquee loop,
+clip-path mask reveal, and staggered section reveal. Deliverable: one route that is
+finished, against which the visual direction can be accepted or redirected cheaply.
+
+**Stage 4 — Route fan-out.** The remaining six routes composed from Stage 3's primitives
+and the verified deck imagery. Mostly composition rather than new invention.
+
+**Stage 5 — Expensive tail, explicitly droppable.** The pinned Venn convergence, the
+pinned case-study spread, mobile pin-to-stack conversion per §7, reduced-motion paths per
+§6, and the performance and accessibility passes per §10 and §11. This stage is ordered
+last because each item is individually severable. If the schedule compresses, work is cut
+from here, and the site remains coherent without it.
+
+### Corrections carried into Stage 3
+
+Two defects in the Stage 2 implementation are corrections against this spec as already
+written, not amendments to it:
+
+1. **Fonts.** Stage 2 used `next/font/google`, which fetches from Google at build time.
+   §5 already requires both faces self-hosted as subset woff2 with no Google Fonts
+   network request. The observed failure mode is a silent fallback to a system grotesque
+   with no build error, which destroys the display identity. Stage 3 must implement §5 as
+   written.
+2. **Imagery.** §9 blocked layout work on the deck imagery only "until the
+   page-to-section mapping task is done." That task completed during Stage 2 and the
+   mapping is verified. The block is therefore cleared, and the 104 derivatives in
+   `assets/web/` are the source imagery for v1. The fixture's null image fields do not
+   gate this; WordPress-supplied imagery takes precedence only once it exists.
 
 ---
 
