@@ -80,3 +80,34 @@ body {
     animation: none;
   }
 }
+
+/* Spec §6: capability lists reveal per line with a red keyline wiping left to right.
+   The keyline is a scaled pseudo-element rather than an animated width, so it stays on
+   the compositor. A pseudo-element cannot be targeted from JS, so the component flips
+   data-revealed and this transition carries the wipe. */
+.k-keyline {
+  position: relative;
+  padding-top: 0.75rem;
+}
+
+.k-keyline::after {
+  content: '';
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline: 0;
+  height: 2px;
+  background: var(--k-red);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[data-capability-list][data-revealed='true'] .k-keyline::after {
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .k-keyline::after {
+    transition: none;
+  }
+}
