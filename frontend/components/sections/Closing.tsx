@@ -1,14 +1,18 @@
 import Link from 'next/link';
-import { MaskReveal } from '@/components/motion/MaskReveal';
+import { Grain } from '@/components/motion/Grain';
+import { WordReveal } from '@/components/motion/WordReveal';
 
 export function Closing() {
   return (
-    <section className="bg-k-black text-k-paper">
-      <div className="section-shell flex min-h-[80svh] flex-col justify-center">
-        <MaskReveal as="p" className="display-type">
-          LET&apos;S <span className="text-k-red">CREATE</span> SOMETHING THAT{' '}
-          <span className="text-k-red">LIVES.</span>
-        </MaskReveal>
+    <section className="bg-k-black text-k-paper relative overflow-hidden">
+      <Grain />
+      <div className="section-shell relative flex min-h-[80svh] flex-col justify-center">
+        <WordReveal
+          as="p"
+          text="LET'S CREATE SOMETHING THAT LIVES."
+          accent={['create', 'lives.']}
+          className="display-type"
+        />
         <Link
           href="/contact"
           className="font-body mt-12 inline-block self-start py-3 text-xs tracking-widest uppercase"

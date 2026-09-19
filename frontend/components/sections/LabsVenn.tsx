@@ -3,6 +3,7 @@
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { Grain } from '@/components/motion/Grain';
 import { useMotionPreference } from '@/lib/use-motion-preference';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -39,7 +40,23 @@ export function LabsVenn() {
       timeline
         .from('[data-lab-circle="product"]', { xPercent: -42, scale: 0.86, ease: 'none' }, 0)
         .from('[data-lab-circle="creative"]', { xPercent: 42, scale: 0.86, ease: 'none' }, 0)
-        .from('[data-studio-mark]', { opacity: 0, ease: 'none' }, 0.45);
+        .from('[data-studio-mark]', { opacity: 0, scale: 0.7, ease: 'none' }, 0.45);
+
+      // Once they have met, the composition keeps breathing rather than freezing: the
+      // ring turns slowly and the mark counter-turns, so the section is alive while the
+      // reader is still in it. Rotation only — no layout, no repaint of anything else.
+      gsap.to('[data-lab-circle="creative"]', {
+        rotation: 360,
+        duration: 90,
+        repeat: -1,
+        ease: 'none',
+      });
+      gsap.to('[data-studio-mark]', {
+        rotation: -360,
+        duration: 140,
+        repeat: -1,
+        ease: 'none',
+      });
     }, el);
 
     return () => ctx.revert();
@@ -47,6 +64,7 @@ export function LabsVenn() {
 
   return (
     <div ref={root} className="bg-k-black relative aspect-[4/3] w-full overflow-hidden">
+      <Grain opacity={0.16} />
       <div className="absolute inset-0 flex items-center justify-center">
         {/* Product Lab: the solid white disc, left of centre. */}
         <div
