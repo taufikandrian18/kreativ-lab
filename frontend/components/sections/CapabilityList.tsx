@@ -15,24 +15,23 @@ export interface CapabilityGroup {
 export function CapabilityList({ groups }: { groups: readonly CapabilityGroup[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const preference = useMotionPreference();
-  const [revealed, setRevealed] = useState(false);
+  const [animated, setAnimated] = useState(false);
+
+  const itemCount = groups.reduce((total, group) => total + group.items.length, 0);
+
+  // Derived rather than stored: 'unknown' is the server render and the first client
+  // render, 'reduced' is the stated preference, and both must show the end state. Storing
+  // that in an effect would mean a setState the effect runs synchronously on every mount,
+  // which cascades a second render for a value the props already determine.
+  const revealed = preference !== 'full' || itemCount === 0 || animated;
 
   useLayoutEffect(() => {
-    // 'unknown' is the server render and the first client render; 'reduced' is the
-    // stated preference. Both render the end state, so the list is never
-    // animation-dependent and the two renders agree.
-    if (preference !== 'full') {
-      setRevealed(true);
-      return;
-    }
+    if (preference !== 'full') return;
     const el = ref.current;
     if (!el) return;
 
     const items = el.querySelectorAll('[data-capability-item]');
-    if (items.length === 0) {
-      setRevealed(true);
-      return;
-    }
+    if (items.length === 0) return;
 
     const ctx = gsap.context(() => {
       gsap.from(Array.from(items), {
@@ -44,7 +43,7 @@ export function CapabilityList({ groups }: { groups: readonly CapabilityGroup[] 
         scrollTrigger: { trigger: el, start: 'top 85%', once: true },
         // onStart, not onComplete: the keyline wipes in as the lines rise, which is
         // what "reveal per line, red keyline wipe left to right" describes.
-        onStart: () => setRevealed(true),
+        onStart: () => setAnimated(true),
       });
     }, el);
 

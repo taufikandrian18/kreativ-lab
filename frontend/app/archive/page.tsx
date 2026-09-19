@@ -44,7 +44,7 @@ export default function ArchiveIndex() {
                   </span>
                   <span className="font-display text-3xl tracking-tight">{project.client}</span>
                   {/* Uppercase letterspacing rather than the Stage 2 stub's
-                      text-k-black/60: the same de-emphasis without compositing a grey. */}
+                      alpha-composited black: the same de-emphasis without a grey. */}
                   <span className="font-body text-sm tracking-widest uppercase">
                     {project.industry}
                   </span>

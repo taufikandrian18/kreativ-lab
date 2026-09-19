@@ -111,3 +111,16 @@ body {
     transition: none;
   }
 }
+
+/* A short route (/contact is the shortest) must not leave the footer mid-viewport.
+   The flex column lives on the smoothed content rather than on <body>, because
+   ScrollSmoother requires its wrapper to stay a plain block. */
+#smooth-content {
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+}
+
+#smooth-content > main {
+  flex: 1 0 auto;
+}
