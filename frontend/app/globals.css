@@ -11,8 +11,8 @@
   --color-k-black: #000000;
   --color-k-paper: #FFFFFF;
 
-  --font-display: var(--font-anton), sans-serif;
-  --font-body: var(--font-archivo), sans-serif;
+  --font-display: 'Anton', sans-serif;
+  --font-body: 'Archivo Variable', sans-serif;
 
   --spacing-gutter-mobile: 1rem;    /* 16px */
   --spacing-gutter-tablet: 2rem;    /* 32px */
@@ -31,4 +31,52 @@ body {
   letter-spacing: -0.02em;
   font-size: clamp(3rem, 12vw, 11rem);
   line-height: 0.95;
+}
+
+@keyframes k-marquee {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+
+.k-marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: k-marquee 18s linear infinite;
+}
+
+.k-marquee-track[data-animated='false'] {
+  animation: none;
+}
+
+/* Spec §5 grid: 16px gutter on mobile, 32px from 768px, 48px from 1280px, capped at
+   1680px. Tailwind's default `sm:`/`lg:` fire at 640px and 1024px, which steps the
+   ladder too early and caps nothing, so the ladder lives here instead. */
+.section-shell {
+  width: 100%;
+  max-width: var(--width-content-max);
+  margin-inline: auto;
+  padding-inline: 1rem;
+  padding-block: inherit;
+}
+
+@media (min-width: 768px) {
+  .section-shell {
+    padding-inline: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .section-shell {
+    padding-inline: 3rem;
+  }
+}
+
+/* Spec §6: reduced motion stops every marquee. Duplicated here as a media query so the
+   track is also static before hydration and with JS disabled, not only once the
+   preference has been read in JS. */
+@media (prefers-reduced-motion: reduce) {
+  .k-marquee-track {
+    animation: none;
+  }
 }

@@ -1,19 +1,30 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import Home from './page';
 
-describe('/ home route', () => {
-  it('renders the manifesto and an archive teaser of three entries', () => {
-    render(<Home />);
-    expect(screen.getAllByText(/archive_no|01|02|03/i).length).toBeGreaterThan(0);
+afterEach(() => vi.unstubAllGlobals());
+
+describe('/ (spec §4 section order)', () => {
+  it('renders all seven sections', () => {
+    const { container } = render(<Home />);
+    expect(container.querySelectorAll('section')).toHaveLength(7);
   });
 
-  it('lists client logos', () => {
+  it('leads with the hero headline', () => {
     render(<Home />);
-    // At least one seeded client name renders somewhere on the page. Deus, BMW Motorrad,
-    // and Unionwell are three SEPARATE entries in the real fixture (each its own element),
-    // so getByText's single-match assertion throws "multiple elements found" here —
-    // getAllByText + length check is what "at least one" actually requires.
-    expect(screen.getAllByText(/Deus|BMW Motorrad|Unionwell/i).length).toBeGreaterThan(0);
+    expect(
+      screen.getByRole('heading', { name: /CLEAN IN FORM\. SHARP IN FUNCTION\./i, level: 1 })
+    ).toBeInTheDocument();
+  });
+
+  it('previews three archive entries and links to the full index', () => {
+    render(<Home />);
+    expect(screen.getAllByTestId('teaser-entry')).toHaveLength(3);
+    expect(screen.getByRole('link', { name: /View all six/i })).toHaveAttribute('href', '/archive');
+  });
+
+  it('closes with the call to action', () => {
+    render(<Home />);
+    expect(screen.getByRole('link', { name: /Start a project/i })).toHaveAttribute('href', '/contact');
   });
 });

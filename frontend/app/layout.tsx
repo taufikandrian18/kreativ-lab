@@ -1,19 +1,23 @@
 import type { Metadata } from "next";
-import { Anton, Archivo } from "next/font/google";
+// Spec §5: both faces self-hosted as subset woff2, font-display: swap, no Google Fonts
+// network request. `latin-400.css` declares font-family 'Anton'; `wght.css` declares
+// font-family 'Archivo Variable' across weight 100-900 with per-subset unicode-range,
+// so the browser fetches only the ranges a page actually uses.
+// Spec §5 requires both faces preloaded. @fontsource ships plain CSS imports, which
+// Next does not preload the way it does next/font — the woff2 would only be discovered
+// once its stylesheet had parsed, and `swap` would show a system grotesque on the
+// display lockup first. Importing the binaries puts them in the module graph, which is
+// what gives the preload links below the hashed URL the browser will actually request.
+// A side-effect-only import is not enough — verified against .next/server/app/index.html,
+// where it produced no preload at all.
+import antonLatin from "@fontsource/anton/files/anton-latin-400-normal.woff2";
+import archivoLatin from "@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2";
+import "@fontsource/anton/latin-400.css";
+import "@fontsource-variable/archivo/wght.css";
 import "./globals.css";
-
-const anton = Anton({
-  weight: "400",
-  subsets: ["latin"],
-  variable: "--font-anton",
-  display: "swap",
-});
-
-const archivo = Archivo({
-  subsets: ["latin"],
-  variable: "--font-archivo",
-  display: "swap",
-});
+import { SiteHeader } from "@/components/chrome/SiteHeader";
+import { SiteFooter } from "@/components/chrome/SiteFooter";
+import { MotionProvider } from "@/components/motion/MotionProvider";
 
 export const metadata: Metadata = {
   title: "Kreative Studio Lab",
@@ -22,11 +26,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      className={`${anton.variable} ${archivo.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className="antialiased">
+      <head>
+        <link rel="preload" as="font" type="font/woff2" href={antonLatin} crossOrigin="anonymous" />
+        <link
+          rel="preload"
+          as="font"
+          type="font/woff2"
+          href={archivoLatin}
+          crossOrigin="anonymous"
+        />
+      </head>
+      <body>
+        <SiteHeader />
+        <MotionProvider>
+          {children}
+          <SiteFooter />
+        </MotionProvider>
+      </body>
     </html>
   );
 }

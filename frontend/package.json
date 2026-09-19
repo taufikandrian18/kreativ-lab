@@ -4,14 +4,18 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "prebuild": "vitest run lib/fixture-sync.test.ts",
+    "prebuild": "vitest run lib/fixture-sync.test.ts tests/assets.test.ts",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "sync-fixture": "cp ../wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json ./data/rest-contract.json"
+    "sync-fixture": "cp ../wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json ./data/rest-contract.json",
+    "sync-assets": "mkdir -p public/deck public/video && cp ../assets/web/*.webp public/deck/ && cp ../assets/video/* public/video/"
   },
   "dependencies": {
+    "@fontsource-variable/archivo": "^5.3.0",
+    "@fontsource/anton": "^5.3.0",
+    "gsap": "^3.15.0",
     "next": "16.3.5",
     "react": "19.2.8",
     "react-dom": "19.2.8"
