@@ -1,4 +1,4 @@
-import { MaskReveal } from '@/components/motion/MaskReveal';
+import { WordReveal } from '@/components/motion/WordReveal';
 import { SlideIn } from '@/components/motion/SlideIn';
 
 // The four pillars are photographic cards on deck page 03, not labels on a rule. The
@@ -16,9 +16,7 @@ export function WhoWeAre() {
   return (
     <section className="bg-k-paper text-k-black">
       <div className="section-shell">
-        <MaskReveal as="h2" className="display-type">
-          WHO WE ARE
-        </MaskReveal>
+        <WordReveal as="h2" text="WHO WE ARE" className="display-type" />
 
         <div className="mt-16 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
           {PILLARS.map((pillar, index) => (
