@@ -6,7 +6,7 @@ const PILLARS = ['THINK', 'DESIGN', 'CRAFT', 'EXPERIENCE'] as const;
 export function WhoWeAre() {
   return (
     <section className="bg-k-paper text-k-black">
-      <div className="section-shell py-24">
+      <div className="section-shell">
         <MaskReveal as="h2" className="display-type">
           WHO WE ARE
         </MaskReveal>

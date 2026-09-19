@@ -13,7 +13,7 @@ export function ArchiveTeaser() {
 
   return (
     <section className="bg-k-black text-k-paper">
-      <div className="section-shell py-24">
+      <div className="section-shell">
         <MaskReveal as="h2" className="display-type">
           LAB ARCHIVE
         </MaskReveal>

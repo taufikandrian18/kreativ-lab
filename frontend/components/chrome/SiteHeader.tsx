@@ -11,7 +11,7 @@ const NAV = [
 export function SiteHeader() {
   return (
     <header className="fixed top-0 right-0 left-0 z-50 mix-blend-difference">
-      <div className="section-shell flex flex-wrap items-center justify-between gap-x-6 gap-y-1 py-3">
+      <div className="shell-inline flex flex-wrap items-center justify-between gap-x-6 gap-y-1 py-3">
         <Link href="/" className="font-display text-k-paper text-xl tracking-tight">
           K STUDIOLAB
         </Link>

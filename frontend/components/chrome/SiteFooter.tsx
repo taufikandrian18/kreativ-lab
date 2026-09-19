@@ -15,7 +15,7 @@ export function SiteFooter() {
 
   return (
     <footer className="bg-k-black text-k-paper">
-      <div className="section-shell py-16">
+      <div className="section-shell">
         <p className="font-display text-3xl tracking-tight">K STUDIOLAB</p>
 
         {settings.email ? (

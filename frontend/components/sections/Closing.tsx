@@ -4,7 +4,7 @@ import { MaskReveal } from '@/components/motion/MaskReveal';
 export function Closing() {
   return (
     <section className="bg-k-black text-k-paper">
-      <div className="section-shell flex min-h-[80svh] flex-col justify-center py-24">
+      <div className="section-shell flex min-h-[80svh] flex-col justify-center">
         <MaskReveal as="p" className="display-type">
           LET&apos;S <span className="text-k-red">CREATE</span> SOMETHING THAT{' '}
           <span className="text-k-red">LIVES.</span>

@@ -17,7 +17,7 @@ export function Manifesto() {
         sizes="100vw"
         parallax={PARALLAX_SPEEDS.figure}
       />
-      <div className="section-shell py-20">
+      <div className="section-shell">
         <MaskReveal as="h2" className="display-type">
           WE CREATE <span className="text-k-red">LIVE.</span>
         </MaskReveal>
