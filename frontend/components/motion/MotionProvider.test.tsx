@@ -3,7 +3,7 @@ import { render, act } from '@testing-library/react';
 
 const { revert, create } = vi.hoisted(() => ({
   revert: vi.fn(),
-  create: vi.fn(() => ({ kill: vi.fn() })),
+  create: vi.fn((_config?: unknown) => ({ kill: vi.fn() })),
 }));
 
 vi.mock('next/navigation', () => ({ usePathname: () => '/' }));
@@ -50,6 +50,24 @@ describe('MotionProvider (spec §6, §7)', () => {
     setReducedMotion(false);
     render(<MotionProvider>content</MotionProvider>);
     expect(create).toHaveBeenCalledTimes(1);
+  });
+
+  it('hands the smoother real elements, not selector strings', () => {
+    // The original passed '#smooth-wrapper' and '#smooth-content' as selectors inside a
+    // gsap.context() scoped to the wrapper. gsap scopes selector strings to DESCENDANTS
+    // of the scope element, and #smooth-wrapper IS that element — so the wrapper
+    // selector matched nothing, create() silently did nothing, and the page shipped with
+    // no smoother at all. Verified in a browser: #smooth-wrapper had position: static at
+    // 1680px with motion allowed. Nothing threw and no test could see it, because the
+    // suite only asserted that create() was called.
+    setViewport(1440);
+    setReducedMotion(false);
+    render(<MotionProvider>content</MotionProvider>);
+    const config = create.mock.calls[0][0] as { wrapper: unknown; content: unknown };
+    expect(config.wrapper).toBeInstanceOf(HTMLElement);
+    expect(config.content).toBeInstanceOf(HTMLElement);
+    expect((config.wrapper as HTMLElement).id).toBe('smooth-wrapper');
+    expect((config.content as HTMLElement).id).toBe('smooth-content');
   });
 
   it('creates no smoother below 1024px, so native momentum scrolling survives', () => {
