@@ -230,11 +230,19 @@ reversing it means re-opening this spec.
 | Manifesto | Line-by-line reveal on a 60ms stagger |
 | Who we are | THINK / DESIGN / CRAFT / EXPERIENCE stagger up, halftone cards |
 | Two labs | Pinned; two circles converge into the Venn on scrub |
-| Lab capability lists | Reveal per line, red keyline wipe left to right |
+| Lab capability lists | Reveal per line (keyline wipe removed — see amendment below) |
 | Archive index | Six rows; `01`–`06` counter increments in the fixed corner |
 | Case study | Pinned left hero, scrolling right gallery — mirrors the deck spread |
 | Client wall | Logo grid, opacity stagger on a 40ms interval |
 | Closing | `LET'S CREATE SOMETHING THAT LIVES.` with CREATE and LIVES in red |
+
+> **Amendment (2026-09-19, post-Stage-4):** the red keyline wipe above each capability
+> group is removed. It was the one piece of this vocabulary the studio rejected on
+> sight — a hairline rule drawing itself above a list reads as a template flourish
+> rather than as the studio's own motion. The per-line stagger stays; nothing replaces
+> the keyline. `.k-keyline` and the `data-revealed` state that existed only to drive it
+> are deleted from `CapabilityList`, and `CapabilityList.test.tsx` now asserts their
+> absence so the rule cannot return by accident.
 
 ### Rules
 

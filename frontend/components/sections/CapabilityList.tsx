@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useMotionPreference } from '@/lib/use-motion-preference';
@@ -15,15 +15,6 @@ export interface CapabilityGroup {
 export function CapabilityList({ groups }: { groups: readonly CapabilityGroup[] }) {
   const ref = useRef<HTMLDivElement>(null);
   const preference = useMotionPreference();
-  const [animated, setAnimated] = useState(false);
-
-  const itemCount = groups.reduce((total, group) => total + group.items.length, 0);
-
-  // Derived rather than stored: 'unknown' is the server render and the first client
-  // render, 'reduced' is the stated preference, and both must show the end state. Storing
-  // that in an effect would mean a setState the effect runs synchronously on every mount,
-  // which cascades a second render for a value the props already determine.
-  const revealed = preference !== 'full' || itemCount === 0 || animated;
 
   useLayoutEffect(() => {
     if (preference !== 'full') return;
@@ -41,9 +32,6 @@ export function CapabilityList({ groups }: { groups: readonly CapabilityGroup[] 
         ease: 'power3.out',
         stagger: 0.04,
         scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-        // onStart, not onComplete: the keyline wipes in as the lines rise, which is
-        // what "reveal per line, red keyline wipe left to right" describes.
-        onStart: () => setAnimated(true),
       });
     }, el);
 
@@ -51,9 +39,9 @@ export function CapabilityList({ groups }: { groups: readonly CapabilityGroup[] 
   }, [preference]);
 
   return (
-    <div ref={ref} data-capability-list data-revealed={String(revealed)}>
+    <div ref={ref} data-capability-list>
       {groups.map((group, index) => (
-        <div key={group.name || `group-${index}`} className="k-keyline mt-10">
+        <div key={group.name || `group-${index}`} className="mt-10">
           {group.name ? (
             <p data-capability-group-name className="font-display text-2xl tracking-tight">
               {group.name}
