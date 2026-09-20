@@ -2,6 +2,8 @@ import { DeckFigure } from '@/components/media/DeckFigure';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { CapabilityList, type CapabilityGroup } from '@/components/sections/CapabilityList';
+import { CaseStudyReel } from '@/components/sections/CaseStudyReel';
+import { CREATIVE_LAB_REEL } from '@/lib/archive-reels';
 import { CREATIVE_LAB_PAGE } from '@/lib/deck';
 
 // Transcribed verbatim from assets/web/page-06-1920.webp on 2026-09-19. The mapping
@@ -51,6 +53,21 @@ export default function CreativeLab() {
                 {paragraph}
               </p>
             ))}
+          </div>
+
+          {/* The PURE LOVE MATTERS apparel film. It is N8N's own product, so it would be
+              wrong on another client's case study — it belongs where the studio shows what
+              it produces rather than what it produced for one brand. */}
+          <div className="mt-16 grid grid-cols-12 items-end gap-4 sm:gap-8 lg:gap-12">
+            <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+              <CaseStudyReel reel={CREATIVE_LAB_REEL} client="Creative Lab" />
+            </div>
+            <div className="col-span-12 sm:col-span-6 lg:col-span-5">
+              <p className="type-subhead">Campaign film, start to finish.</p>
+              <p className="font-body mt-4 text-base leading-relaxed">
+                Creative direction, production and post, shot and cut in house.
+              </p>
+            </div>
           </div>
 
           <h2 className="font-display mt-20 text-4xl tracking-tight">Capabilities</h2>

@@ -37,8 +37,12 @@ describe('/creative-lab (spec §4)', () => {
   });
 
   it('renders deck page 06 as the production imagery', () => {
+    // The page now also carries the studio's own campaign film, which renders as its
+    // poster under the suite's reduced-motion default — so this asserts the deck page is
+    // present rather than that it is first.
     const { container } = render(<CreativeLab />);
-    expect(container.querySelector('img')?.getAttribute('src')).toBe('/deck/page-06-1920.webp');
+    const srcs = Array.from(container.querySelectorAll('img')).map((i) => i.getAttribute('src'));
+    expect(srcs).toContain('/deck/page-06-1920.webp');
   });
 
   it('drops the Stage 2 stub placeholder line', () => {

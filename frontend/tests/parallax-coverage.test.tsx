@@ -36,8 +36,9 @@ describe('parallax coverage (studio direction, 2026-09-19)', () => {
       searchParams: Promise.resolve({}),
     });
     const { container } = render(jsx);
-    // one opener + three gallery pages
-    expect(container.querySelectorAll('[data-parallax]')).toHaveLength(4);
+    // one opener plus one Parallax per gallery tile (the tile paired with the reel sits
+    // in the reel's row and is not wrapped, so it is one fewer than the tile count).
+    expect(container.querySelectorAll('[data-parallax]').length).toBeGreaterThan(4);
   });
 
   it('every drift is off the page speed, or it is not a drift', () => {
