@@ -67,18 +67,29 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
               case study. An empty alt would remove all of it from the accessibility
               tree, so each spread carries its own description from the deck mapping,
               prefixed with the client for a reader who lands mid-gallery. */}
-          {/* The studio's own footage where it exists. It leads the gallery: a spread is
-              a photograph of the work, a reel is the work moving. */}
+          {/* The reel and the first spread share a row. A portrait clip alone left
+              sixty per cent of a 1680px screen as empty black, and widening a 9:16 video
+              to fill it would have made it taller than the viewport. The answer is more
+              work beside it, not a bigger video: the reel is the campaign moving, the
+              spread beside it is the same campaign still. */}
           {reel ? (
-            <div className="mb-8 grid grid-cols-12">
-              <div className="col-span-12 sm:col-span-8 lg:col-span-5">
+            <div className="mb-8 grid grid-cols-12 items-start gap-4 sm:gap-8 lg:gap-12">
+              <div className="col-span-12 sm:col-span-6 lg:col-span-5">
                 <CaseStudyReel reel={reel} client={project.client} />
+              </div>
+              <div className="col-span-12 sm:col-span-6 lg:col-span-7">
+                <DeckFigure
+                  page={galleryPages[0]}
+                  alt={deckPageAlt(galleryPages[0], project.client)}
+                  sizes="(min-width: 1024px) 58vw, 100vw"
+                  parallax={PARALLAX_SPEEDS.gallery}
+                />
               </div>
             </div>
           ) : null}
 
           <StaggerReveal className="flex flex-col gap-8">
-            {galleryPages.map((page) => (
+            {(reel ? galleryPages.slice(1) : galleryPages).map((page) => (
               <DeckFigure
                 key={page}
                 page={page}
