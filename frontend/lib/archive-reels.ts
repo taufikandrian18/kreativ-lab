@@ -19,11 +19,26 @@ export interface ArchiveReel {
 }
 
 export const ARCHIVE_REELS: Readonly<Record<string, ArchiveReel>> = Object.freeze({
+  // The N8N x Blibli out-of-home film at SCBD. Square, so it holds a column without the
+  // height a 9:16 clip forces on the row.
   '01': {
-    wide: '/video/n8n-720.mp4',
-    narrow: '/video/n8n-480.mp4',
-    poster: '/video/n8n-poster.jpg',
-    width: 720,
-    height: 1280,
+    wide: '/video/n8n-ooh-900.mp4',
+    narrow: '/video/n8n-ooh-560.mp4',
+    poster: '/video/n8n-ooh-poster.jpg',
+    width: 900,
+    height: 900,
   },
 });
+
+/**
+ * Studio reels that are not tied to one case study. The PURE LOVE MATTERS apparel film is
+ * N8N's own product, so it would be wrong on another client's page — it belongs where the
+ * studio shows its production work rather than a client's campaign.
+ */
+export const CREATIVE_LAB_REEL: ArchiveReel = {
+  wide: '/video/n8n-720.mp4',
+  narrow: '/video/n8n-480.mp4',
+  poster: '/video/n8n-poster.jpg',
+  width: 720,
+  height: 1280,
+};

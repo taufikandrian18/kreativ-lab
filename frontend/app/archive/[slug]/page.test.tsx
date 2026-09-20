@@ -26,19 +26,34 @@ describe('/archive/[slug] (spec §4, §6)', () => {
     ]);
   });
 
-  it('renders the opener page and every gallery page for the study', async () => {
+  it('opens on the verified deck page and then shows the work itself', async () => {
+    // The gallery used to be whole deck pages — screenshots of someone else's layout,
+    // page margins and "LAB ARCHIVE 01" footer included. It is now the individual pieces
+    // of work, cut out of those pages, so the site can compose them. The opener page is
+    // still a deck page, because that page IS the study's title card.
     const { container } = await renderSlug('n8n-collective');
-    const sources = Array.from(container.querySelectorAll('img'))
+    const deck = Array.from(container.querySelectorAll('img'))
       .map((img) => img.getAttribute('src'))
-      // n8n-collective also carries a studio reel, which renders as its poster in jsdom
-      // (the suite defaults to reduced motion). This assertion is about deck coverage.
       .filter((src) => src?.startsWith('/deck/'));
-    expect(sources).toEqual([
-      '/deck/page-08-1920.webp',
-      '/deck/page-09-1920.webp',
-      '/deck/page-10-1920.webp',
-      '/deck/page-11-1920.webp',
-    ]);
+    expect(deck).toEqual(['/deck/page-08-1920.webp']);
+
+    const gallery = Array.from(container.querySelectorAll('img'))
+      .map((img) => img.getAttribute('src'))
+      .filter((src) => src?.startsWith('/gallery/'));
+    expect(gallery.length).toBeGreaterThan(5);
+    for (const src of gallery) expect(src).toMatch(/^\/gallery\/01-\d{2}\.webp$/);
+  });
+
+  it('gives every study a gallery cut from its own pages', async () => {
+    for (const slug of ['drx-wear', 'howard-smith', 'kemenpora']) {
+      const { container, unmount } = await renderSlug(slug);
+      const gallery = Array.from(container.querySelectorAll('img')).filter((img) =>
+        img.getAttribute('src')?.startsWith('/gallery/')
+      );
+      expect(gallery.length).toBeGreaterThan(0);
+      for (const img of gallery) expect(img.getAttribute('loading')).toBe('lazy');
+      unmount();
+    }
   });
 
   it('renders the project metadata as live text', async () => {

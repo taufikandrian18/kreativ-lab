@@ -2,11 +2,12 @@ import { notFound } from 'next/navigation';
 import { DeckFigure } from '@/components/media/DeckFigure';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
-import { StaggerReveal } from '@/components/motion/StaggerReveal';
 import { CaseStudyReel } from '@/components/sections/CaseStudyReel';
 import { ARCHIVE_REELS } from '@/lib/archive-reels';
+import { CaseStudyGallery } from '@/components/sections/CaseStudyGallery';
+import { GALLERY_TILES } from '@/lib/gallery-tiles';
 import { getArchiveProject, getArchiveProjects } from '@/lib/contract';
-import { ARCHIVE_OPENER_PAGE, archiveGalleryPages, deckPageAlt } from '@/lib/deck';
+import { ARCHIVE_OPENER_PAGE } from '@/lib/deck';
 import { slugify } from '@/lib/slugify';
 
 export async function generateStaticParams() {
@@ -21,8 +22,8 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
   }
 
   const openerPage = ARCHIVE_OPENER_PAGE[project.archive_no];
-  const galleryPages = archiveGalleryPages(project.archive_no);
   const reel = ARCHIVE_REELS[project.archive_no];
+  const tiles = GALLERY_TILES[project.archive_no] ?? [];
 
   return (
     <main>
@@ -67,38 +68,32 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
               case study. An empty alt would remove all of it from the accessibility
               tree, so each spread carries its own description from the deck mapping,
               prefixed with the client for a reader who lands mid-gallery. */}
-          {/* The reel and the first spread share a row. A portrait clip alone left
-              sixty per cent of a 1680px screen as empty black, and widening a 9:16 video
-              to fill it would have made it taller than the viewport. The answer is more
-              work beside it, not a bigger video: the reel is the campaign moving, the
-              spread beside it is the same campaign still. */}
+          {/* The reel leads, with the first tile beside it: a 9:16 clip alone left
+              sixty per cent of a wide screen empty, and widening the video would only
+              have made it taller than the viewport. More work beside it, not a bigger
+              video. */}
           {reel ? (
-            <div className="mb-8 grid grid-cols-12 items-start gap-4 sm:gap-8 lg:gap-12">
+            <div className="mb-6 grid grid-cols-12 items-start gap-4 sm:gap-6 lg:gap-8">
               <div className="col-span-12 sm:col-span-6 lg:col-span-5">
                 <CaseStudyReel reel={reel} client={project.client} />
               </div>
-              <div className="col-span-12 sm:col-span-6 lg:col-span-7">
-                <DeckFigure
-                  page={galleryPages[0]}
-                  alt={deckPageAlt(galleryPages[0], project.client)}
-                  sizes="(min-width: 1024px) 58vw, 100vw"
-                  parallax={PARALLAX_SPEEDS.gallery}
-                />
-              </div>
+              {tiles[0] ? (
+                <div className="col-span-12 sm:col-span-6 lg:col-span-7">
+                  <img
+                    src={tiles[0].file}
+                    alt={`${project.client} — campaign work`}
+                    width={tiles[0].w}
+                    height={tiles[0].h}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-auto w-full"
+                  />
+                </div>
+              ) : null}
             </div>
           ) : null}
 
-          <StaggerReveal className="flex flex-col gap-8">
-            {(reel ? galleryPages.slice(1) : galleryPages).map((page) => (
-              <DeckFigure
-                key={page}
-                page={page}
-                alt={deckPageAlt(page, project.client)}
-                sizes="100vw"
-                parallax={PARALLAX_SPEEDS.gallery}
-              />
-            ))}
-          </StaggerReveal>
+          <CaseStudyGallery tiles={reel ? tiles.slice(1) : tiles} client={project.client} />
         </div>
       </section>
     </main>
