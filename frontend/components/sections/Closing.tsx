@@ -11,7 +11,7 @@ export function Closing() {
           as="p"
           text="LET'S CREATE SOMETHING THAT LIVES."
           accent={['create', 'lives.']}
-          className="display-type"
+          className="display-type lg:max-w-[14ch]"
         />
         <Link
           href="/contact"

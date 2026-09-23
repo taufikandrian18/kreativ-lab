@@ -39,30 +39,35 @@ export default function CreativeLab() {
   return (
     <main>
       <section className="bg-k-paper text-k-black">
-        <div className="section-shell">
-          <MaskReveal as="h1" className="display-type">
+        <div className="section-shell grid grid-cols-12 gap-x-4 gap-y-12 sm:gap-x-8 lg:gap-x-12">
+          <MaskReveal as="h1" className="display-type col-opener">
             CREATIVE <span className="text-k-red">LAB</span>
           </MaskReveal>
 
-          <p className="font-display mt-12 text-3xl tracking-tight">
+          <p className="type-subhead col-copy">
             Where Products Become Stories
           </p>
-          <div className="mt-6 max-w-[60ch]">
+          <div className="col-copy">
             {BODY.map((paragraph) => (
-              <p key={paragraph.slice(0, 24)} className="font-body mt-4 text-lg">
+              <p key={paragraph.slice(0, 24)} className="font-body mt-4 text-base leading-relaxed">
                 {paragraph}
               </p>
             ))}
           </div>
 
+          <div className="col-aside">
+            <h2 className="type-subhead">Capabilities</h2>
+            <CapabilityList groups={CAPABILITIES} />
+          </div>
+
           {/* The PURE LOVE MATTERS apparel film. It is N8N's own product, so it would be
               wrong on another client's case study — it belongs where the studio shows what
               it produces rather than what it produced for one brand. */}
-          <div className="mt-16 grid grid-cols-12 items-end gap-4 sm:gap-8 lg:gap-12">
-            <div className="col-span-12 sm:col-span-6 lg:col-span-4">
+          <div className="col-span-12 grid grid-cols-12 items-end gap-x-4 gap-y-6 sm:gap-x-8 lg:gap-x-12">
+            <div className="col-span-12 sm:col-span-5 lg:col-span-4">
               <CaseStudyReel reel={CREATIVE_LAB_REEL} client="Creative Lab" />
             </div>
-            <div className="col-span-12 sm:col-span-6 lg:col-span-5">
+            <div className="col-span-12 sm:col-span-7 lg:col-span-5">
               <p className="type-subhead">Campaign film, start to finish.</p>
               <p className="font-body mt-4 text-base leading-relaxed">
                 Creative direction, production and post, shot and cut in house.
@@ -70,14 +75,12 @@ export default function CreativeLab() {
             </div>
           </div>
 
-          <h2 className="font-display mt-20 text-4xl tracking-tight">Capabilities</h2>
-          <CapabilityList groups={CAPABILITIES} />
 
           <DeckFigure
             page={CREATIVE_LAB_PAGE}
             alt="Creative Lab production: mood boards, camera rigs on set, and a lit studio floor"
             sizes="100vw"
-            className="mt-20"
+            className="col-figure"
             parallax={PARALLAX_SPEEDS.figure}
           />
         </div>

@@ -18,12 +18,12 @@ export default function About() {
   return (
     <main>
       <section className="bg-k-paper text-k-black">
-        <div className="section-shell">
-          <MaskReveal as="h1" className="display-type text-k-red">
+        <div className="section-shell grid grid-cols-12 gap-x-4 gap-y-14 sm:gap-x-8 lg:gap-x-12">
+          <MaskReveal as="h1" className="display-type text-k-red col-opener">
             WHO WE ARE
           </MaskReveal>
 
-          <div className="mt-12 max-w-[60ch]">
+          <div className="col-copy">
             {PARAGRAPHS.map((paragraph) => (
               <p key={paragraph.slice(0, 24)} className="font-body mt-6 text-lg">
                 {paragraph}
@@ -38,12 +38,12 @@ export default function About() {
             page={ABOUT_PAGE}
             alt={deckPageAlt(ABOUT_PAGE)}
             sizes="(min-width: 1024px) 80vw, 100vw"
-            className="mt-16"
+            className="col-figure lg:-mt-24"
             priority
             parallax={PARALLAX_SPEEDS.figure}
           />
 
-          <StaggerReveal className="mt-16 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
+          <StaggerReveal className="col-span-12 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
             {PILLARS.map((word) => (
               <div key={word} className="col-span-12 sm:col-span-6 lg:col-span-3">
                 <p className="font-display border-k-black border-t-2 pt-4 text-4xl tracking-tight">

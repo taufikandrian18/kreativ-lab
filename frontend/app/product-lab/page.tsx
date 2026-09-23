@@ -38,24 +38,27 @@ export default function ProductLab() {
   return (
     <main>
       <section className="bg-k-paper text-k-black">
-        <div className="section-shell">
-          <MaskReveal as="h1" className="display-type">
+        <div className="section-shell grid grid-cols-12 gap-x-4 gap-y-12 sm:gap-x-8 lg:gap-x-12">
+          <MaskReveal as="h1" className="display-type col-opener">
             PRODUCT <span className="text-k-red">LAB</span>
           </MaskReveal>
 
-          <p className="font-display mt-12 text-3xl tracking-tight">
+          <p className="type-subhead col-copy">
             Where Ideas Become Products.
           </p>
-          <div className="mt-6 max-w-[60ch]">
+          <div className="col-copy">
             {BODY.map((paragraph) => (
-              <p key={paragraph.slice(0, 24)} className="font-body mt-4 text-lg">
+              <p key={paragraph.slice(0, 24)} className="font-body mt-4 text-base leading-relaxed">
                 {paragraph}
               </p>
             ))}
           </div>
 
-          <h2 className="font-display mt-20 text-4xl tracking-tight">Capabilities</h2>
-          <CapabilityList groups={CAPABILITIES} />
+          <div className="col-aside">
+            <h2 className="type-subhead">Capabilities</h2>
+            <CapabilityList groups={CAPABILITIES} />
+          </div>
+
 
           {/* A description, not alt="": page 05's right half is production photography —
               sewing, pattern drafting, keyring and pouch prototypes, cap construction
@@ -64,7 +67,7 @@ export default function ProductLab() {
             page={PRODUCT_LAB_PAGE}
             alt="Product Lab process: pattern cutting, material sampling, and packaging and merchandise prototyping"
             sizes="100vw"
-            className="mt-20"
+            className="col-figure"
             parallax={PARALLAX_SPEEDS.figure}
           />
         </div>
