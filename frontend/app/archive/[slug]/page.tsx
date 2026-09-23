@@ -30,10 +30,10 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
       <section className="bg-k-paper text-k-black">
         <div className="section-shell">
           <p className="font-display text-k-red text-3xl tracking-tight">{project.archive_no}</p>
-          <MaskReveal as="h1" className="display-type mt-2">
+          <MaskReveal as="h1" className="display-type col-opener -mt-4">
             {project.client}
           </MaskReveal>
-          <p className="font-body mt-6 text-sm tracking-widest uppercase">
+          <p className="font-body col-span-12 text-sm tracking-widest uppercase">
             {project.industry} · {project.year_range}
           </p>
 
@@ -41,14 +41,23 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
               fixture's `scope` array is empty for all six projects — populating the CPT
               is a content-layer task — so the alt text describes it rather than the page
               duplicating a list it does not have. */}
-          <DeckFigure
-            page={openerPage}
-            alt={`${project.title} case study opener: scope of work and campaign photography`}
-            sizes="100vw"
-            className="mt-12"
-            priority
-            parallax={PARALLAX_SPEEDS.figure}
-          />
+          {/* The opener card and the reel share the top row. The opener carries the
+              SCOPE OF WORK list as artwork, so it belongs beside the moving work rather
+              than above it with the film buried further down the page. */}
+          <div className={reel ? 'col-span-12 lg:col-span-7' : 'col-span-12'}>
+            <DeckFigure
+              page={openerPage}
+              alt={`${project.title} case study opener: scope of work and campaign photography`}
+              sizes={reel ? '(min-width: 1024px) 56vw, 100vw' : '100vw'}
+              priority
+              parallax={PARALLAX_SPEEDS.figure}
+            />
+          </div>
+          {reel ? (
+            <div className="col-span-12 lg:col-span-5">
+              <CaseStudyReel reel={reel} client={project.client} />
+            </div>
+          ) : null}
 
           {project.scope.length > 0 ? (
             <ul data-scope-list className="mt-12">
@@ -68,32 +77,7 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
               case study. An empty alt would remove all of it from the accessibility
               tree, so each spread carries its own description from the deck mapping,
               prefixed with the client for a reader who lands mid-gallery. */}
-          {/* The reel leads, with the first tile beside it: a 9:16 clip alone left
-              sixty per cent of a wide screen empty, and widening the video would only
-              have made it taller than the viewport. More work beside it, not a bigger
-              video. */}
-          {reel ? (
-            <div className="mb-6 grid grid-cols-12 items-start gap-4 sm:gap-6 lg:gap-8">
-              <div className="col-span-12 sm:col-span-6 lg:col-span-5">
-                <CaseStudyReel reel={reel} client={project.client} />
-              </div>
-              {tiles[0] ? (
-                <div className="col-span-12 sm:col-span-6 lg:col-span-7">
-                  <img
-                    src={tiles[0].file}
-                    alt={`${project.client} — campaign work`}
-                    width={tiles[0].w}
-                    height={tiles[0].h}
-                    loading="lazy"
-                    decoding="async"
-                    className="h-auto w-full"
-                  />
-                </div>
-              ) : null}
-            </div>
-          ) : null}
-
-          <CaseStudyGallery tiles={reel ? tiles.slice(1) : tiles} client={project.client} />
+          <CaseStudyGallery tiles={tiles} client={project.client} />
         </div>
       </section>
     </main>

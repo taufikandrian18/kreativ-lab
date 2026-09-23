@@ -15,10 +15,10 @@ const PILLARS = [
 export function WhoWeAre() {
   return (
     <section className="bg-k-paper text-k-black">
-      <div className="section-shell">
-        <WordReveal as="h2" text="WHO WE ARE" className="display-type" />
+      <div className="section-shell grid grid-cols-12 gap-x-4 gap-y-14 sm:gap-x-8 lg:gap-x-12">
+        <WordReveal as="h2" text="WHO WE ARE" className="display-type col-opener" />
 
-        <div className="mt-16 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
+        <div className="col-span-12 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
           {PILLARS.map((pillar, index) => (
             <SlideIn
               key={pillar.word}

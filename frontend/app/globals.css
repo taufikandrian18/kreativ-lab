@@ -14,6 +14,8 @@
   --font-display: 'Anton', sans-serif;
   --font-body: 'Archivo Variable', sans-serif;
 
+  --type-body: clamp(1rem, 1.1vw, 1.25rem);
+
   --spacing-gutter-mobile: 1rem;    /* 16px */
   --spacing-gutter-tablet: 2rem;    /* 32px */
   --spacing-gutter-desktop: 3rem;   /* 48px */
@@ -40,7 +42,9 @@ body {
 .display-type {
   font-family: var(--font-display);
   letter-spacing: -0.02em;
-  font-size: clamp(3rem, 12vw, 11rem);
+  /* Amendment §5a: down from clamp(3rem, 12vw, 11rem). At 176px nothing else on the
+     page could be heard, so every section shouted and none of them led. */
+  font-size: clamp(2.5rem, 7vw, 7rem);
   line-height: 0.95;
 }
 
@@ -119,4 +123,42 @@ body {
 
 #smooth-content > main {
   flex: 1 0 auto;
+}
+
+
+/* Amendment §5a — column discipline.
+   Every section declares a span instead of defaulting to full width. Named here once so
+   a route says what a block IS, not how many columns it happens to take, and so the
+   whole ladder moves with one edit. Below 1024px every span is the full twelve: mobile
+   is a single column and stays one, per spec §7. */
+.col-opener,
+.col-copy,
+.col-aside,
+.col-figure {
+  grid-column: span 12 / span 12;
+}
+
+@media (min-width: 1024px) {
+  /* The headline. Eight columns leaves the right edge open, which is what stops a
+     display line from looking like a full-bleed banner. */
+  .col-opener {
+    grid-column: 1 / span 8;
+  }
+
+  /* Running copy. Five columns is a ~60ch measure at this scale — the same measure the
+     body text always wanted, now with an edge instead of floating in an empty row. */
+  .col-copy {
+    grid-column: 1 / span 5;
+  }
+
+  /* What sits BESIDE the copy rather than under it: a list, a grid, a caption block.
+     This is the column that used to be empty white on both lab routes. */
+  .col-aside {
+    grid-column: 7 / span 6;
+  }
+
+  /* Imagery, weighted to the right so a figure and its copy read as one spread. */
+  .col-figure {
+    grid-column: 6 / span 7;
+  }
 }
