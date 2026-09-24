@@ -1,3 +1,7 @@
+// When the site is built for deployment, scripts/fetch-cms.mjs overwrites
+// data/rest-contract.json with live WordPress content first, so everything below reads
+// the CMS in production and the committed fixture everywhere else.
+//
 // Local mirror of Stage 1's frozen fixture at
 // wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json — copied here
 // (not imported cross-directory) because Next.js's production bundler (Turbopack)
@@ -17,6 +21,20 @@
 import fixture from '../data/rest-contract.json';
 import { slugify } from './slugify';
 
+/**
+ * An image as the contract carries it. `width`/`height` come from WordPress; `variants`
+ * exist only after scripts/fetch-cms.mjs has downloaded and resized the image into
+ * public/cms/, and `url` then points at the largest of them. Paths are root-relative and
+ * get the base path at render time (lib/cms-image.ts). Empty fields are all null.
+ */
+export interface ContractImage {
+  url: string | null;
+  alt: string | null;
+  width?: number | null;
+  height?: number | null;
+  variants?: { url: string; width: number }[];
+}
+
 export interface ArchiveProject {
   archive_no: string;
   title: string;
@@ -25,14 +43,14 @@ export interface ArchiveProject {
   year_range: string;
   scope: string[];
   lab: 'product' | 'creative' | 'both';
-  hero_image: { url: string | null; alt: string | null };
-  gallery: { url: string | null; alt: string | null }[];
+  hero_image: ContractImage;
+  gallery: ContractImage[];
   accent_color: string | null;
 }
 
 export interface ClientLogo {
   name: string;
-  logo: { url: string | null; alt: string | null };
+  logo: ContractImage;
   order: number;
 }
 
@@ -42,7 +60,7 @@ export interface SiteSetting {
   email: string;
   instagram: string;
   address: string;
-  og_image: { url: string | null; alt: string | null };
+  og_image: ContractImage;
 }
 
 export function getArchiveProjects(): ArchiveProject[] {

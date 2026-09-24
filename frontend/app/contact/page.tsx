@@ -2,9 +2,12 @@ import { DeckFigure } from '@/components/media/DeckFigure';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { CONTACT_PAGE } from '@/lib/deck';
-import { STUDIO_CONTACT, telHref } from '@/lib/studio-contact';
+import { getSiteSetting } from '@/lib/contract';
+import { studioContact, telHref } from '@/lib/studio-contact';
 
 export default function Contact() {
+  const contact = studioContact(getSiteSetting());
+
   return (
     <main>
       <section className="bg-k-black text-k-paper">
@@ -14,7 +17,7 @@ export default function Contact() {
           </MaskReveal>
 
           <ul className="mt-12">
-            {STUDIO_CONTACT.phones.map((phone) => (
+            {contact.phones.map((phone) => (
               <li key={phone}>
                 <a
                   href={telHref(phone)}
@@ -24,14 +27,16 @@ export default function Contact() {
                 </a>
               </li>
             ))}
-            <li>
-              <a
-                href={`mailto:${STUDIO_CONTACT.email}`}
-                className="font-display inline-block py-3 text-3xl tracking-tight break-all"
-              >
-                {STUDIO_CONTACT.email}
-              </a>
-            </li>
+            {contact.email ? (
+              <li>
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="font-display inline-block py-3 text-3xl tracking-tight break-all"
+                >
+                  {contact.email}
+                </a>
+              </li>
+            ) : null}
           </ul>
 
           {/* alt="": the numbers and the email are directly above as live text, so a

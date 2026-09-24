@@ -37,7 +37,7 @@ describe('tap targets elsewhere in the chrome and the calls to action (spec §7)
 
   it('pads the archive and contact calls to action', () => {
     render(<ArchiveTeaser />);
-    expect(screen.getByRole('link', { name: /View all six/i }).className).toMatch(/\bpy-\d/);
+    expect(screen.getByRole('link', { name: /View the full archive/i }).className).toMatch(/\bpy-\d/);
     render(<Closing />);
     expect(screen.getByRole('link', { name: /Start a project/i }).className).toMatch(/\bpy-\d/);
   });

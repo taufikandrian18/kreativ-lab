@@ -10,7 +10,9 @@
       "lab": "product",
       "hero_image": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "gallery": [],
       "accent_color": null
@@ -25,7 +27,9 @@
       "lab": "both",
       "hero_image": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "gallery": [],
       "accent_color": null
@@ -40,7 +44,9 @@
       "lab": "creative",
       "hero_image": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "gallery": [],
       "accent_color": null
@@ -55,7 +61,9 @@
       "lab": "creative",
       "hero_image": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "gallery": [],
       "accent_color": null
@@ -70,7 +78,9 @@
       "lab": "both",
       "hero_image": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "gallery": [],
       "accent_color": null
@@ -85,7 +95,9 @@
       "lab": "both",
       "hero_image": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "gallery": [],
       "accent_color": null
@@ -96,7 +108,9 @@
       "name": "Grand Hyatt",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 24
     },
@@ -104,7 +118,9 @@
       "name": "Sampoerna",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 23
     },
@@ -112,7 +128,9 @@
       "name": "Kemenpora",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 22
     },
@@ -120,7 +138,9 @@
       "name": "Kominfo",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 21
     },
@@ -128,7 +148,9 @@
       "name": "DRX",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 20
     },
@@ -136,7 +158,9 @@
       "name": "Erspo",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 19
     },
@@ -144,7 +168,9 @@
       "name": "Chelsea",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 18
     },
@@ -152,7 +178,9 @@
       "name": "Pertamina",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 17
     },
@@ -160,7 +188,9 @@
       "name": "Garuda Indonesia",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 16
     },
@@ -168,7 +198,9 @@
       "name": "J&T Express",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 15
     },
@@ -176,7 +208,9 @@
       "name": "N8N",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 14
     },
@@ -184,7 +218,9 @@
       "name": "Pocari Sweat",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 13
     },
@@ -192,7 +228,9 @@
       "name": "B-LOG",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 12
     },
@@ -200,7 +238,9 @@
       "name": "Cargloss",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 11
     },
@@ -208,7 +248,9 @@
       "name": "XLSmart",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 10
     },
@@ -216,7 +258,9 @@
       "name": "Compass",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 9
     },
@@ -224,7 +268,9 @@
       "name": "Shiny Bright",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 8
     },
@@ -232,7 +278,9 @@
       "name": "Von Dutch",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 7
     },
@@ -240,7 +288,9 @@
       "name": "Jameson",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 6
     },
@@ -248,7 +298,9 @@
       "name": "Howard Smith",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 5
     },
@@ -256,7 +308,9 @@
       "name": "Jägermeister",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 4
     },
@@ -264,7 +318,9 @@
       "name": "Unionwell",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 3
     },
@@ -272,7 +328,9 @@
       "name": "BMW Motorrad",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 2
     },
@@ -280,7 +338,9 @@
       "name": "Deus",
       "logo": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       },
       "order": 1
     }
@@ -294,7 +354,9 @@
       "address": "",
       "og_image": {
         "url": null,
-        "alt": null
+        "alt": null,
+        "width": null,
+        "height": null
       }
     }
   ]

@@ -25,6 +25,9 @@ export interface GalleryTile {
   file: string;
   w: number;
   h: number;
+  /** Set only for tiles uploaded in WordPress (lib/project-media.ts). */
+  srcSet?: string;
+  alt?: string | null;
 }
 
 export const GALLERY_TILES: Readonly<Record<string, readonly GalleryTile[]>> = Object.freeze({
