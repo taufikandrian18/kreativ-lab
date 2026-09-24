@@ -87,11 +87,18 @@ showing the numbers transcribed from the deck.
 
 ### 6. Let GitHub deploy to the VPS
 
-Create a key used only for deploys:
+The deploy logs in as `ubuntu` (root login is disabled on this VPS) and swaps
+directories inside `/var/www`, so `ubuntu` must own it. Once, on the VPS:
+
+```sh
+sudo mkdir -p /var/www && sudo chown ubuntu:ubuntu /var/www
+```
+
+Create a key used only for deploys, on your Mac:
 
 ```sh
 ssh-keygen -t ed25519 -N '' -C github-deploy -f ~/.ssh/kreative-lab-deploy
-ssh-copy-id -i ~/.ssh/kreative-lab-deploy.pub root@<VPS IP>
+ssh-copy-id -i ~/.ssh/kreative-lab-deploy.pub ubuntu@<VPS IP>
 ssh-keyscan -H <VPS IP>                 # output goes into VPS_KNOWN_HOSTS
 ```
 
@@ -100,7 +107,7 @@ In GitHub, go to **Settings → Secrets and variables → Actions**:
 | Kind | Name | Value |
 |---|---|---|
 | Secret | `VPS_HOST` | the VPS IP |
-| Secret | `VPS_USER` | `root`, or a user that can write to `/var/www` |
+| Secret | `VPS_USER` | `ubuntu` |
 | Secret | `VPS_SSH_KEY` | contents of `~/.ssh/kreative-lab-deploy` (the private key) |
 | Secret | `VPS_KNOWN_HOSTS` | output of the `ssh-keyscan` above |
 | Variable | `KSL_CMS_URL` | `https://website.taufikandrian.my.id/kreative-lab-cms` |

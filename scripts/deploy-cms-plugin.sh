@@ -17,13 +17,17 @@ DEPLOY_USER="${DEPLOY_USER:-root}"
 CMS_PATH="${CMS_PATH:-/var/www/kreative-lab-cms}"
 PLUGIN_DIR="$CMS_PATH/wp-content/plugins/kreative-studio-lab"
 REMOTE="$DEPLOY_USER@$DEPLOY_HOST"
+# wp-content belongs to www-data, so a non-root login (e.g. ubuntu) writes through sudo.
+# Needs passwordless sudo, which cloud Ubuntu images give the default user.
+SUDO=""
+[[ "$DEPLOY_USER" != "root" ]] && SUDO="sudo -n"
 
 echo "==> Uploading plugin to $REMOTE:$PLUGIN_DIR"
 ssh "$REMOTE" "test -d '$CMS_PATH/wp-content/plugins'" \
   || { echo "No WordPress at $CMS_PATH on $REMOTE — start deploy/wordpress first."; exit 1; }
-rsync -az --delete \
+rsync -az --delete ${SUDO:+--rsync-path="$SUDO rsync"} \
   --exclude tests --exclude vendor --exclude 'composer.*' --exclude phpunit.xml \
   "$ROOT/wordpress/plugins/kreative-studio-lab/" "$REMOTE:$PLUGIN_DIR/"
 # The official WordPress image runs PHP as www-data (uid 33).
-ssh "$REMOTE" "chown -R 33:33 '$PLUGIN_DIR'"
+ssh "$REMOTE" "$SUDO chown -R 33:33 '$PLUGIN_DIR'"
 echo "==> Done. Activate 'Kreative Studio Lab Content' under Plugins if it is not active."

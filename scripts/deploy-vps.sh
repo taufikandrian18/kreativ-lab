@@ -39,7 +39,7 @@ ask() { # ask VAR "prompt" "default"
 }
 
 ask DEPLOY_HOST "VPS host or IP"
-ask DEPLOY_USER "SSH user" "root"
+ask DEPLOY_USER "SSH user" "ubuntu"
 ask DEPLOY_PATH "Web root on the VPS" "/var/www/kreativ-lab"
 ask DEPLOY_DOMAIN "Domain (for the final message only)" "$DEPLOY_HOST"
 
