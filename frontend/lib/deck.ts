@@ -1,3 +1,4 @@
+import { BASE_PATH } from '@/lib/asset';
 // Addresses the deck derivatives vendored into public/deck by `npm run sync-assets`.
 // Page-to-section assignments are recorded and verified in
 // frontend/content/page-section-mapping.md — consult that file before using a page
@@ -20,7 +21,7 @@ function assertPage(page: number): void {
 
 export function deckSrc(page: number, width: DeckWidth): string {
   assertPage(page);
-  return `/deck/page-${String(page).padStart(2, '0')}-${width}.webp`;
+  return `${BASE_PATH}/deck/page-${String(page).padStart(2, '0')}-${width}.webp`;
 }
 
 export function deckSrcSet(page: number): string {

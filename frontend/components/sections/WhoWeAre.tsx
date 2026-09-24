@@ -1,3 +1,4 @@
+import { asset } from '@/lib/asset';
 import { WordReveal } from '@/components/motion/WordReveal';
 import { SlideIn } from '@/components/motion/SlideIn';
 
@@ -6,10 +7,10 @@ import { SlideIn } from '@/components/motion/SlideIn';
 // Cards enter from alternating sides: four cards rising identically read as a list, and
 // this section is meant to read as a composition.
 const PILLARS = [
-  { word: 'THINK', image: '/pillars/think.jpg', from: 'left' as const },
-  { word: 'DESIGN', image: '/pillars/design.jpg', from: 'right' as const },
-  { word: 'CRAFT', image: '/pillars/craft.jpg', from: 'left' as const },
-  { word: 'EXPERIENCE', image: '/pillars/experience.jpg', from: 'right' as const },
+  { word: 'THINK', image: asset('/pillars/think.jpg'), from: 'left' as const },
+  { word: 'DESIGN', image: asset('/pillars/design.jpg'), from: 'right' as const },
+  { word: 'CRAFT', image: asset('/pillars/craft.jpg'), from: 'left' as const },
+  { word: 'EXPERIENCE', image: asset('/pillars/experience.jpg'), from: 'right' as const },
 ];
 
 export function WhoWeAre() {

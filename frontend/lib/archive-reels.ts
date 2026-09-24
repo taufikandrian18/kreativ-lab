@@ -1,3 +1,4 @@
+import { asset } from '@/lib/asset';
 /**
  * Motion supplied by the studio, per case study.
  *
@@ -22,9 +23,9 @@ export const ARCHIVE_REELS: Readonly<Record<string, ArchiveReel>> = Object.freez
   // The N8N x Blibli out-of-home film at SCBD. Square, so it holds a column without the
   // height a 9:16 clip forces on the row.
   '01': {
-    wide: '/video/n8n-ooh-900.mp4',
-    narrow: '/video/n8n-ooh-560.mp4',
-    poster: '/video/n8n-ooh-poster.jpg',
+    wide: asset('/video/n8n-ooh-900.mp4'),
+    narrow: asset('/video/n8n-ooh-560.mp4'),
+    poster: asset('/video/n8n-ooh-poster.jpg'),
     width: 900,
     height: 900,
   },
@@ -36,9 +37,9 @@ export const ARCHIVE_REELS: Readonly<Record<string, ArchiveReel>> = Object.freez
  * studio shows its production work rather than a client's campaign.
  */
 export const CREATIVE_LAB_REEL: ArchiveReel = {
-  wide: '/video/n8n-720.mp4',
-  narrow: '/video/n8n-480.mp4',
-  poster: '/video/n8n-poster.jpg',
+  wide: asset('/video/n8n-720.mp4'),
+  narrow: asset('/video/n8n-480.mp4'),
+  poster: asset('/video/n8n-poster.jpg'),
   width: 720,
   height: 1280,
 };

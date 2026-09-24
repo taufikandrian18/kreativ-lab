@@ -1,3 +1,4 @@
+import { asset } from '@/lib/asset';
 import { Grain } from '@/components/motion/Grain';
 import { Parallax } from '@/components/motion/Parallax';
 import { SlideIn } from '@/components/motion/SlideIn';
@@ -101,7 +102,7 @@ export function Manifesto() {
               {/* The KREATE LIVE halftone, cropped off the right of deck page 02 so it can
                   hold its own column instead of riding along inside the whole page. */}
               <img
-                src="/panels/manifesto.webp"
+                src={asset('/panels/manifesto.webp')}
                 alt=""
                 width={957}
                 height={1358}

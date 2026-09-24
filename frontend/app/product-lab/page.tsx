@@ -1,3 +1,4 @@
+import { asset } from '@/lib/asset';
 import { Parallax } from '@/components/motion/Parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { CapabilityList, type CapabilityGroup } from '@/components/sections/CapabilityList';
@@ -59,7 +60,7 @@ export default function ProductLab() {
           <div className="col-span-12 sm:col-span-8 sm:col-start-3 lg:col-span-5 lg:col-start-8">
             <Parallax speed={PARALLAX_SPEEDS.figure}>
               <img
-                src="/panels/product-lab.webp"
+                src={asset('/panels/product-lab.webp')}
                 alt="Product Lab process: sewing, pattern drafting, and keyring, pouch and cap prototypes"
                 width={1024}
                 height={1448}
