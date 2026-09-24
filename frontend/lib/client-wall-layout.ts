@@ -18,12 +18,14 @@ import type { ClientMark } from './client-marks';
 export type MarkSize = 'sm' | 'md' | 'lg';
 export type MarkAlign = 'start' | 'center' | 'end';
 
-export interface PlacedMark extends ClientMark {
+export interface Placement {
   /** Columns out of 12. */
   span: number;
   size: MarkSize;
   align: MarkAlign;
 }
+
+export type PlacedMark<M extends ClientMark = ClientMark> = M & Placement;
 
 /** FNV-1a. Small, stable across runtimes, and good enough to look unplanned. */
 function hash(input: string): number {
@@ -39,12 +41,12 @@ const SPANS = [3, 4, 5, 6] as const;
 const SIZES: MarkSize[] = ['sm', 'md', 'lg'];
 const ALIGNS: MarkAlign[] = ['start', 'center', 'end'];
 
-export function clientWallLayout(marks: readonly ClientMark[]): PlacedMark[] {
+export function clientWallLayout<M extends ClientMark>(marks: readonly M[]): PlacedMark<M>[] {
   // Order first: sort by a hash of the name rather than shuffling in place, so the result
   // depends only on the set of names and not on the order they arrived in.
   const ordered = [...marks].sort((a, b) => hash(a.name) - hash(b.name));
 
-  const placed: PlacedMark[] = [];
+  const placed: PlacedMark<M>[] = [];
   let used = 0;
 
   for (const mark of ordered) {

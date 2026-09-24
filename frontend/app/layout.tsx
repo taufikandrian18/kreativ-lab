@@ -18,11 +18,33 @@ import "./globals.css";
 import { SiteHeader } from "@/components/chrome/SiteHeader";
 import { SiteFooter } from "@/components/chrome/SiteFooter";
 import { MotionProvider } from "@/components/motion/MotionProvider";
+import { cmsImage } from "@/lib/cms-image";
+import { getSiteSetting } from "@/lib/contract";
+import { sitePage } from "@/lib/site-content";
 
-export const metadata: Metadata = {
-  title: "Kreative Studio Lab",
-  description: "Clean in form. Sharp in function.",
-};
+// Title and description are edited under Site Pages → Global; the share image is the
+// Open Graph image under Site Settings. Social networks need an absolute image URL, so the
+// image is only declared when the build knows its public origin (NEXT_PUBLIC_SITE_ORIGIN,
+// set by the deploy workflow).
+export function generateMetadata(): Metadata {
+  const global = sitePage("global");
+  const og = cmsImage(getSiteSetting()?.og_image);
+  const origin = process.env.NEXT_PUBLIC_SITE_ORIGIN?.replace(/\/+$/, "");
+  const title = global.text("site_title");
+  const description = global.text("site_description");
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      ...(og && origin
+        ? { images: [{ url: `${origin}${og.src}`, width: og.width, height: og.height }] }
+        : {}),
+    },
+  };
+}
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (

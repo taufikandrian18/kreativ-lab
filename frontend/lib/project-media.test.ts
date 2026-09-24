@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import type { ArchiveProject } from './contract';
-import { projectGallery, projectOpener } from './project-media';
+import { projectGallery, projectOpener, projectReel, uploadedReel } from './project-media';
 
 function project(overrides: Partial<ArchiveProject>): ArchiveProject {
   return {
@@ -38,5 +38,33 @@ describe('project imagery', () => {
     const p = project({ archive_no: '07', title: 'New Client' });
     expect(projectOpener(p)).toBeNull();
     expect(projectGallery(p)).toEqual([]);
+  });
+});
+
+describe('reels', () => {
+  const poster = { url: '/cms/p-900.webp', alt: '', width: 900, height: 900 };
+  const file = (url: string | null) => ({ url, mime: url ? 'video/mp4' : null });
+
+  it('keeps the reel cut from studio footage while nothing is uploaded', () => {
+    expect(projectReel(project({}))?.wide).toBe('/video/n8n-ooh-900.mp4');
+    expect(projectReel(project({ archive_no: '02', title: 'DRX Wear' }))).toBeUndefined();
+  });
+
+  it('uses an uploaded reel, sized by its poster, with the desktop cut on phones if needed', () => {
+    const p = project({
+      archive_no: '07',
+      reel: { wide: file('/cms/w.mp4'), narrow: file(null), poster },
+    });
+    expect(projectReel(p)).toEqual({
+      wide: '/cms/w.mp4',
+      narrow: '/cms/w.mp4',
+      poster: '/cms/p-900.webp',
+      width: 900,
+      height: 900,
+    });
+  });
+
+  it('shows no uploaded reel without a poster', () => {
+    expect(uploadedReel('/cms/w.mp4', null, null)).toBeNull();
   });
 });

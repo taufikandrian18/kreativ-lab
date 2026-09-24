@@ -1,41 +1,23 @@
 import { asset } from '@/lib/asset';
 import { Parallax } from '@/components/motion/Parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
-import { CapabilityList, type CapabilityGroup } from '@/components/sections/CapabilityList';
+import { CapabilityList } from '@/components/sections/CapabilityList';
+import { Accented } from '@/components/type/Accented';
+import { uploadedReel } from '@/lib/project-media';
+import { sitePage } from '@/lib/site-content';
 import { CaseStudyReel } from '@/components/sections/CaseStudyReel';
 import { CREATIVE_LAB_REEL } from '@/lib/archive-reels';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
 
-// Transcribed verbatim from assets/web/page-06-1920.webp on 2026-09-19. The mapping
-// document had this list as "Creative Direction, Photography, Film, etc." — these are
-// the twelve the deck actually names.
-const BODY = [
-  'Powerful products deserve meaningful stories. Through Creative Lab, we transform products into visual experiences that strengthen brand perception and create emotional connections.',
-  'From creative direction to campaign execution, we produce visual content that communicates not only what a product is, but why it matters.',
-  'Because every product deserves a story worth remembering.',
-] as const;
-
-const CAPABILITIES: readonly CapabilityGroup[] = [
-  {
-    name: '',
-    items: [
-      'Creative Direction',
-      'Product Photography',
-      'Campaign Photography',
-      'Editorial',
-      'Lookbook',
-      'Lifestyle Photography',
-      'Brand Film',
-      'Video Campaign',
-      'TV Commercial',
-      'Motion Graphics',
-      'Content Production',
-      'Social Media Assets',
-    ],
-  },
-];
-
+// Edited under Site Pages → Creative Lab. The defaults are page 06 of the deck,
+// transcribed verbatim on 2026-09-19 — the twelve capabilities the deck actually names.
 export default function CreativeLab() {
+  const page = sitePage('creative_lab');
+  const reel =
+    uploadedReel(page.file('cl_reel_wide'), page.file('cl_reel_narrow'), page.image('cl_reel_poster')) ??
+    CREATIVE_LAB_REEL;
+  const strip = page.image('cl_strip_image');
+
   return (
     <main>
       <section className="bg-k-paper text-k-black">
@@ -45,11 +27,11 @@ export default function CreativeLab() {
         <div className="section-shell grid grid-cols-12 items-start gap-x-4 gap-y-12 sm:gap-x-8 lg:gap-x-12">
           <div className="col-span-12 lg:col-span-6">
             <MaskReveal as="h1" className="display-type">
-              CREATIVE <span className="text-k-red">LAB</span>
+              <Accented text={page.text('cl_heading')} />
             </MaskReveal>
-            <p className="type-subhead mt-8">Where Products Become Stories</p>
+            <p className="type-subhead mt-8">{page.text('cl_subhead')}</p>
             <div className="mt-8 max-w-[46ch]">
-              {BODY.map((paragraph) => (
+              {page.lines('cl_body').map((paragraph) => (
                 <p key={paragraph.slice(0, 24)} className="font-body mt-4 text-base leading-relaxed">
                   {paragraph}
                 </p>
@@ -58,13 +40,15 @@ export default function CreativeLab() {
           </div>
 
           <div className="col-span-12 sm:col-span-8 sm:col-start-3 lg:col-span-5 lg:col-start-8">
-            <CaseStudyReel reel={CREATIVE_LAB_REEL} client="Creative Lab" />
+            <CaseStudyReel reel={reel} client="Creative Lab" />
           </div>
 
           <div className="col-span-12 mt-8">
-            <h2 className="font-body text-xs tracking-[0.3em] uppercase">Capabilities</h2>
+            <h2 className="font-body text-xs tracking-[0.3em] uppercase">
+              {page.text('cl_capabilities_label')}
+            </h2>
             <div className="mt-6">
-              <CapabilityList groups={CAPABILITIES} columns />
+              <CapabilityList groups={page.groups('cl_capabilities')} columns />
             </div>
           </div>
         </div>
@@ -73,10 +57,12 @@ export default function CreativeLab() {
             and run edge to edge — the one bleed this route takes. */}
         <Parallax speed={PARALLAX_SPEEDS.figure} className="mt-4">
           <img
-            src={asset('/panels/creative-lab-strip.webp')}
-            alt="Creative Lab on set: mood boards, camera rigs, and the lit studio floor"
-            width={2048}
-            height={398}
+            src={strip?.src ?? asset('/panels/creative-lab-strip.webp')}
+            srcSet={strip?.srcSet}
+            sizes={strip?.srcSet ? '100vw' : undefined}
+            alt={page.text('cl_strip_alt')}
+            width={strip?.width ?? 2048}
+            height={strip?.height ?? 398}
             loading="lazy"
             decoding="async"
             className="h-auto w-full"

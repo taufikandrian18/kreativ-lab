@@ -6,7 +6,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import sharp from 'sharp';
-import { collectImages, main, slugify as scriptSlugify, validateContent } from './fetch-cms.mjs';
+import { collectMedia, main, slugify as scriptSlugify, validateContent } from './fetch-cms.mjs';
 import { slugify } from '@/lib/slugify';
 
 function project(overrides: Record<string, unknown> = {}) {
@@ -44,6 +44,15 @@ describe('fetch-cms validation', () => {
     expect(() => validateContent(content([]))).toThrow(/empty archive/);
   });
 
+  it('refuses a reel without a poster, which is what reduced-motion visitors see', () => {
+    const reel = {
+      wide: { url: 'https://cms.example/r.mp4', mime: 'video/mp4' },
+      narrow: { url: null, mime: null },
+      poster: { url: null, alt: null },
+    };
+    expect(() => validateContent(content([project({ reel })]))).toThrow(/reel poster/);
+  });
+
   it('reports every problem at once, including two titles on one URL', () => {
     const bad = content([
       project({ title: 'Same Name' }),
@@ -61,10 +70,25 @@ describe('fetch-cms validation', () => {
     expect(message).toMatch(/lab must be one of/);
   });
 
-  it('collects only images that have a URL', () => {
+  it('collects every upload that has a URL, images and files alike, however deep', () => {
     const img = { url: 'https://cms.example/a.jpg', alt: null };
     const c = content([project({ hero_image: img, gallery: [img, { url: null, alt: null }] })]);
-    expect(collectImages(c)).toHaveLength(2);
+    const withPages = {
+      ...c,
+      site_pages: [
+        {
+          key: 'home',
+          fields: {
+            hero_headline: 'X',
+            hero_poster: { url: 'https://cms.example/p.jpg', alt: '', width: 1, height: 1 },
+            hero_video_wide: { url: 'https://cms.example/v.mp4', mime: 'video/mp4' },
+            hero_video_narrow: { url: null, mime: null },
+          },
+        },
+      ],
+    };
+    expect(collectMedia(c)).toHaveLength(2);
+    expect(collectMedia(withPages)).toHaveLength(4);
   });
 });
 
@@ -89,6 +113,10 @@ describe('fetch-cms against a WordPress stand-in', () => {
         res.writeHead(200, { 'Content-Type': 'image/jpeg' }).end(photo);
         return;
       }
+      if (url.pathname === '/uploads/reel.mp4') {
+        res.writeHead(200, { 'Content-Type': 'video/mp4' }).end(Buffer.from('not really a video'));
+        return;
+      }
       if (url.pathname !== '/') {
         res.writeHead(404).end();
         return;
@@ -111,6 +139,19 @@ describe('fetch-cms against a WordPress stand-in', () => {
         );
       } else if (route === '/wp/v2/client-logos') {
         send([{ id: 3, ksl_logo: { name: 'Deus', logo: { url: null, alt: null }, order: 1 } }]);
+      } else if (route === '/wp/v2/site-pages') {
+        send([
+          {
+            id: 5,
+            ksl_page: {
+              key: 'home',
+              fields: {
+                hero_headline: 'FROM THE CMS',
+                hero_video_wide: { url: `${base}/uploads/reel.mp4`, mime: 'video/mp4' },
+              },
+            },
+          },
+        ]);
       } else if (route === '/wp/v2/site-settings') {
         send([{ id: 4, ksl_site_setting: { email: 'hi@studio.example' } }]);
       } else {
@@ -146,6 +187,18 @@ describe('fetch-cms against a WordPress stand-in', () => {
     for (const v of hero.variants) {
       expect(existsSync(join(mediaDir, v.url.replace('/cms/', '')))).toBe(true);
     }
+  });
+
+  it('carries the Site Pages through and copies videos byte for byte', async () => {
+    process.env.KSL_CMS_URL = base;
+    await run();
+    const written = JSON.parse(readFileSync(dataFile, 'utf-8'));
+    const home = written.site_pages[0].fields;
+    expect(home.hero_headline).toBe('FROM THE CMS');
+    expect(home.hero_video_wide.url).toMatch(/^\/cms\/[0-9a-f]{12}\.mp4$/);
+    expect(readFileSync(join(mediaDir, home.hero_video_wide.url.replace('/cms/', '')), 'utf-8')).toBe(
+      'not really a video'
+    );
   });
 
   it('fails instead of writing anything when the plugin is not answering', async () => {

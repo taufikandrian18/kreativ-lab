@@ -15,7 +15,24 @@
         "height": null
       },
       "gallery": [],
-      "accent_color": null
+      "accent_color": null,
+      "featured": false,
+      "reel": {
+        "wide": {
+          "url": null,
+          "mime": null
+        },
+        "narrow": {
+          "url": null,
+          "mime": null
+        },
+        "poster": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        }
+      }
     },
     {
       "archive_no": "05",
@@ -32,7 +49,24 @@
         "height": null
       },
       "gallery": [],
-      "accent_color": null
+      "accent_color": null,
+      "featured": false,
+      "reel": {
+        "wide": {
+          "url": null,
+          "mime": null
+        },
+        "narrow": {
+          "url": null,
+          "mime": null
+        },
+        "poster": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        }
+      }
     },
     {
       "archive_no": "04",
@@ -49,7 +83,24 @@
         "height": null
       },
       "gallery": [],
-      "accent_color": null
+      "accent_color": null,
+      "featured": false,
+      "reel": {
+        "wide": {
+          "url": null,
+          "mime": null
+        },
+        "narrow": {
+          "url": null,
+          "mime": null
+        },
+        "poster": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        }
+      }
     },
     {
       "archive_no": "03",
@@ -66,7 +117,24 @@
         "height": null
       },
       "gallery": [],
-      "accent_color": null
+      "accent_color": null,
+      "featured": true,
+      "reel": {
+        "wide": {
+          "url": null,
+          "mime": null
+        },
+        "narrow": {
+          "url": null,
+          "mime": null
+        },
+        "poster": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        }
+      }
     },
     {
       "archive_no": "02",
@@ -83,7 +151,24 @@
         "height": null
       },
       "gallery": [],
-      "accent_color": null
+      "accent_color": null,
+      "featured": true,
+      "reel": {
+        "wide": {
+          "url": null,
+          "mime": null
+        },
+        "narrow": {
+          "url": null,
+          "mime": null
+        },
+        "poster": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        }
+      }
     },
     {
       "archive_no": "01",
@@ -100,10 +185,37 @@
         "height": null
       },
       "gallery": [],
-      "accent_color": null
+      "accent_color": null,
+      "featured": true,
+      "reel": {
+        "wide": {
+          "url": null,
+          "mime": null
+        },
+        "narrow": {
+          "url": null,
+          "mime": null
+        },
+        "poster": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        }
+      }
     }
   ],
   "client_logos": [
+    {
+      "name": "Nippon Paint",
+      "logo": {
+        "url": null,
+        "alt": null,
+        "width": null,
+        "height": null
+      },
+      "order": 25
+    },
     {
       "name": "Grand Hyatt",
       "logo": {
@@ -357,6 +469,291 @@
         "alt": null,
         "width": null,
         "height": null
+      }
+    }
+  ],
+  "site_pages": [
+    {
+      "key": "global",
+      "fields": {
+        "wordmark": "K STUDIOLAB",
+        "nav_about": "About",
+        "nav_product_lab": "Product Lab",
+        "nav_creative_lab": "Creative Lab",
+        "nav_archive": "Archive",
+        "nav_contact": "Contact",
+        "site_title": "Kreative Studio Lab",
+        "site_description": "Clean in form. Sharp in function."
+      }
+    },
+    {
+      "key": "home",
+      "fields": {
+        "hero_headline": "CLEAN IN FORM. SHARP IN FUNCTION.",
+        "hero_marquee": "KREATE LIVE",
+        "hero_video_wide": {
+          "url": null,
+          "mime": null
+        },
+        "hero_video_narrow": {
+          "url": null,
+          "mime": null
+        },
+        "hero_poster": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "hero_still": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "hero_video_label": "Kreative Studio Lab showreel",
+        "manifesto_heading": "KREATE *LIVE* STUDIO LAB",
+        "manifesto_opening": "More than creativity. Ideas are everywhere.",
+        "manifesto_body": [
+          "What makes them valuable is how they are explored, developed, crafted, and experienced.",
+          "At KREATIVE STUDIO LAB, we believe creativity doesn't end with making something beautiful."
+        ],
+        "manifesto_steps": [
+          {
+            "first": "It begins",
+            "second": "with understanding."
+          },
+          {
+            "first": "It grows",
+            "second": "through experimentation."
+          },
+          {
+            "first": "It comes to life",
+            "second": "through craftsmanship."
+          },
+          {
+            "first": "And it becomes meaningful",
+            "second": "when people experience it."
+          }
+        ],
+        "manifesto_every_label": "Every",
+        "manifesto_every": [
+          "product",
+          "detail",
+          "story",
+          "experience"
+        ],
+        "manifesto_lead": "Because we don't simply create.",
+        "manifesto_closing": "We Create *Live.*",
+        "manifesto_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "who_heading": "WHO WE ARE",
+        "pillar_1_word": "THINK",
+        "pillar_1_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "pillar_2_word": "DESIGN",
+        "pillar_2_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "pillar_3_word": "CRAFT",
+        "pillar_3_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "pillar_4_word": "EXPERIENCE",
+        "pillar_4_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "labs_heading": "One Studio. Two Labs.",
+        "labs_subhead": "Different disciplines. One creative ecosystem.",
+        "labs_product": "PRODUCT LAB",
+        "labs_creative": "CREATIVE LAB",
+        "teaser_heading": "LAB ARCHIVE",
+        "teaser_link": "View the full archive",
+        "clients_heading": "OUR CLIENT",
+        "closing_statement": "LET'S *CREATE* SOMETHING THAT *LIVES.*",
+        "closing_link": "Start a project"
+      }
+    },
+    {
+      "key": "about",
+      "fields": {
+        "about_heading": "WHO WE ARE",
+        "about_body": [
+          "KREATIVE STUDIO LAB is a Creative Production Studio specializing in Product Development and Creative Production.",
+          "We collaborate with brands, corporations, organizations, and communities to develop products, visual content, and brand experiences that create meaningful connections. By combining strategic thinking, creative exploration, and production expertise, we transform ideas into tangible experiences from the first concept to the final execution.",
+          "We don't separate creativity from production. We believe they belong together."
+        ],
+        "about_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "about_image_alt": "Studio portrait: a sewing machine foot in high-contrast halftone, and the four pillars as photographic cards — think, design, craft, experience",
+        "about_pillars": [
+          "THINK",
+          "DESIGN",
+          "CRAFT",
+          "EXPERIENCE"
+        ]
+      }
+    },
+    {
+      "key": "product_lab",
+      "fields": {
+        "pl_heading": "PRODUCT *LAB*",
+        "pl_subhead": "Where Ideas Become Products.",
+        "pl_body": [
+          "We transform ideas into products that embody a brand's identity and purpose. From material exploration and design development to prototyping, production, and final finishing, every stage is approached with precision and intention.",
+          "We believe exceptional products are created through thoughtful craftsmanship, meticulous attention to detail, and a commitment to quality."
+        ],
+        "pl_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "pl_image_alt": "Product Lab process: sewing, pattern drafting, and keyring, pouch and cap prototypes",
+        "pl_capabilities_label": "Capabilities",
+        "pl_capabilities": [
+          {
+            "name": "Print & Packaging",
+            "items": [
+              "Packaging Design & Production",
+              "Premium Gift Sets",
+              "Printing Production",
+              "Publications"
+            ]
+          },
+          {
+            "name": "Brand Products",
+            "items": [
+              "Brand Merchandise",
+              "Corporate Merchandise",
+              "Event Merchandise",
+              "Apparel Development",
+              "Uniform Development"
+            ]
+          },
+          {
+            "name": "Spatial Experience",
+            "items": [
+              "Retail Display",
+              "Exhibition Production"
+            ]
+          },
+          {
+            "name": "Custom Solutions",
+            "items": [
+              "Custom Product Development"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "key": "creative_lab",
+      "fields": {
+        "cl_heading": "CREATIVE *LAB*",
+        "cl_subhead": "Where Products Become Stories",
+        "cl_body": [
+          "Powerful products deserve meaningful stories. Through Creative Lab, we transform products into visual experiences that strengthen brand perception and create emotional connections.",
+          "From creative direction to campaign execution, we produce visual content that communicates not only what a product is, but why it matters.",
+          "Because every product deserves a story worth remembering."
+        ],
+        "cl_reel_wide": {
+          "url": null,
+          "mime": null
+        },
+        "cl_reel_narrow": {
+          "url": null,
+          "mime": null
+        },
+        "cl_reel_poster": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "cl_capabilities_label": "Capabilities",
+        "cl_capabilities": [
+          {
+            "name": "",
+            "items": [
+              "Creative Direction",
+              "Product Photography",
+              "Campaign Photography",
+              "Editorial",
+              "Lookbook",
+              "Lifestyle Photography",
+              "Brand Film",
+              "Video Campaign",
+              "TV Commercial",
+              "Motion Graphics",
+              "Content Production",
+              "Social Media Assets"
+            ]
+          }
+        ],
+        "cl_strip_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "cl_strip_alt": "Creative Lab on set: mood boards, camera rigs, and the lit studio floor"
+      }
+    },
+    {
+      "key": "archive",
+      "fields": {
+        "archive_heading": "LAB ARCHIVE",
+        "archive_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "archive_image_alt": "Every great outcome starts with a thoughtful process."
+      }
+    },
+    {
+      "key": "contact",
+      "fields": {
+        "contact_heading": "LET'S *TALK*",
+        "contact_image": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        }
+      }
+    },
+    {
+      "key": "not_found",
+      "fields": {
+        "nf_code": "404",
+        "nf_heading": "NOT FOUND",
+        "nf_body": "That page is not in the lab. It may have moved, or the link may be wrong.",
+        "nf_home_link": "Back home",
+        "nf_archive_link": "Lab archive"
       }
     }
   ]

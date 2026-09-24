@@ -1,19 +1,15 @@
 import Link from 'next/link';
-
-const NAV = [
-  { name: 'About', href: '/about' },
-  { name: 'Product Lab', href: '/product-lab' },
-  { name: 'Creative Lab', href: '/creative-lab' },
-  { name: 'Archive', href: '/archive' },
-  { name: 'Contact', href: '/contact' },
-] as const;
+import { siteNav } from '@/lib/site-nav';
+import { sitePage } from '@/lib/site-content';
 
 export function SiteHeader() {
+  const wordmark = sitePage('global').text('wordmark');
+
   return (
     <header className="fixed top-0 right-0 left-0 z-50 mix-blend-difference">
       <div className="shell-inline flex flex-wrap items-center justify-between gap-x-6 gap-y-1 py-3">
         <Link href="/" className="font-display text-k-paper text-xl tracking-tight">
-          K STUDIOLAB
+          {wordmark}
         </Link>
         {/* Spec §7: mobile is the priority surface. Five uppercase links plus the
             wordmark overflow 375px, and because the header is fixed the overflow clips
@@ -22,7 +18,7 @@ export function SiteHeader() {
             its 12px text. */}
         <nav aria-label="Primary">
           <ul className="flex flex-wrap gap-x-4 gap-y-0 sm:gap-x-8">
-            {NAV.map((item) => (
+            {siteNav().map((item) => (
               <li key={item.href}>
                 <Link
                   href={item.href}

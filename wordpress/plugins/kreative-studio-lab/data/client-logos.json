@@ -22,5 +22,6 @@
   { "name": "Kominfo", "order": 21 },
   { "name": "Kemenpora", "order": 22 },
   { "name": "Sampoerna", "order": 23 },
-  { "name": "Grand Hyatt", "order": 24 }
+  { "name": "Grand Hyatt", "order": 24 },
+  { "name": "Nippon Paint", "order": 25 }
 ]

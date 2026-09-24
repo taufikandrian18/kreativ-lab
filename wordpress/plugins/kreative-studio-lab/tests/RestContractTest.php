@@ -41,6 +41,12 @@ class Test_REST_Contract extends TestCase {
             'hero_image'   => [ 'url' => 'https://example.test/hero.jpg', 'alt' => 'N8N hero', 'width' => 1600, 'height' => 1000 ],
             'gallery'      => [ [ 'url' => 'https://example.test/g1.jpg', 'alt' => 'Gallery 1', 'width' => 800, 'height' => 1200 ] ],
             'accent_color' => '#1c3fd6',
+            'featured'     => false,
+            'reel'         => [
+                'wide'   => [ 'url' => null, 'mime' => null ],
+                'narrow' => [ 'url' => null, 'mime' => null ],
+                'poster' => [ 'url' => null, 'alt' => null, 'width' => null, 'height' => null ],
+            ],
         ], $shaped );
     }
 
@@ -111,6 +117,26 @@ class Test_REST_Contract extends TestCase {
             [ 'url' => null, 'alt' => null, 'width' => null, 'height' => null ],
             KSL_REST_Contract::shape_image( false )
         );
+    }
+
+    public function test_shape_archive_project_carries_featured_flag_and_reel() {
+        $raw = [
+            'archive_no' => '07', 'client' => 'C', 'industry' => 'I', 'year_range' => '2026',
+            'scope' => '', 'lab' => 'creative', 'hero_image' => false, 'gallery' => [],
+            'accent_color' => null,
+            // ACF true_false comes back as 1/0, not a boolean.
+            'featured'     => 1,
+            'reel_wide'    => [ 'url' => 'https://example.test/w.mp4', 'mime_type' => 'video/mp4', 'filesize' => 9 ],
+            'reel_narrow'  => false,
+            'reel_poster'  => [ 'url' => 'https://example.test/p.jpg', 'alt' => '', 'width' => 900, 'height' => 900 ],
+        ];
+
+        $shaped = KSL_REST_Contract::shape_archive_project( $raw, 'New Client' );
+
+        $this->assertTrue( $shaped['featured'] );
+        $this->assertSame( [ 'url' => 'https://example.test/w.mp4', 'mime' => 'video/mp4' ], $shaped['reel']['wide'] );
+        $this->assertSame( [ 'url' => null, 'mime' => null ], $shaped['reel']['narrow'] );
+        $this->assertSame( 900, $shaped['reel']['poster']['width'] );
     }
 
     public function test_register_attaches_rest_field_to_all_three_post_types() {

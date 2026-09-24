@@ -63,14 +63,18 @@ Use a long, unique admin password, because the login page is on the public inter
 2. From your Mac: `./scripts/deploy-cms-plugin.sh`, then activate **Kreative Studio Lab
    Content**. Re-run the script whenever `wordpress/plugins/kreative-studio-lab` changes.
 
-### 5. Seed the existing content (optional)
+### 5. Seed the existing content
 
-This creates the six case studies, the client logos and an empty contact-details entry,
-matching what the site shows today:
+This creates the six case studies, the client logos, an empty contact-details entry and
+the **Site Pages** (every other editable section, prefilled with today's copy):
 
 ```sh
 cd /opt/kreative-lab-cms && docker compose run --rm ksl-cli wp ksl seed
 ```
+
+The seed is safe to run again at any time. It only creates what is missing and only
+fills empty fields, so it never overwrites an editor's work. Re-run it after every plugin
+update that adds editable fields.
 
 Then fill in **Site Settings** (phone, email, address). Until you do, `/contact` keeps
 showing the numbers transcribed from the deck.
@@ -130,23 +134,55 @@ docker compose up -d
 
 Publish any change in WordPress and watch **Actions** start a run.
 
+## Updating the plugin
+
+After a plugin change is merged (this repository's `wordpress/plugins/kreative-studio-lab`):
+
+```sh
+./scripts/deploy-cms-plugin.sh                                    # on your Mac
+cd /opt/kreative-lab-cms && sudo docker compose run --rm ksl-cli wp ksl seed   # on the VPS
+```
+
+Then save any page in WordPress, or press **Run workflow**, to deploy. Until the plugin
+is updated, deploys still work: a Site Pages collection the server does not have yet is
+treated as empty, and the site shows its current copy.
+
+## Locking down the rest of the VPS
+
+The VPS also runs other projects, and some of them publish internal services on every
+network interface (`0.0.0.0`): Redis `6379`, Postgres `5433`, Celery Flower `5555`, Svix
+`8071`, and Portainer `8000`/`9443`. Redis and Flower have no password by default. Only
+Tencent Cloud's firewall stands between them and the internet, and Docker-published
+ports bypass `ufw`.
+
+1. **Now:** in the Tencent Cloud console, go to the instance's **Firewall** and make
+   sure only **22, 80 and 443** are open to `0.0.0.0/0`. Remove any rule allowing all
+   ports.
+2. **Properly:** in each project's `docker-compose.yml`, publish those ports on
+   loopback only, then `sudo docker compose up -d`:
+   ```yaml
+   ports:
+     - "127.0.0.1:6379:6379"   # was "6379:6379"
+   ```
+   Services that only other containers need (Redis, Postgres, Svix) need no `ports:`
+   entry at all. Reach Portainer or Flower from your Mac through an SSH tunnel instead:
+   `ssh -L 9443:127.0.0.1:9443 ubuntu@<VPS IP>`, then open `https://localhost:9443`.
+3. **Check:** from your Mac, `nc -zv <VPS IP> 6379` should say *refused* or time out.
+
 ## Things to know
 
-- **The token expires.** When it does, publishing still works in WordPress but nothing
-  deploys, and nothing warns you. Replace it in `.env` before the expiry date. As a
-  stopgap, **Run workflow** in the Actions tab deploys the current content by hand.
+- **If the token is revoked or deleted**, publishing still works in WordPress but nothing
+  deploys, and nothing warns you. The current token is set to never expire. **Run
+  workflow** in the Actions tab deploys the current content by hand.
 - **The token can write to the repository.** Anyone who takes over the WordPress admin
   can read it from the server. Keep WordPress and its plugins updated, and keep the
   plugin count low.
 - **Images are resized at build time.** Editors can upload full-size photographs. The
   build turns each into 480/960/1600px WebP files in `public/cms/`.
-- **What is editable:** case studies (text, scope, hero image, gallery, adding new
-  ones) and contact details. **Client logos are not wired up yet**: the logo wall still
-  uses the marks cut from the deck, so editing logo entries in WordPress changes
-  nothing. Page copy, the Lab capability lists and the homepage sections are still in
-  the code.
-- **The homepage teaser shows archive entries 01–03**, the lowest numbers, not the
-  newest. A new case study appears on `/archive`, not on the homepage.
+- **What is editable:** every section of every page, the menu labels, SEO title and
+  description, case studies, client logos and contact details. See
+  [`docs/editing-content.md`](../docs/editing-content.md) for the editor's guide. What
+  stays in code: the layout, the motion, the colours and the list of pages.
 - **Rollback:** the previous build is kept at `/var/www/kreativ-lab.prev`. Swap the two
   directories to go back one deploy.
 - **Manual deploy** from a Mac still works: `./scripts/deploy-vps.sh`. Set

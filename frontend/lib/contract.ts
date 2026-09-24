@@ -35,6 +35,12 @@ export interface ContractImage {
   variants?: { url: string; width: number }[];
 }
 
+/** A video or other non-image upload; localised by fetch-cms.mjs like images are. */
+export interface ContractFile {
+  url: string | null;
+  mime: string | null;
+}
+
 export interface ArchiveProject {
   archive_no: string;
   title: string;
@@ -46,6 +52,9 @@ export interface ArchiveProject {
   hero_image: ContractImage;
   gallery: ContractImage[];
   accent_color: string | null;
+  /** Ticked "Show on homepage". Absent in content from before the field existed. */
+  featured?: boolean;
+  reel?: { wide: ContractFile; narrow: ContractFile; poster: ContractImage };
 }
 
 export interface ClientLogo {
@@ -71,6 +80,23 @@ export function getArchiveProjects(): ArchiveProject[] {
 
 export function getArchiveProject(slug: string): ArchiveProject | undefined {
   return getArchiveProjects().find((p) => slugify(p.title) === slug);
+}
+
+/**
+ * The case studies the homepage previews: the ones ticked "Show on homepage", up to
+ * three, in archive order — then, if fewer than three are ticked, the newest of the rest.
+ * A study added in WordPress therefore reaches the homepage without anyone remembering to
+ * tick it, and an editor who does tick three gets exactly those three.
+ */
+export function getHomepageProjects(limit = 3): ArchiveProject[] {
+  return pickHomepageProjects(getArchiveProjects(), limit);
+}
+
+/** `all` sorted by archive number, as getArchiveProjects() returns it. */
+export function pickHomepageProjects(all: ArchiveProject[], limit = 3): ArchiveProject[] {
+  const featured = all.filter((p) => p.featured).slice(0, limit);
+  const newest = all.filter((p) => !p.featured).reverse();
+  return [...featured, ...newest.slice(0, limit - featured.length)];
 }
 
 export function getClientLogos(): ClientLogo[] {
