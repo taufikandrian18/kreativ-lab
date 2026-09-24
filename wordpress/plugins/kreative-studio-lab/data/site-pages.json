@@ -127,27 +127,39 @@
               "label": "Heading",
               "type": "text",
               "default": "IDEAS ARE EVERYWHERE. WE MAKE THEM *REAL.*",
-              "instructions": "Wrap words in *stars* to set them in red."
+              "instructions": "Wrap words in *stars* to set them in red.",
+              "was": [
+                "KREATE *LIVE* STUDIO LAB"
+              ]
             },
             {
               "name": "manifesto_opening",
               "label": "Opening line",
               "type": "text",
-              "default": "We build products people keep and stories people remember."
+              "default": "We build products people keep and stories people remember.",
+              "was": [
+                "More than creativity. Ideas are everywhere."
+              ]
             },
             {
               "name": "manifesto_body",
               "label": "Body",
               "type": "lines",
               "default": "Having the idea is the easy part. Exploring it, building it and putting it in people's hands — that's the work, and it's the part we love.\nBeautiful is where we start, not where we stop.",
-              "instructions": "One paragraph per line."
+              "instructions": "One paragraph per line.",
+              "was": [
+                "What makes them valuable is how they are explored, developed, crafted, and experienced.\nAt KREATIVE STUDIO LAB, we believe creativity doesn't end with making something beautiful."
+              ]
             },
             {
               "name": "manifesto_steps",
               "label": "Steps",
               "type": "pairs",
               "default": "First, we listen | so we know what you actually need.\nThen we play | sketch, test, break things on purpose.\nThen we build it | with care, down to the last stitch.\nAnd then it lives | the moment people pick it up.",
-              "instructions": "One step per line: the large words, then | then the rest."
+              "instructions": "One step per line: the large words, then | then the rest.",
+              "was": [
+                "It begins | with understanding.\nIt grows | through experimentation.\nIt comes to life | through craftsmanship.\nAnd it becomes meaningful | when people experience it."
+              ]
             },
             {
               "name": "manifesto_every_label",
@@ -166,14 +178,20 @@
               "name": "manifesto_lead",
               "label": "Lead-in line",
               "type": "text",
-              "default": "We don't just make things."
+              "default": "We don't just make things.",
+              "was": [
+                "Because we don't simply create."
+              ]
             },
             {
               "name": "manifesto_closing",
               "label": "Closing line",
               "type": "text",
               "default": "We make them *live.*",
-              "instructions": "Wrap words in *stars* to set them in red."
+              "instructions": "Wrap words in *stars* to set them in red.",
+              "was": [
+                "We Create *Live.*"
+              ]
             },
             {
               "name": "manifesto_image",
@@ -190,7 +208,10 @@
               "name": "who_heading",
               "label": "Heading",
               "type": "text",
-              "default": "HOW WE WORK"
+              "default": "HOW WE WORK",
+              "was": [
+                "WHO WE ARE"
+              ]
             },
             {
               "name": "pillar_1_word",
@@ -274,13 +295,19 @@
               "label": "Heading",
               "type": "text",
               "default": "One studio. Two *labs.*",
-              "instructions": "Wrap words in *stars* to set them in red."
+              "instructions": "Wrap words in *stars* to set them in red.",
+              "was": [
+                "One Studio. Two Labs."
+              ]
             },
             {
               "name": "labs_subhead",
               "label": "Subheading",
               "type": "text",
-              "default": "One makes the thing. The other makes people *care* about it."
+              "default": "One makes the thing. The other makes people *care* about it.",
+              "was": [
+                "Different disciplines. One creative ecosystem."
+              ]
             },
             {
               "name": "labs_product",
@@ -305,13 +332,19 @@
               "name": "teaser_heading",
               "label": "Heading",
               "type": "text",
-              "default": "FRESH FROM THE *LAB*"
+              "default": "FRESH FROM THE *LAB*",
+              "was": [
+                "LAB ARCHIVE"
+              ]
             },
             {
               "name": "teaser_link",
               "label": "Link text",
               "type": "text",
-              "default": "See everything we've made"
+              "default": "See everything we've made",
+              "was": [
+                "View the full archive"
+              ]
             },
             {
               "name": "teaser_note",
@@ -328,7 +361,10 @@
               "name": "clients_heading",
               "label": "Heading",
               "type": "text",
-              "default": "IN GOOD *COMPANY*"
+              "default": "IN GOOD *COMPANY*",
+              "was": [
+                "OUR CLIENT"
+              ]
             },
             {
               "name": "clients_note",
@@ -346,13 +382,19 @@
               "label": "Statement",
               "type": "text",
               "default": "GOT AN IDEA? LET'S MAKE IT *LIVE.*",
-              "instructions": "Wrap words in *stars* to set them in red."
+              "instructions": "Wrap words in *stars* to set them in red.",
+              "was": [
+                "LET'S *CREATE* SOMETHING THAT *LIVES.*"
+              ]
             },
             {
               "name": "closing_link",
               "label": "Button text",
               "type": "text",
-              "default": "Tell us about it"
+              "default": "Tell us about it",
+              "was": [
+                "Start a project"
+              ]
             }
           ]
         }
@@ -370,14 +412,20 @@
               "label": "Heading",
               "type": "text",
               "default": "HI, WE'RE *KREATIVE* STUDIO LAB",
-              "instructions": "Wrap words in *stars* to set them in red."
+              "instructions": "Wrap words in *stars* to set them in red.",
+              "was": [
+                "WHO WE ARE"
+              ]
             },
             {
               "name": "about_body",
               "label": "Body",
               "type": "lines",
               "default": "We're a creative production studio. One side of the studio makes products; the other makes the photos, films and campaigns that make people want them.\nWe work with brands, companies, organisations and communities — from the first rough idea to the finished thing on the shelf, the screen or the street.\nMost studios hand the making off to someone else. We don't. Creative and production sit in the same room here, and that's the whole point.",
-              "instructions": "One paragraph per line."
+              "instructions": "One paragraph per line.",
+              "was": [
+                "KREATIVE STUDIO LAB is a Creative Production Studio specializing in Product Development and Creative Production.\nWe collaborate with brands, corporations, organizations, and communities to develop products, visual content, and brand experiences that create meaningful connections. By combining strategic thinking, creative exploration, and production expertise, we transform ideas into tangible experiences from the first concept to the final execution.\nWe don't separate creativity from production. We believe they belong together."
+              ]
             },
             {
               "name": "about_image",
@@ -421,14 +469,20 @@
               "name": "pl_subhead",
               "label": "Subheading",
               "type": "text",
-              "default": "Where ideas turn into things you can hold."
+              "default": "Where ideas turn into things you can hold.",
+              "was": [
+                "Where Ideas Become Products."
+              ]
             },
             {
               "name": "pl_body",
               "label": "Body",
               "type": "lines",
               "default": "Got a product in your head? We'll get it into your hands. Materials, design, samples, production, finishing — we take it the whole way and sweat every stage.\nGood products aren't lucky. They come from patience, obsessive detail and never settling for \"close enough\".",
-              "instructions": "One paragraph per line."
+              "instructions": "One paragraph per line.",
+              "was": [
+                "We transform ideas into products that embody a brand's identity and purpose. From material exploration and design development to prototyping, production, and final finishing, every stage is approached with precision and intention.\nWe believe exceptional products are created through thoughtful craftsmanship, meticulous attention to detail, and a commitment to quality."
+              ]
             },
             {
               "name": "pl_image",
@@ -452,7 +506,10 @@
               "name": "pl_capabilities_label",
               "label": "Label",
               "type": "text",
-              "default": "What we make"
+              "default": "What we make",
+              "was": [
+                "Capabilities"
+              ]
             },
             {
               "name": "pl_capabilities",
@@ -483,14 +540,20 @@
               "name": "cl_subhead",
               "label": "Subheading",
               "type": "text",
-              "default": "Where products get their story."
+              "default": "Where products get their story.",
+              "was": [
+                "Where Products Become Stories"
+              ]
             },
             {
               "name": "cl_body",
               "label": "Body",
               "type": "lines",
               "default": "A great product still needs a reason to care. Creative Lab gives it one — photos, films and campaigns that make people feel something.\nFrom the first idea to the final cut, we show what your product is and, more importantly, why it matters.\nBecause the best products are the ones people remember.",
-              "instructions": "One paragraph per line."
+              "instructions": "One paragraph per line.",
+              "was": [
+                "Powerful products deserve meaningful stories. Through Creative Lab, we transform products into visual experiences that strengthen brand perception and create emotional connections.\nFrom creative direction to campaign execution, we produce visual content that communicates not only what a product is, but why it matters.\nBecause every product deserves a story worth remembering."
+              ]
             }
           ]
         },
@@ -524,7 +587,10 @@
               "name": "cl_capabilities_label",
               "label": "Label",
               "type": "text",
-              "default": "What we do"
+              "default": "What we do",
+              "was": [
+                "Capabilities"
+              ]
             },
             {
               "name": "cl_capabilities",
@@ -634,25 +700,37 @@
               "label": "Heading",
               "type": "text",
               "default": "WELL, THIS IS *AWKWARD*",
-              "instructions": "Wrap words in *stars* to set them in red."
+              "instructions": "Wrap words in *stars* to set them in red.",
+              "was": [
+                "NOT FOUND"
+              ]
             },
             {
               "name": "nf_body",
               "label": "Message",
               "type": "textarea",
-              "default": "This page wandered off, or the link is wrong. Either way, it isn't in the lab."
+              "default": "This page wandered off, or the link is wrong. Either way, it isn't in the lab.",
+              "was": [
+                "That page is not in the lab. It may have moved, or the link may be wrong."
+              ]
             },
             {
               "name": "nf_home_link",
               "label": "Home link text",
               "type": "text",
-              "default": "Take me home"
+              "default": "Take me home",
+              "was": [
+                "Back home"
+              ]
             },
             {
               "name": "nf_archive_link",
               "label": "Archive link text",
               "type": "text",
-              "default": "Browse the archive"
+              "default": "Browse the archive",
+              "was": [
+                "Lab archive"
+              ]
             }
           ]
         }

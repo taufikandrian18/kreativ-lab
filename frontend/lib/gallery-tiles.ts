@@ -47,7 +47,9 @@ export const GALLERY_TILES: Readonly<Record<string, readonly GalleryTile[]>> = O
   '02': [
       { file: asset('/gallery/02-01.webp'), w: 958, h: 1296 },
       { file: asset('/gallery/02-02.webp'), w: 978, h: 1296 },
-      { file: asset('/gallery/02-03.webp'), w: 203, h: 1296 },
+      // 02-03 was removed: a 203px-wide pure-white sliver, the gutter between two deck
+      // spreads cut out as if it were a photograph. It rendered as a tall blank column
+      // beside the DRX campaign shot. tests/gallery-content.test.ts now rejects any flat tile.
       { file: asset('/gallery/02-04.webp'), w: 683, h: 1296 },
       { file: asset('/gallery/02-05.webp'), w: 987, h: 1296 },
   ],

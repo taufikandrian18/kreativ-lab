@@ -1,48 +1,54 @@
 import { Parallax } from '@/components/motion/Parallax';
 import { SlideIn } from '@/components/motion/SlideIn';
 import type { GalleryTile } from '@/lib/gallery-tiles';
+import { justifyRows } from '@/lib/justify-rows';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
 
 /**
- * A case-study gallery composed from the individual pieces of work.
+ * A case-study gallery composed from the individual pieces of work, set in justified
+ * rows (lib/justify-rows.ts): each row fills the width at one height, and each tile keeps
+ * its own proportions by taking a share of the row equal to its aspect ratio. A gallery
+ * of any size and any mix of shapes comes out with no holes.
  *
- * A tile's own proportions decide its column span — a landscape frame earns more width
- * than a portrait one — so the grid is set by the photography rather than imposed on it,
- * and no two studies fall into the same rhythm. Tiles alternate the side they enter from,
- * and each drifts as it passes.
+ * Below 640px every row is a single column, full width: three portraits side by side on
+ * a phone would each be a thumbnail. Tiles alternate the side they enter from, and every
+ * tile in a row drifts at the same speed, so the row stays level as it passes.
  */
-function spanFor(tile: GalleryTile): string {
-  const ratio = tile.w / tile.h;
-  if (ratio > 1.7) return 'col-span-12 lg:col-span-8';
-  if (ratio > 1.15) return 'col-span-12 sm:col-span-6 lg:col-span-7';
-  if (ratio > 0.85) return 'col-span-6 lg:col-span-5';
-  return 'col-span-6 sm:col-span-6 lg:col-span-4';
-}
-
 export function CaseStudyGallery({ tiles, client }: { tiles: readonly GalleryTile[]; client: string }) {
+  let index = 0;
+  const rows = justifyRows(tiles).map((row) => row.map((tile) => ({ tile, index: index++ })));
+
   return (
-    <div className="grid grid-cols-12 items-start gap-4 sm:gap-6 lg:gap-8">
-      {tiles.map((tile, index) => (
-        <SlideIn
-          key={`${index}-${tile.file}`}
-          from={index % 2 === 0 ? 'left' : 'right'}
-          delay={(index % 3) * 0.05}
-          className={spanFor(tile)}
-        >
-          <Parallax speed={PARALLAX_SPEEDS.gallery}>
-            <img
-              src={tile.file}
-              srcSet={tile.srcSet}
-              sizes={tile.srcSet ? '(min-width: 1024px) 60vw, 100vw' : undefined}
-              alt={tile.alt || `${client} — campaign work`}
-              width={tile.w}
-              height={tile.h}
-              loading="lazy"
-              decoding="async"
-              className="h-auto w-full"
-            />
-          </Parallax>
-        </SlideIn>
+    <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8">
+      {rows.map((row, r) => (
+        <div key={r} data-gallery-row className="flex flex-col gap-4 sm:flex-row sm:gap-6 lg:gap-8">
+          {row.map(({ tile, index: i }) => (
+            <SlideIn
+              key={`${i}-${tile.file}`}
+              from={i % 2 === 0 ? 'left' : 'right'}
+              delay={(i % 3) * 0.05}
+              className="min-w-0"
+              // flex-grow by aspect ratio from a zero basis is what gives every tile in
+              // the row the same height. In the phone's column it has no free space to
+              // share, so each tile simply takes its own height.
+              style={{ flex: `${tile.w / tile.h} 1 0%` }}
+            >
+              <Parallax speed={PARALLAX_SPEEDS.gallery}>
+                <img
+                  src={tile.file}
+                  srcSet={tile.srcSet}
+                  sizes={tile.srcSet ? '(min-width: 640px) 50vw, 100vw' : undefined}
+                  alt={tile.alt || `${client} — campaign work`}
+                  width={tile.w}
+                  height={tile.h}
+                  loading="lazy"
+                  decoding="async"
+                  className="block h-auto w-full rounded-[1.1rem]"
+                />
+              </Parallax>
+            </SlideIn>
+          ))}
+        </div>
       ))}
     </div>
   );

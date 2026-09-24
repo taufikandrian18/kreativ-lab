@@ -26,6 +26,7 @@ export function SlideIn({
   delay = 0,
   deal = false,
   className = '',
+  style,
   children,
 }: {
   from: 'left' | 'right';
@@ -33,6 +34,8 @@ export function SlideIn({
   /** Tilted, scroll-scrubbed entrance. `delay` becomes a scroll offset, not a time. */
   deal?: boolean;
   className?: string;
+  /** Layout only (a flex share, say). Never a transform: that belongs to the entrance. */
+  style?: React.CSSProperties;
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -83,7 +86,7 @@ export function SlideIn({
   }, [preference, from, delay, deal]);
 
   return (
-    <div ref={ref} data-slide-in={from} className={className}>
+    <div ref={ref} data-slide-in={from} className={className} style={style}>
       {children}
     </div>
   );

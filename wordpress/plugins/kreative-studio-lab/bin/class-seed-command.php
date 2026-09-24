@@ -10,19 +10,34 @@ if ( ! defined( 'ABSPATH' ) ) {
  * editor left it. Only missing posts are created, and only empty fields are filled. That
  * is what lets a site that was seeded before a new section became editable pick up that
  * section with the same command.
+ *
+ * `wp ksl seed --refresh-copy` also brings untouched copy up to date: a field whose value
+ * is still exactly a previous default (`was` in data/site-pages.json) gets the current
+ * default. A field an editor changed is never overwritten. Each refresh is printed.
  */
 class KSL_Seed_Command {
+    /** @var bool */
+    private static $refresh_copy = false;
+    /** @var int */
+    private static $refreshed = 0;
+
     public static function register(): void {
         WP_CLI::add_command( 'ksl seed', [ __CLASS__, 'seed' ] );
     }
 
-    public static function seed(): void {
+    public static function seed( array $args = [], array $assoc_args = [] ): void {
+        self::$refresh_copy = ! empty( $assoc_args['refresh-copy'] );
         $created = 0;
         $created += self::seed_archive_projects();
         $created += self::seed_client_logos();
         $created += self::seed_site_setting();
         $created += self::seed_site_pages();
-        WP_CLI::success( "Seed complete: {$created} new posts; existing content left as it was." );
+        $refreshed = self::$refreshed;
+        WP_CLI::success(
+            self::$refresh_copy
+                ? "Seed complete: {$created} new posts; {$refreshed} untouched fields brought up to the current copy."
+                : "Seed complete: {$created} new posts; existing content left as it was."
+        );
     }
 
     private static function existing_by_title( string $post_type, string $title ): int {
@@ -142,8 +157,18 @@ class KSL_Seed_Command {
                     continue;
                 }
                 $key = KSL_Site_Pages::field_key( $page['key'], $field['name'] );
-                if ( trim( (string) get_field( $key, $post_id, false ) ) === '' ) {
+                $current = get_field( $key, $post_id, false );
+                if ( trim( (string) $current ) === '' ) {
                     update_field( $key, $field['default'], $post_id );
+                    continue;
+                }
+                if ( self::$refresh_copy ) {
+                    $next = KSL_Site_Pages::refreshed_value( $field, $current );
+                    if ( $next !== null ) {
+                        update_field( $key, $next, $post_id );
+                        self::$refreshed++;
+                        WP_CLI::log( "  refreshed {$page['key']}.{$field['name']}" );
+                    }
                 }
             }
         }
