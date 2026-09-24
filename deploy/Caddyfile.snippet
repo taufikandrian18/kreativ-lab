@@ -1,28 +1,67 @@
-# Kreative Studio Lab behind an existing Caddy, on the bare IP under /kreative-lab/.
+# Kreative Studio Lab on website.taufikandrian.my.id, one path per site:
 #
-# Append this block to the Caddyfile, and mount the web root into the Caddy container:
+#   /kreative-lab/        the public site (static files, built by GitHub Actions)
+#   /kreative-lab-cms/    WordPress, where the studio edits content
+#
+# Caddy allows ONE block per hostname. If website.taufikandrian.my.id already has a
+# block for your other sites, paste the two `handle` sections (and the @cms matcher and
+# redir lines) into it rather than adding this block a second time. Keep a single
+# catch-all `handle` at the end of that block.
+#
+# The Caddy container needs:
 #   volumes:
-#     - /var/www:/srv/www:ro
+#     - /var/www:/srv/www:ro        # the static site and the WordPress files
+#   networks:
+#     - web                         # shared with deploy/wordpress/docker-compose.yml
 # then: docker compose up -d --force-recreate caddy
 #
-# The build's basePath (/kreative-lab) is baked into every URL, but the files on disk
-# sit at the root of /var/www/kreativ-lab — handle_path strips the prefix before lookup.
-# Everything outside /kreative-lab/ on this address returns 404.
-http://43.133.130.148 {
-	root * /srv/www/kreativ-lab
+# HTTPS is automatic once the DNS A record for website.taufikandrian.my.id points at
+# this VPS and ports 80 and 443 are open.
+website.taufikandrian.my.id {
 	encode zstd gzip
+
+	# ── The public site ──────────────────────────────────────────────────────────────
+	# The build's basePath (/kreative-lab) is baked into every URL, but the files sit at
+	# the root of /var/www/kreativ-lab, so handle_path strips the prefix before lookup.
 	redir /kreative-lab /kreative-lab/ 308
 	handle_path /kreative-lab/* {
+		root * /srv/www/kreativ-lab
 		@static path /_next/static/*
 		header @static Cache-Control "public, max-age=31536000, immutable"
+		@media path /cms/*
+		header @media Cache-Control "public, max-age=604800"
 		try_files {path} {path}/ {path}/index.html
 		file_server
 	}
+
+	# ── WordPress ────────────────────────────────────────────────────────────────────
+	# No handle_path here: WordPress lives in a real /kreative-lab-cms directory and
+	# builds its own URLs with that prefix, so the path is passed through unchanged.
+	# Caddy serves the static files (uploads, admin CSS/JS) itself from /srv/www and
+	# hands PHP to the ksl-wordpress container, where the same files sit under
+	# /var/www/html.
+	@cms path /kreative-lab-cms /kreative-lab-cms/*
+	handle @cms {
+		root * /srv/www
+		php_fastcgi ksl-wordpress:9000 {
+			root /var/www/html
+			try_files {path} {path}/index.php /kreative-lab-cms/index.php
+		}
+		file_server
+	}
+
 	handle {
 		respond 404
 	}
-	handle_errors {
-		rewrite * /404.html
-		file_server
+
+	# The site's own 404 page for missing paths under /kreative-lab/. Caddy only accepts
+	# handle_errors at this level, so it is scoped with a matcher instead.
+	handle_errors 404 {
+		@site path /kreative-lab/*
+		handle @site {
+			root * /srv/www/kreativ-lab
+			rewrite * /404.html
+			file_server
+		}
 	}
 }

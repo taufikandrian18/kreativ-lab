@@ -1,0 +1,98 @@
+# Build the static site and publish it to the VPS.
+#
+# Runs when:
+#   - WordPress publishes, updates or unpublishes content (repository_dispatch, sent by
+#     the plugin's KSL_Deploy_Trigger) — this is how an editor's change goes live;
+#   - master changes (a code change goes live the same way);
+#   - someone presses "Run workflow" in the Actions tab.
+#
+# repository_dispatch only ever runs the copy of this file on the default branch, and
+# always builds that branch. Work on `development` never deploys until it is merged.
+#
+# Setup (Settings → Secrets and variables → Actions), described in deploy/README.md:
+#   secrets    VPS_HOST, VPS_USER, VPS_SSH_KEY, VPS_KNOWN_HOSTS
+#   variables  KSL_CMS_URL      e.g. https://website.taufikandrian.my.id/kreative-lab-cms
+#              DEPLOY_PATH      default /var/www/kreativ-lab
+#              BASE_PATH        default /kreative-lab
+name: Deploy
+
+on:
+  repository_dispatch:
+    types: [cms-publish]
+  push:
+    branches: [master]
+  workflow_dispatch:
+
+# One deploy at a time. A burst of saves in WordPress queues at most one more run, and
+# that run reads whatever the CMS holds by the time it starts, so the last edit always
+# lands. The running deploy is never cancelled halfway through its upload.
+concurrency:
+  group: deploy-vps
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/var/www/kreativ-lab' }}
+      NEXT_PUBLIC_BASE_PATH: ${{ vars.BASE_PATH || '/kreative-lab' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - run: npm ci --no-audit --no-fund
+
+      # Against the committed fixture: proves the code, before any live content is involved.
+      - run: npm test
+
+      - name: Fetch content from WordPress
+        if: vars.KSL_CMS_URL != ''
+        env:
+          KSL_CMS_URL: ${{ vars.KSL_CMS_URL }}
+        run: npm run fetch-cms
+
+      - name: Build
+        env:
+          # Tells the prebuild drift check that the data file is live content on purpose.
+          KSL_CMS_URL: ${{ vars.KSL_CMS_URL }}
+        run: npm run build
+
+      - name: Configure SSH
+        env:
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+          VPS_KNOWN_HOSTS: ${{ secrets.VPS_KNOWN_HOSTS }}
+        run: |
+          if [ -z "$VPS_SSH_KEY" ] || [ -z "$VPS_KNOWN_HOSTS" ]; then
+            echo "::error::VPS_SSH_KEY and VPS_KNOWN_HOSTS secrets are required — see deploy/README.md"
+            exit 1
+          fi
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/id_deploy
+          chmod 600 ~/.ssh/id_deploy
+          # Pinned host keys, never ssh-keyscan at deploy time: that would trust whatever
+          # answers on the address, which is the one thing a deploy key must not do.
+          printf '%s\n' "$VPS_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
+      # Same sequence as scripts/deploy-vps.sh: upload into a staging copy, then swap it in
+      # with a rename, so no visitor ever sees a half-uploaded site.
+      - name: Upload and switch live
+        env:
+          REMOTE: ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}
+        run: |
+          SSH="ssh -i $HOME/.ssh/id_deploy -o BatchMode=yes"
+          $SSH "$REMOTE" "mkdir -p '$DEPLOY_PATH.next' '$DEPLOY_PATH' && cp -a '$DEPLOY_PATH/.' '$DEPLOY_PATH.next/' 2>/dev/null || true"
+          rsync -az --delete -e "$SSH" out/ "$REMOTE:$DEPLOY_PATH.next/"
+          $SSH "$REMOTE" "rm -rf '$DEPLOY_PATH.prev' && mv '$DEPLOY_PATH' '$DEPLOY_PATH.prev' && mv '$DEPLOY_PATH.next' '$DEPLOY_PATH'"
+          echo "Deployed. Previous version kept at $DEPLOY_PATH.prev" >> "$GITHUB_STEP_SUMMARY"

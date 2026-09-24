@@ -10,7 +10,12 @@
 # The SSH user needs write access to the parent of DEPLOY_PATH (root does by default;
 # for a non-root user: sudo mkdir -p /var/www && sudo chown $USER /var/www once).
 #
-# What it does: builds the static site to frontend/out, then rsyncs it to the server.
+# Normally a deploy happens by itself in GitHub Actions (.github/workflows/deploy.yml)
+# whenever WordPress publishes or master changes. This script is the manual route to the
+# same result, e.g. while those secrets are not set up yet.
+#
+# What it does: pulls the live content from WordPress when KSL_CMS_URL is set, builds the
+# static site to frontend/out, then rsyncs it to the server.
 # rsync --delete makes the server an exact mirror, so removed pages disappear too. The
 # upload lands in a staging directory first and is swapped in with a single rename, so a
 # visitor never sees a half-uploaded site.
@@ -43,15 +48,28 @@ ask DEPLOY_DOMAIN "Domain (for the final message only)" "$DEPLOY_HOST"
 # web server must strip this prefix before looking up files (see deploy/Caddyfile.snippet).
 DEPLOY_BASE_PATH="${DEPLOY_BASE_PATH-/kreative-lab}"
 
+# WordPress to build from. Leave it empty only while no CMS exists: a build without it
+# ships the committed fixture, which would roll back anything editors have published.
+KSL_CMS_URL="${KSL_CMS_URL-}"
+
 REMOTE="$DEPLOY_USER@$DEPLOY_HOST"
 
 echo "==> Checking SSH access to $REMOTE"
 ssh -o BatchMode=yes -o ConnectTimeout=10 "$REMOTE" true \
   || { echo "Cannot reach $REMOTE with your SSH key. Fix access, then re-run."; exit 1; }
 
-echo "==> Building (base path: ${DEPLOY_BASE_PATH:-/})"
 cd "$ROOT/frontend"
-NEXT_PUBLIC_BASE_PATH="$DEPLOY_BASE_PATH" npm run build
+if [[ -n "$KSL_CMS_URL" ]]; then
+  # fetch-cms overwrites the committed fixture with live content for this build; put the
+  # fixture back afterwards, success or not, so the working tree is never left dirty.
+  trap 'git -C "$ROOT" checkout -- frontend/data/rest-contract.json' EXIT
+  KSL_CMS_URL="$KSL_CMS_URL" npm run fetch-cms
+else
+  echo "==> KSL_CMS_URL not set: building from the committed fixture, not WordPress"
+fi
+
+echo "==> Building (base path: ${DEPLOY_BASE_PATH:-/})"
+KSL_CMS_URL="$KSL_CMS_URL" NEXT_PUBLIC_BASE_PATH="$DEPLOY_BASE_PATH" npm run build
 
 echo "==> Uploading to $REMOTE:$DEPLOY_PATH"
 ssh "$REMOTE" "mkdir -p '$DEPLOY_PATH.next' '$DEPLOY_PATH'"
