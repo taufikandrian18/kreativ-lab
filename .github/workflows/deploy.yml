@@ -42,11 +42,10 @@ jobs:
         working-directory: frontend
     env:
       DEPLOY_PATH: ${{ vars.DEPLOY_PATH || '/var/www/kreativ-lab' }}
-      NEXT_PUBLIC_BASE_PATH: ${{ vars.BASE_PATH || '/kreative-lab' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -67,6 +66,9 @@ jobs:
         env:
           # Tells the prebuild drift check that the data file is live content on purpose.
           KSL_CMS_URL: ${{ vars.KSL_CMS_URL }}
+          # Build step only: the unit tests assert root-relative paths and fail if the
+          # base path is in their environment.
+          NEXT_PUBLIC_BASE_PATH: ${{ vars.BASE_PATH || '/kreative-lab' }}
         run: npm run build
 
       - name: Configure SSH
