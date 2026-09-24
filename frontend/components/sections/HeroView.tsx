@@ -106,7 +106,7 @@ export function HeroView({ content }: { content: HeroContent }) {
         <SplitHeadline
           as="h1"
           text={content.headline}
-          className="display-type max-w-[16ch] mix-blend-difference"
+          className="display-type max-w-[12em] [text-wrap:balance] mix-blend-difference"
         />
       </div>
     </section>

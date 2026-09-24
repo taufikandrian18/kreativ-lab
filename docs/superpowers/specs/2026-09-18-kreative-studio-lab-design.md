@@ -321,6 +321,31 @@ reversing it means re-opening this spec.
 > self-drawing line, Lenis. Crency's floating bottom dock is not adopted; the header
 > already does its job.
 
+> **Amendment (2026-09-24c):** the studio overturned three earlier calls and asked for a
+> lighter first load.
+>
+> - **Preloader — overturned.** The red crossed-K draws itself (ring round, K dropped in)
+>   and the black curtain lifts with a torn edge. It is bounded so it cannot spend the LCP
+>   budget the 2026-09-19 amendment protected: first page of a visit only (sessionStorage),
+>   never under reduced motion, never with JS off (the curtain exists only once a <head>
+>   script opts in), out as soon as fonts and the page load after a 0.9s minimum, at 1.6s
+>   regardless, and a pure-CSS failsafe lifts it at 2.8s. The mark is a vector traced from
+>   the showreel frame where it stands alone at ~420px; the ring is a fitted circle.
+> - **Fonts — replaced.** Two families. Display: Archivo on its width axis at 62% / 850,
+>   closer to the deck's Helvetica Now Condensed than Anton was; the same file at 125% /
+>   200 sets the swapped letters. Body: Inter. Anton is removed.
+> - **Phone navigation — Crency's dock adopted.** Below 1024px the header keeps only the
+>   wordmark; a floating pill (Menu · Let's talk · Work) carries navigation, and Menu opens
+>   a full-screen dialog of the routes set huge. The 2026-09-24 note declining the dock is
+>   superseded for phones; desktop keeps its header.
+> - **Weight.** hero-1080.mp4 was truncated (no moov box) and unplayable, yet every desktop
+>   visit downloaded it before falling back; it is removed, desktop plays a re-encoded
+>   720p (−36%) and phones a new 480p (382KB). Posters are WebP (126KB → 43KB), gallery and
+>   panel images are re-encoded (4.0MB → 2.2MB), statement chips use 180px thumbnails, and
+>   header links no longer prefetch, which had pulled other routes' opener images into
+>   every page (220KB). Measured on the production build: the homepage went from 2.66MB to
+>   about 1.36MB on desktop. §8's "1080p above 768px" is amended to 720p / 480p.
+
 ### Rules
 
 Animate `transform` and `opacity` only. Anything else is a bug. No layout-triggering

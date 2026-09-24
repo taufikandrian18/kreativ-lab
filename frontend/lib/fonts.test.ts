@@ -17,9 +17,15 @@ describe('fonts are self-hosted (spec §5)', () => {
     expect(globals).not.toContain('fonts.gstatic.com');
   });
 
-  it('imports both faces from @fontsource', () => {
-    expect(layout).toContain('@fontsource/anton/latin-400.css');
-    expect(layout).toContain('@fontsource-variable/archivo/wght.css');
+  it('imports both families from @fontsource', () => {
+    expect(layout).toContain('@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2');
+    expect(layout).toContain('@fontsource-variable/inter/wght.css');
+  });
+
+  it('stays at two families (display and body)', () => {
+    expect(layout).not.toContain('@fontsource/anton');
+    const families = new Set(globals.match(/--font-(display|body): '([^']+)'/g));
+    expect(families.size).toBe(2);
   });
 
   it('preloads both faces, which @fontsource CSS imports do not do on their own', () => {
@@ -28,12 +34,12 @@ describe('fonts are self-hosted (spec §5)', () => {
     // has parsed, so `swap` shows a system grotesque on the display lockup first.
     expect(layout).toContain('rel="preload"');
     expect(layout).toContain('as="font"');
-    expect(layout).toContain('anton-latin-400-normal.woff2');
-    expect(layout).toContain('archivo-latin-wght-normal.woff2');
+    expect(layout).toContain('archivo-latin-wdth-normal.woff2');
+    expect(layout).toContain('inter-latin-wght-normal.woff2');
   });
 
   it('points the display and body tokens at the self-hosted family names', () => {
-    expect(globals).toContain("--font-display: 'Anton'");
-    expect(globals).toContain("--font-body: 'Archivo Variable'");
+    expect(globals).toContain("--font-display: 'Archivo Flex'");
+    expect(globals).toContain("--font-body: 'Inter Variable'");
   });
 });

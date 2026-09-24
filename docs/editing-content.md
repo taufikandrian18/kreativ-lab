@@ -26,6 +26,8 @@ build in GitHub → **Actions**.
 - **Wide letters:** one or two round letters in each headline (O, S, C, G, R) are set in a
   wide, thin face automatically. There is nothing to type; retyping a headline picks new
   letters. In the "Two labs" subheading, starred words get a red highlighter stroke instead.
+- **Phone dock (Global → Header & footer):** the three labels on the floating bar phones
+  see at the bottom of the screen (Menu, the call to action, Work) and the menu's Close.
 - **Card lines (Home → Who we are):** each card has a word and a one-line description
   under it.
 - **Lists are one item per line.**

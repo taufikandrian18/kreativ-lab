@@ -45,7 +45,7 @@ describe('Manifesto', () => {
     expect(chips.length).toBeGreaterThan(0);
     for (const chip of chips) {
       expect(chip.getAttribute('aria-hidden')).toBe('true');
-      expect(chip.querySelector('img')?.getAttribute('src')).toMatch(/^\/gallery\//);
+      expect(chip.querySelector('img')?.getAttribute('src')).toMatch(/^\/chips\//);
       expect(chip.querySelector('img')?.getAttribute('alt')).toBe('');
     }
   });

@@ -3,6 +3,7 @@
 import { Fragment, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { useMotionPreference } from '@/lib/use-motion-preference';
+import { PRELOADER_DONE } from '@/components/chrome/Preloader';
 
 /**
  * An above-the-fold headline that builds itself letter by letter on load.
@@ -42,8 +43,13 @@ export function SplitHeadline({
     const el = ref.current;
     if (!el) return;
 
+    // Behind the preloader's curtain the build would play unseen, so it waits for the
+    // curtain to lift. PRELOADER_DONE is fired once per visit; later pages play at once.
+    const curtained = document.documentElement.getAttribute('data-preloader') === 'on';
+
+    let build: gsap.core.Tween | undefined;
     const ctx = gsap.context(() => {
-      gsap.fromTo(
+      build = gsap.fromTo(
         el.querySelectorAll('[data-split-char]'),
         { yPercent: 110, rotate: 8, opacity: 0 },
         {
@@ -55,11 +61,18 @@ export function SplitHeadline({
           stagger: 0.028,
           ease: 'expo.out',
           transformOrigin: '0% 100%',
+          paused: curtained,
         }
       );
     }, el);
 
-    return () => ctx.revert();
+    const start = () => build?.play();
+    if (curtained) window.addEventListener(PRELOADER_DONE, start, { once: true });
+
+    return () => {
+      window.removeEventListener(PRELOADER_DONE, start);
+      ctx.revert();
+    };
   }, [preference, delay]);
 
   const words = text.split(' ');

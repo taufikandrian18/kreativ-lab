@@ -43,6 +43,30 @@
               "label": "Menu: Contact",
               "type": "text",
               "default": "Contact"
+            },
+            {
+              "name": "dock_menu",
+              "label": "Phone dock: menu button",
+              "type": "text",
+              "default": "Menu"
+            },
+            {
+              "name": "dock_cta",
+              "label": "Phone dock: call to action (goes to Contact)",
+              "type": "text",
+              "default": "Let's talk"
+            },
+            {
+              "name": "dock_work",
+              "label": "Phone dock: work link (goes to Archive)",
+              "type": "text",
+              "default": "Work"
+            },
+            {
+              "name": "menu_close",
+              "label": "Phone menu: close button",
+              "type": "text",
+              "default": "Close"
             }
           ]
         },

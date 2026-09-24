@@ -40,7 +40,10 @@ export function DeckFigure({
       alt={alt}
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
-      {...(priority ? { fetchPriority: 'high' as const } : {})}
+      // Eager, never fetchPriority="high": React turns that into a preload hint inside
+      // the route's prefetch payload, so every page that links here (the header links to
+      // all of them) downloaded this route's opener in the background. Measured: the home
+      // page pulled 300KB of About and Product Lab imagery it never shows.
       className={parallax === undefined ? `h-auto w-full ${className}` : 'h-auto w-full'}
     />
   );

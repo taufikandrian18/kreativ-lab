@@ -11,17 +11,21 @@ export function SiteHeader() {
         <Link href="/" className="font-display text-k-paper text-xl tracking-tight">
           {wordmark}
         </Link>
-        {/* Spec §7: mobile is the priority surface. Five uppercase links plus the
-            wordmark overflow 375px, and because the header is fixed the overflow clips
-            silently instead of scrolling — Archive and Contact simply vanish. Wrapping
-            keeps every link reachable; `py-3` gives each one a tap target taller than
-            its 12px text. */}
-        <nav aria-label="Primary">
+        {/* Below 1024px these links give way to the floating dock and its menu
+            (MobileDock): wrapped onto two lines at 390px they took the top of every
+            page. From 1024px they fit on one line. They still wrap rather than clip if
+            a label is edited long, and `py-3` keeps each tap target taller than its text. */}
+        <nav aria-label="Primary" className="hidden lg:block">
           <ul className="flex flex-wrap gap-x-4 gap-y-0 sm:gap-x-8">
             {siteNav().map((item) => (
               <li key={item.href}>
+                {/* prefetch={false}: a prefetch loads the linked route whole, images included,
+                    so with five header links in view every desktop visit to any page
+                    downloaded the About and Product Lab openers — 220KB, measured on the
+                    production build. A click costs one ~15KB request instead. */}
                 <Link
                   href={item.href}
+                  prefetch={false}
                   className="font-body text-k-paper inline-block py-3 text-xs tracking-widest uppercase"
                 >
                   {item.name}

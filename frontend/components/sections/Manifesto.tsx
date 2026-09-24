@@ -10,12 +10,14 @@ import { accentWords, sitePage } from '@/lib/site-content';
 
 // The studio's own work, set inline in the statement where Crency sets icons: a product
 // detail, a campaign, a product, a campaign — the two things the sentence says the studio
-// makes. Picked from the case-study galleries, so every chip is a real piece of work.
+// makes. Picked from the case-study galleries, so every chip is a real piece of work,
+// and cut down to 180px squares in public/chips: the chip shows at about 70px, and the
+// full gallery files cost 3–99KB each where the thumbnails cost 3–6KB.
 const CHIPS = [
-  { src: asset('/gallery/03-04.webp') },
-  { src: asset('/gallery/01-02.webp') },
-  { src: asset('/gallery/06-01.webp') },
-  { src: asset('/gallery/04-01.webp') },
+  { src: asset('/chips/03-04.webp') },
+  { src: asset('/chips/01-02.webp') },
+  { src: asset('/chips/06-01.webp') },
+  { src: asset('/chips/04-01.webp') },
 ];
 
 /**

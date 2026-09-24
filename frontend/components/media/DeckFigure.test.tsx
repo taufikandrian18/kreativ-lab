@@ -29,7 +29,9 @@ describe('DeckFigure', () => {
     const { container } = render(<DeckFigure page={3} alt="Who we are" priority />);
     const img = container.querySelector('img') as HTMLImageElement;
     expect(img.getAttribute('loading')).toBe('eager');
-    expect(img.getAttribute('fetchpriority')).toBe('high');
+    // Never a high fetch priority: React emits it as a preload hint in the route's
+    // prefetch payload, and every page that links here then downloads this image.
+    expect(img.getAttribute('fetchpriority')).toBeNull();
   });
 
   it('accepts an empty alt for an image whose content is already visible text', () => {

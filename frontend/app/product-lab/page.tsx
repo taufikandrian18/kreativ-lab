@@ -44,7 +44,8 @@ export default function ProductLab() {
                 width={image?.width ?? 1024}
                 height={image?.height ?? 1448}
                 decoding="async"
-                fetchPriority="high"
+                // Eager, not fetchPriority="high" — see DeckFigure.
+                loading="eager"
                 className="h-auto w-full"
               />
             </Parallax>

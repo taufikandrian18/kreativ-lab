@@ -27,24 +27,24 @@ describe('Hero (spec §8)', () => {
     expect(video.hasAttribute('playsinline')).toBe(true);
     expect(video.hasAttribute('autoplay')).toBe(true);
     expect(video.hasAttribute('loop')).toBe(true);
-    expect(video.getAttribute('poster')).toBe('/video/hero-poster.jpg');
+    expect(video.getAttribute('poster')).toBe('/video/hero-poster.webp');
     expect(video.getAttribute('preload')).toBe('metadata');
   });
 
-  it('serves 1080p above 768px and 720p below, per spec §8', () => {
+  it('serves 720p above 768px and 480p below', () => {
     setReducedMotion(false);
     const { container } = render(<Hero />);
     const sources = Array.from(container.querySelectorAll('source'));
     const wide = sources.find((s) => s.getAttribute('media')?.includes('768'));
-    expect(wide?.getAttribute('src')).toBe('/video/hero-1080.mp4');
-    expect(sources.at(-1)?.getAttribute('src')).toBe('/video/hero-720.mp4');
+    expect(wide?.getAttribute('src')).toBe('/video/hero-720.mp4');
+    expect(sources.at(-1)?.getAttribute('src')).toBe('/video/hero-480.mp4');
   });
 
   it('swaps the video for the reduced-motion still', () => {
     setReducedMotion(true);
     const { container } = render(<Hero />);
     expect(container.querySelector('video')).toBeNull();
-    expect(screen.getByRole('img')).toHaveAttribute('src', '/video/hero-still-reduced.jpg');
+    expect(screen.getByRole('img')).toHaveAttribute('src', '/video/hero-still-reduced.webp');
   });
 
   it('renders the headline as real text', () => {

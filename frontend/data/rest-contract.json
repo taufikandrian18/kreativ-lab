@@ -483,7 +483,11 @@
         "nav_archive": "Archive",
         "nav_contact": "Contact",
         "site_title": "Kreative Studio Lab",
-        "site_description": "Clean in form. Sharp in function."
+        "site_description": "Clean in form. Sharp in function.",
+        "dock_menu": "Menu",
+        "dock_cta": "Let's talk",
+        "dock_work": "Work",
+        "menu_close": "Close"
       }
     },
     {

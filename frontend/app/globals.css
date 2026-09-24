@@ -11,8 +11,8 @@
   --color-k-black: #000000;
   --color-k-paper: #FFFFFF;
 
-  --font-display: 'Anton', sans-serif;
-  --font-body: 'Archivo Variable', sans-serif;
+  --font-display: 'Archivo Flex', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter Variable', 'Helvetica Neue', Arial, sans-serif;
 
   --type-body: clamp(1rem, 1.1vw, 1.25rem);
 
@@ -37,6 +37,18 @@ body {
   font-size: clamp(1.5rem, 2.6vw, 2.75rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
+}
+
+/* The display family is one variable file; the cut is chosen here. Everything set in it
+   takes the narrow, heavy cut unless it says otherwise (.k-swap does). */
+.font-display,
+.display-type,
+.type-subhead {
+  font-stretch: 62%;
+  font-weight: 850;
+  /* A condensed face's own space is a sliver; at display size the words ran together
+     ("CLEANINFORM."). */
+  word-spacing: 0.08em;
 }
 
 .display-type {
@@ -167,12 +179,12 @@ body {
    show the finished headline, hide it, and then build it. Only under no-preference — a
    reduced-motion visitor gets the headline in place from the first byte. The animation is
    a failsafe, not the entrance: if the GSAP effect never runs, the letters appear after
-   4s rather than never. It only ever sets the value GSAP ends on, so it cannot fight the
+   5.5s rather than never (the preloader can hold the entrance back for up to 2.8s). It only ever sets the value GSAP ends on, so it cannot fight the
    tween. The layout's <noscript> covers JS switched off. */
 @media (prefers-reduced-motion: no-preference) {
   [data-split-char] {
     opacity: 0;
-    animation: k-split-failsafe 0.01s 4s forwards;
+    animation: k-split-failsafe 0.01s 5.5s forwards;
   }
 }
 
@@ -189,13 +201,14 @@ body {
 @layer components {
   /* ── Crency direction (amendment 2026-09-24b) ─────────────────────────────────────── */
 
-  /* A swapped letter: Archivo at its widest and lightest inside an Anton line. The
+  /* A swapped letter: Archivo at its widest and lightest inside a line of the same
+     face at its narrowest and heaviest. The
      contrast is the point — one letter breathing in a line packed tight. Slightly larger
      than its neighbours because a light stroke reads smaller than a heavy one at the same
      size. Inline-block so it can be stretched on entrance without reflowing the line. */
   .k-swap {
     display: inline-block;
-    font-family: 'Archivo Wide', var(--font-body);
+    font-family: var(--font-display);
     font-stretch: 125%;
     font-weight: 200;
     font-size: 1.06em;
@@ -266,6 +279,9 @@ body {
 
   .k-signpost-face {
     display: block;
+    font-stretch: 62%;
+    font-weight: 850;
+    word-spacing: 0.08em;
     padding: 1.1rem 4.5rem 1.1rem 1.75rem;
     font-family: var(--font-display);
     font-size: clamp(1.5rem, 2.4vw, 2.75rem);
@@ -290,5 +306,34 @@ body {
   .k-signpost[data-point='left'] .k-signpost-depth {
     clip-path: polygon(2.5rem 0, 100% 0, 100% 100%, 2.5rem 100%, 0 50%);
     transform: translate(0.6rem, 0.5rem);
+  }
+}
+
+/* Preloader (components/chrome/Preloader.tsx). Shown only when the <head> boot script
+   has set data-preloader="on" — first page of a visit, motion allowed. With JS off the
+   attribute is never set, so the curtain never appears. */
+#k-preloader {
+  display: none;
+}
+
+html[data-preloader='on'] #k-preloader {
+  display: flex;
+  /* The hard cap. If the script never lifts the curtain, CSS does, at 2.8s. It only
+     ever writes the same end state the script does, so it cannot fight it. */
+  animation: k-preloader-failsafe 0.6s cubic-bezier(0.7, 0, 0.3, 1) 2.8s forwards;
+}
+
+html[data-preloader='on'] [data-preloader-mark] {
+  visibility: hidden;
+}
+
+html[data-preloader='on'] {
+  overflow: hidden;
+}
+
+@keyframes k-preloader-failsafe {
+  to {
+    transform: translateY(-115%);
+    visibility: hidden;
   }
 }

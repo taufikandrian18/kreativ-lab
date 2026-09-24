@@ -31,7 +31,8 @@ export function CmsFigure({
       alt={alt}
       loading={priority ? 'eager' : 'lazy'}
       decoding="async"
-      {...(priority ? { fetchPriority: 'high' as const } : {})}
+      // Eager, never fetchPriority="high": see DeckFigure — the hint leaks into every
+      // linking page's prefetch.
       className={parallax === undefined ? `h-auto w-full ${className}` : 'h-auto w-full'}
     />
   );
