@@ -1,35 +1,34 @@
-import Link from 'next/link';
 import { Grain } from '@/components/motion/Grain';
-import { Magnetic } from '@/components/motion/Magnetic';
+import { PillLink } from '@/components/motion/PillLink';
+import { TornEdge } from '@/components/motion/TornEdge';
 import { WordReveal } from '@/components/motion/WordReveal';
 import { accentWords, sitePage } from '@/lib/site-content';
 
+/**
+ * Crency closes on one big centred question — "Want one that sells?" — and a single
+ * button. So does this: the statement assembles word by word as it scrolls up, and the
+ * call to action is a pill that leans toward the pointer.
+ */
 export function Closing() {
   const home = sitePage('home');
   const statement = accentWords(home.text('closing_statement'));
 
   return (
     <section className="bg-k-black text-k-paper relative overflow-hidden">
+      <TornEdge from="paper" seed={19} />
       <Grain />
-      <div className="section-shell relative flex min-h-[80svh] flex-col justify-center">
+      <div className="section-shell relative flex min-h-[80svh] flex-col items-center justify-center text-center">
         <WordReveal
           as="p"
           text={statement.text}
           accent={statement.accent}
-          className="display-type lg:max-w-[14ch]"
+          className="display-type mx-auto lg:max-w-[16ch]"
           scrub
+          swaps={2}
         />
-        {/* The one element on the page that asks to be clicked, so it is the one that
-            answers the pointer. Paper-on-black inverting to black-on-paper keeps the
-            hover inside the three colours. */}
-        <Magnetic className="mt-12 self-start">
-          <Link
-            href="/contact"
-            className="font-body border-k-paper hover:bg-k-paper hover:text-k-black inline-block border-2 px-7 py-4 text-xs tracking-widest uppercase transition-colors duration-300"
-          >
-            {home.text('closing_link')}
-          </Link>
-        </Magnetic>
+        <PillLink href="/contact" tone="paper" className="mt-14">
+          {home.text('closing_link')}
+        </PillLink>
       </div>
     </section>
   );

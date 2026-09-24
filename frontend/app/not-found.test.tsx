@@ -6,6 +6,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import NotFound from './not-found';
+import { sitePage } from '@/lib/site-content';
 
 describe('404 page (spec §4, §5)', () => {
   it('sets the studio type rather than a system stack', () => {
@@ -15,8 +16,9 @@ describe('404 page (spec §4, §5)', () => {
 
   it('offers a way back into the site', () => {
     render(<NotFound />);
-    expect(screen.getByRole('link', { name: /back home/i })).toHaveAttribute('href', '/');
-    expect(screen.getByRole('link', { name: /lab archive/i })).toHaveAttribute('href', '/archive');
+    const page = sitePage('not_found', []);
+    expect(screen.getByRole('link', { name: page.text('nf_home_link') })).toHaveAttribute('href', '/');
+    expect(screen.getByRole('link', { name: page.text('nf_archive_link') })).toHaveAttribute('href', '/archive');
   });
 
   it('uses no 100vh and no alpha-composited colour', () => {

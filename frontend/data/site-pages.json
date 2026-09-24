@@ -126,27 +126,27 @@
               "name": "manifesto_heading",
               "label": "Heading",
               "type": "text",
-              "default": "KREATE *LIVE* STUDIO LAB",
+              "default": "IDEAS ARE EVERYWHERE. WE MAKE THEM *REAL.*",
               "instructions": "Wrap words in *stars* to set them in red."
             },
             {
               "name": "manifesto_opening",
               "label": "Opening line",
               "type": "text",
-              "default": "More than creativity. Ideas are everywhere."
+              "default": "We build products people keep and stories people remember."
             },
             {
               "name": "manifesto_body",
               "label": "Body",
               "type": "lines",
-              "default": "What makes them valuable is how they are explored, developed, crafted, and experienced.\nAt KREATIVE STUDIO LAB, we believe creativity doesn't end with making something beautiful.",
+              "default": "Having the idea is the easy part. Exploring it, building it and putting it in people's hands — that's the work, and it's the part we love.\nBeautiful is where we start, not where we stop.",
               "instructions": "One paragraph per line."
             },
             {
               "name": "manifesto_steps",
               "label": "Steps",
               "type": "pairs",
-              "default": "It begins | with understanding.\nIt grows | through experimentation.\nIt comes to life | through craftsmanship.\nAnd it becomes meaningful | when people experience it.",
+              "default": "First, we listen | so we know what you actually need.\nThen we play | sketch, test, break things on purpose.\nThen we build it | with care, down to the last stitch.\nAnd then it lives | the moment people pick it up.",
               "instructions": "One step per line: the large words, then | then the rest."
             },
             {
@@ -166,13 +166,13 @@
               "name": "manifesto_lead",
               "label": "Lead-in line",
               "type": "text",
-              "default": "Because we don't simply create."
+              "default": "We don't just make things."
             },
             {
               "name": "manifesto_closing",
               "label": "Closing line",
               "type": "text",
-              "default": "We Create *Live.*",
+              "default": "We make them *live.*",
               "instructions": "Wrap words in *stars* to set them in red."
             },
             {
@@ -190,7 +190,7 @@
               "name": "who_heading",
               "label": "Heading",
               "type": "text",
-              "default": "WHO WE ARE"
+              "default": "HOW WE WORK"
             },
             {
               "name": "pillar_1_word",
@@ -205,6 +205,12 @@
               "instructions": "Leave empty to keep the current artwork."
             },
             {
+              "name": "pillar_1_line",
+              "label": "Card 1 line",
+              "type": "text",
+              "default": "We ask the awkward questions first, so the answers hold up later."
+            },
+            {
               "name": "pillar_2_word",
               "label": "Card 2 word",
               "type": "text",
@@ -215,6 +221,12 @@
               "label": "Card 2 image",
               "type": "image",
               "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "pillar_2_line",
+              "label": "Card 2 line",
+              "type": "text",
+              "default": "Ideas get a shape, a look and a reason to exist."
             },
             {
               "name": "pillar_3_word",
@@ -229,6 +241,12 @@
               "instructions": "Leave empty to keep the current artwork."
             },
             {
+              "name": "pillar_3_line",
+              "label": "Card 3 line",
+              "type": "text",
+              "default": "Samples, stitches, prints — we make it until it's right."
+            },
+            {
               "name": "pillar_4_word",
               "label": "Card 4 word",
               "type": "text",
@@ -239,6 +257,12 @@
               "label": "Card 4 image",
               "type": "image",
               "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "pillar_4_line",
+              "label": "Card 4 line",
+              "type": "text",
+              "default": "The part that counts: how it feels in someone's hands."
             }
           ]
         },
@@ -249,14 +273,14 @@
               "name": "labs_heading",
               "label": "Heading",
               "type": "text",
-              "default": "One Studio. Two Labs.",
+              "default": "One studio. Two *labs.*",
               "instructions": "Wrap words in *stars* to set them in red."
             },
             {
               "name": "labs_subhead",
               "label": "Subheading",
               "type": "text",
-              "default": "Different disciplines. One creative ecosystem."
+              "default": "One makes the thing. The other makes people *care* about it."
             },
             {
               "name": "labs_product",
@@ -281,13 +305,13 @@
               "name": "teaser_heading",
               "label": "Heading",
               "type": "text",
-              "default": "LAB ARCHIVE"
+              "default": "FRESH FROM THE *LAB*"
             },
             {
               "name": "teaser_link",
               "label": "Link text",
               "type": "text",
-              "default": "View the full archive"
+              "default": "See everything we've made"
             },
             {
               "name": "teaser_note",
@@ -304,7 +328,7 @@
               "name": "clients_heading",
               "label": "Heading",
               "type": "text",
-              "default": "OUR CLIENT"
+              "default": "IN GOOD *COMPANY*"
             },
             {
               "name": "clients_note",
@@ -321,14 +345,14 @@
               "name": "closing_statement",
               "label": "Statement",
               "type": "text",
-              "default": "LET'S *CREATE* SOMETHING THAT *LIVES.*",
+              "default": "GOT AN IDEA? LET'S MAKE IT *LIVE.*",
               "instructions": "Wrap words in *stars* to set them in red."
             },
             {
               "name": "closing_link",
               "label": "Button text",
               "type": "text",
-              "default": "Start a project"
+              "default": "Tell us about it"
             }
           ]
         }
@@ -345,14 +369,14 @@
               "name": "about_heading",
               "label": "Heading",
               "type": "text",
-              "default": "WHO WE ARE",
+              "default": "HI, WE'RE *KREATIVE* STUDIO LAB",
               "instructions": "Wrap words in *stars* to set them in red."
             },
             {
               "name": "about_body",
               "label": "Body",
               "type": "lines",
-              "default": "KREATIVE STUDIO LAB is a Creative Production Studio specializing in Product Development and Creative Production.\nWe collaborate with brands, corporations, organizations, and communities to develop products, visual content, and brand experiences that create meaningful connections. By combining strategic thinking, creative exploration, and production expertise, we transform ideas into tangible experiences from the first concept to the final execution.\nWe don't separate creativity from production. We believe they belong together.",
+              "default": "We're a creative production studio. One side of the studio makes products; the other makes the photos, films and campaigns that make people want them.\nWe work with brands, companies, organisations and communities — from the first rough idea to the finished thing on the shelf, the screen or the street.\nMost studios hand the making off to someone else. We don't. Creative and production sit in the same room here, and that's the whole point.",
               "instructions": "One paragraph per line."
             },
             {
@@ -397,13 +421,13 @@
               "name": "pl_subhead",
               "label": "Subheading",
               "type": "text",
-              "default": "Where Ideas Become Products."
+              "default": "Where ideas turn into things you can hold."
             },
             {
               "name": "pl_body",
               "label": "Body",
               "type": "lines",
-              "default": "We transform ideas into products that embody a brand's identity and purpose. From material exploration and design development to prototyping, production, and final finishing, every stage is approached with precision and intention.\nWe believe exceptional products are created through thoughtful craftsmanship, meticulous attention to detail, and a commitment to quality.",
+              "default": "Got a product in your head? We'll get it into your hands. Materials, design, samples, production, finishing — we take it the whole way and sweat every stage.\nGood products aren't lucky. They come from patience, obsessive detail and never settling for \"close enough\".",
               "instructions": "One paragraph per line."
             },
             {
@@ -428,7 +452,7 @@
               "name": "pl_capabilities_label",
               "label": "Label",
               "type": "text",
-              "default": "Capabilities"
+              "default": "What we make"
             },
             {
               "name": "pl_capabilities",
@@ -459,13 +483,13 @@
               "name": "cl_subhead",
               "label": "Subheading",
               "type": "text",
-              "default": "Where Products Become Stories"
+              "default": "Where products get their story."
             },
             {
               "name": "cl_body",
               "label": "Body",
               "type": "lines",
-              "default": "Powerful products deserve meaningful stories. Through Creative Lab, we transform products into visual experiences that strengthen brand perception and create emotional connections.\nFrom creative direction to campaign execution, we produce visual content that communicates not only what a product is, but why it matters.\nBecause every product deserves a story worth remembering.",
+              "default": "A great product still needs a reason to care. Creative Lab gives it one — photos, films and campaigns that make people feel something.\nFrom the first idea to the final cut, we show what your product is and, more importantly, why it matters.\nBecause the best products are the ones people remember.",
               "instructions": "One paragraph per line."
             }
           ]
@@ -500,7 +524,7 @@
               "name": "cl_capabilities_label",
               "label": "Label",
               "type": "text",
-              "default": "Capabilities"
+              "default": "What we do"
             },
             {
               "name": "cl_capabilities",
@@ -609,26 +633,26 @@
               "name": "nf_heading",
               "label": "Heading",
               "type": "text",
-              "default": "NOT FOUND",
+              "default": "WELL, THIS IS *AWKWARD*",
               "instructions": "Wrap words in *stars* to set them in red."
             },
             {
               "name": "nf_body",
               "label": "Message",
               "type": "textarea",
-              "default": "That page is not in the lab. It may have moved, or the link may be wrong."
+              "default": "This page wandered off, or the link is wrong. Either way, it isn't in the lab."
             },
             {
               "name": "nf_home_link",
               "label": "Home link text",
               "type": "text",
-              "default": "Back home"
+              "default": "Take me home"
             },
             {
               "name": "nf_archive_link",
               "label": "Archive link text",
               "type": "text",
-              "default": "Lab archive"
+              "default": "Browse the archive"
             }
           ]
         }

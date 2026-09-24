@@ -29,27 +29,34 @@ export default function Contact() {
             <Accented text={page.text('contact_heading')} />
           </MaskReveal>
 
-          <ul className="mt-12">
+          {/* Each way in is a pill, as Crency sets its calls to action: the email in
+              paper, the numbers outlined, so the one most people use leads. */}
+          <ul className="mt-12 flex flex-wrap gap-3">
+            {contact.email ? (
+              <li>
+                <a
+                  href={`mailto:${contact.email}`}
+                  className="k-pill bg-k-paper text-k-black break-all"
+                >
+                  {contact.email}
+                  <span aria-hidden="true" className="k-pill-arrow bg-k-red text-k-paper">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5">
+                      <path d="M7 17 17 7M9 7h8v8" strokeLinecap="square" />
+                    </svg>
+                  </span>
+                </a>
+              </li>
+            ) : null}
             {contact.phones.map((phone) => (
               <li key={phone}>
                 <a
                   href={telHref(phone)}
-                  className="font-display inline-block py-3 text-3xl tracking-tight"
+                  className="k-pill border-k-paper text-k-paper hover:bg-k-paper hover:text-k-black border-2 pr-7 transition-colors duration-300"
                 >
                   {phone}
                 </a>
               </li>
             ))}
-            {contact.email ? (
-              <li>
-                <a
-                  href={`mailto:${contact.email}`}
-                  className="font-display inline-block py-3 text-3xl tracking-tight break-all"
-                >
-                  {contact.email}
-                </a>
-              </li>
-            ) : null}
           </ul>
 
           {image ? <CmsFigure image={image} {...figure} /> : <DeckFigure page={CONTACT_PAGE} {...figure} />}

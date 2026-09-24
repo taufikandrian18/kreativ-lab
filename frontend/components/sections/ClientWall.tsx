@@ -1,5 +1,7 @@
+import { Gather } from '@/components/motion/Gather';
 import { MaskReveal } from '@/components/motion/MaskReveal';
-import { StaggerReveal } from '@/components/motion/StaggerReveal';
+import { TornEdge } from '@/components/motion/TornEdge';
+import { Accented } from '@/components/type/Accented';
 import { clientWallLayout } from '@/lib/client-wall-layout';
 import { clientWallMarks } from '@/lib/client-wall-marks';
 import { getClientLogos } from '@/lib/contract';
@@ -14,9 +16,10 @@ import { sitePage } from '@/lib/site-content';
  * the wall reads as a composition rather than a supplier directory. The scramble is
  * deterministic; lib/client-wall-layout.ts says why that matters.
  *
- * Stagger is 80ms rather than §6's 40ms: at 25 marks, 40ms ran the whole wall in a second
- * and read as one block appearing. Hover is scale 1.03, not the 1.10 shipped earlier —
- * subtle is the house style.
+ * The marks gather out of a scatter as the section scrolls up (Gather) — Crency's chips
+ * floating in around its audit headline, landing — under a centred heading. The old 80ms
+ * opacity stagger is gone: a wall of marks each half-faded mid-stagger was a wall of
+ * greys. Hover is scale 1.03 — subtle is the house style.
  */
 // Brutalist means dense and heavy, not scattered. The first pass at h-8/h-11/h-14 with a
 // 48px row gap read as a sparse constellation on a 1680px screen — measured by eye in a
@@ -48,16 +51,15 @@ export function ClientWall() {
   const home = sitePage('home');
 
   return (
-    <section className="bg-k-paper text-k-black">
+    // overflow-x-clip: marks start their gather scattered past the page edges.
+    <section className="bg-k-paper text-k-black relative overflow-x-clip">
+      <TornEdge from="black" seed={11} />
       <div className="section-shell">
-        <MaskReveal as="h2" className="display-type">
-          {home.text('clients_heading')}
+        <MaskReveal as="h2" className="display-type text-center">
+          <Accented text={home.text('clients_heading')} />
         </MaskReveal>
 
-        <StaggerReveal
-          className="mt-16 grid grid-cols-12 items-center gap-x-4 gap-y-6 sm:gap-x-6 lg:gap-x-8"
-          stagger={0.08}
-        >
+        <Gather className="mt-16 grid grid-cols-12 items-center gap-x-4 gap-y-6 sm:gap-x-6 lg:gap-x-8">
           {marks.map((mark) => (
             <div
               key={mark.name}
@@ -95,7 +97,7 @@ export function ClientWall() {
               )}
             </div>
           ))}
-        </StaggerReveal>
+        </Gather>
       </div>
     </section>
   );

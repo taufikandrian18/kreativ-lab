@@ -4,6 +4,9 @@ import { Fragment, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useMotionPreference } from '@/lib/use-motion-preference';
+import { swapPlan } from '@/lib/swap-letters';
+import { stretchSwaps } from '@/lib/swap-motion';
+import { Swapped } from '@/components/type/Swapped';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -31,6 +34,7 @@ export function WordReveal({
   accent,
   accentClassName = 'text-k-red',
   scrub = false,
+  swaps = 0,
 }: {
   as?: 'h1' | 'h2' | 'p';
   text: string;
@@ -40,6 +44,8 @@ export function WordReveal({
   accentClassName?: string;
   /** Tie the reveal to scroll progress rather than playing it once. */
   scrub?: boolean;
+  /** How many letters to set in the wide face (lib/swap-letters.ts). None by default. */
+  swaps?: number;
 }) {
   const ref = useRef<HTMLElement>(null);
   const preference = useMotionPreference();
@@ -64,6 +70,7 @@ export function WordReveal({
           stagger: 0.12,
           scrollTrigger: { trigger: el, start: 'top 92%', end: 'bottom 58%', scrub: 0.6 },
         });
+        stretchSwaps(el, { scrollTrigger: { trigger: el, start: 'top 60%', once: true } });
         return;
       }
       gsap.from(words, {
@@ -73,15 +80,25 @@ export function WordReveal({
         stagger: 0.08,
         ease: 'cubic-bezier(0.16, 1, 0.3, 1)',
         scrollTrigger: { trigger: el, start: 'top 85%', once: true },
+        // Through ctx.add: a callback runs after the context function has returned,
+        // so a tween made there would otherwise escape the route's teardown.
+        onComplete: () => ctx.add(() => stretchSwaps(el)),
       });
     }, el);
 
     return () => ctx.revert();
   }, [preference, scrub]);
 
-  const accented = new Set((accent ?? []).map((w) => w.toLowerCase()));
+  // Both sides lose their punctuation before they are compared. The accent list comes
+  // from accentWords(), which keeps a trailing full stop ("*LIVE.*" → "live."), while the
+  // word being checked had its stop stripped — so an accented last word never matched and
+  // "LIVES." shipped in paper instead of red.
+  const bare = (w: string) => w.toLowerCase().replace(/[.,!?;:]/g, '');
+  const accented = new Set((accent ?? []).map(bare));
 
   const words = text.split(' ');
+  const plan = swapPlan(text, swaps);
+  const offsets = words.map((_, i) => words.slice(0, i).join(' ').length + (i > 0 ? 1 : 0));
 
   return (
     <Tag ref={ref as React.Ref<never>} data-word-reveal={scrub ? 'scrub' : 'once'} className={className}>
@@ -91,10 +108,10 @@ export function WordReveal({
             <span
               data-word
               className={`inline-block ${
-                accented.has(word.toLowerCase().replace(/[.,]/g, '')) ? accentClassName : ''
+                accented.has(bare(word)) ? accentClassName : ''
               }`}
             >
-              {word}
+              <Swapped text={word} plan={plan} offset={offsets[index]} />
             </span>
           </span>
           {/* The space is a sibling of the clipped span, never inside it: a space inside

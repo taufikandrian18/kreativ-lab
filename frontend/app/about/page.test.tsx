@@ -1,19 +1,26 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import About from './page';
+import { accentRuns, sitePage } from '@/lib/site-content';
+
+// Copy is the studio's and is edited in WordPress, so these assert that the page renders
+// its fields — read from the schema defaults — rather than pinning one draft's wording.
+const about = sitePage('about', []);
+const plain = (text: string) => accentRuns(text).map((r) => r.text).join('');
 
 describe('/about (spec §4)', () => {
-  it('leads with the WHO WE ARE headline', () => {
-    render(<About />);
-    expect(screen.getByRole('heading', { name: 'WHO WE ARE', level: 1 })).toBeInTheDocument();
-  });
-
-  it('renders the studio description transcribed from deck page 03, not invented copy', () => {
+  it('leads with its headline', () => {
     render(<About />);
     expect(
-      screen.getByText(/specializing in Product Development and Creative Production/i)
+      screen.getByRole('heading', { name: plain(about.text('about_heading')), level: 1 })
     ).toBeInTheDocument();
-    expect(screen.getByText(/We don't separate creativity from production/i)).toBeInTheDocument();
+  });
+
+  it('renders every paragraph of the studio description, and not the hero tagline', () => {
+    render(<About />);
+    for (const paragraph of about.lines('about_body')) {
+      expect(screen.getByText(paragraph)).toBeInTheDocument();
+    }
     expect(screen.queryByText(/Clean in form\. Sharp in function\./i)).not.toBeInTheDocument();
   });
 

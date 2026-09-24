@@ -17,6 +17,6 @@ describe('ClientWall', () => {
 
   it('renders the section heading', () => {
     render(<ClientWall />);
-    expect(screen.getByRole('heading', { name: /OUR CLIENT/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /IN GOOD COMPANY/i })).toBeInTheDocument();
   });
 });

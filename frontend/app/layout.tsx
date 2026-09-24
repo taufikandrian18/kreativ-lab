@@ -12,6 +12,12 @@ import type { Metadata } from "next";
 // where it produced no preload at all.
 import antonLatin from "@fontsource/anton/files/anton-latin-400-normal.woff2";
 import archivoLatin from "@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2";
+// The width axis ships under the same family name as the weight-only cut above, so
+// importing its CSS would put two 'Archivo Variable' faces in competition and the
+// browser would pick whichever it read last. The wide cut is registered under its own
+// name instead, from the same hashed file URL the preloads use. It only ever sets the
+// one or two swapped letters in a headline (lib/swap-letters.ts), so it is not preloaded.
+import archivoWide from "@fontsource-variable/archivo/files/archivo-latin-wdth-normal.woff2";
 import "@fontsource/anton/latin-400.css";
 import "@fontsource-variable/archivo/wght.css";
 import "./globals.css";
@@ -58,6 +64,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           href={archivoLatin}
           crossOrigin="anonymous"
         />
+        <style>{`@font-face{font-family:'Archivo Wide';font-style:normal;font-display:swap;font-weight:100 900;font-stretch:62% 125%;src:url(${archivoWide}) format('woff2-variations')}`}</style>
         {/* The hero's letters are hidden until GSAP builds them (globals.css). With JS
             off nothing will, so they are shown at once rather than after the failsafe. */}
         <noscript>

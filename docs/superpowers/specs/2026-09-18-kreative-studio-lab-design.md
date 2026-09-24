@@ -291,6 +291,36 @@ reversing it means re-opening this spec.
 > is the same gesture as the keyline wipe the studio rejected above. Crency's Lenis
 > smooth scroll is not adopted either; ScrollSmoother stays, per the stack rule.
 
+> **Amendment (2026-09-24b):** the studio asked for the rest of the site — type,
+> placement, motion and copy — to follow the Crency reference, keeping the hero headline
+> as it is. The palette does not change: red, black and paper remain the only CSS
+> colours, and every fill below cycles through them. What changes:
+>
+> - **Type.** Anton stays for display, Archivo for text. Crency's second face — one
+>   wide, light letter swapped into each compressed line — is Archivo at its widest and
+>   lightest (`Archivo Wide`, the width-axis cut of a face already shipped), chosen per
+>   headline by `lib/swap-letters.ts` so editors type nothing. Capital E is excluded: its
+>   hairline arms read as a bracket. A fourth step, `.type-statement` (heavy sentence-case
+>   Archivo), carries one conversational statement per section; it sits between display
+>   and subhead and does not replace either.
+> - **Placement.** Openers are centred or set as two offset lines. Section seams are torn
+>   edges that flatten on scroll — Crency's waves, in the showreel's own torn paper.
+>   Pillars and product capabilities are filled, rounded cards; flat capability lists are
+>   pill tags; lab and archive links are signposts; calls to action are pills.
+> - **Motion.** Added, all transform-only: image chips of real work flying into the
+>   manifesto statement; a pinned card fan over a turning burst for the archive teaser
+>   (1024px and up — §7's no-pinning rule holds below); client marks and capability tags
+>   gathering out of a scatter; a highlighter stroke; a swinging signpost; a stretch on
+>   each swapped letter. The client wall's opacity stagger is removed, since a wall of
+>   half-faded marks is a wall of greys.
+> - **Copy.** Rewritten looser and in the second person, keeping every fact, service and
+>   client name; no figures are invented (Crency's review scores and project counts have
+>   no equivalent here and none were made up). Four `pillar_n_line` fields are added.
+>
+> Still declined, for the reasons already recorded: custom cursor, preloader,
+> self-drawing line, Lenis. Crency's floating bottom dock is not adopted; the header
+> already does its job.
+
 ### Rules
 
 Animate `transform` and `opacity` only. Anything else is a bug. No layout-triggering
