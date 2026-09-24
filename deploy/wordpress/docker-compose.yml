@@ -4,7 +4,6 @@
 # On the VPS:
 #   mkdir -p /opt/kreative-lab-cms && cd /opt/kreative-lab-cms
 #   copy this file, uploads.ini and a .env (see deploy/README.md) here
-#   docker network create web        # once, if Caddy is not on a shared network yet
 #   docker compose up -d
 #
 # The WordPress files land on the host in /var/www/kreative-lab-cms, which is inside the
@@ -47,7 +46,7 @@ services:
     volumes:
       - /var/www/kreative-lab-cms:/var/www/html/kreative-lab-cms
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
-    networks: [internal, web]
+    networks: [internal, caddy]
 
   # WP-CLI, run on demand only:  docker compose run --rm ksl-cli wp ksl seed
   ksl-cli:
@@ -70,5 +69,8 @@ volumes:
 
 networks:
   internal:
-  web:
+  # The network the VPS's Caddy (n8n-caddy-1, from /home/ubuntu/n8n) already sits on,
+  # so Caddy can reach ksl-wordpress by name.
+  caddy:
     external: true
+    name: n8n_default

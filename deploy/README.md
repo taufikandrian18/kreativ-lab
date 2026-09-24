@@ -33,24 +33,14 @@ must be open. Caddy obtains the certificate by itself.
 
 ### 2. Caddy
 
-Merge `deploy/Caddyfile.snippet` into the Caddyfile. It explains how if the hostname
-already has a block. Then give the Caddy container the shared network and the web root:
-
-```yaml
-# in Caddy's docker-compose.yml
-services:
-  caddy:
-    volumes:
-      - /var/www:/srv/www:ro
-    networks: [web]
-networks:
-  web:
-    external: true
-```
+Caddy already runs as `n8n-caddy-1` (compose project `/home/ubuntu/n8n`), mounts
+`/var/www` at `/srv/www`, and sits on the `n8n_default` network. Nothing about the
+container changes: merge `deploy/Caddyfile.snippet` into `/home/ubuntu/n8n/Caddyfile`,
+editing the file in place, then:
 
 ```sh
-docker network create web          # once
-docker compose up -d --force-recreate caddy
+sudo docker exec n8n-caddy-1 caddy validate --config /etc/caddy/Caddyfile --adapter caddyfile
+sudo docker exec -w /etc/caddy n8n-caddy-1 caddy reload --config /etc/caddy/Caddyfile --adapter caddyfile
 ```
 
 ### 3. WordPress
@@ -60,7 +50,7 @@ mkdir -p /opt/kreative-lab-cms && cd /opt/kreative-lab-cms
 # copy deploy/wordpress/docker-compose.yml and deploy/wordpress/uploads.ini here, then:
 printf 'DB_PASSWORD=%s\n' "$(openssl rand -hex 24)" > .env
 chmod 600 .env
-docker compose up -d
+sudo docker compose up -d
 ```
 
 Open `https://website.taufikandrian.my.id/kreative-lab-cms/` and finish the installer.

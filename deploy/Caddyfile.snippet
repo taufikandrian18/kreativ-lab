@@ -8,12 +8,12 @@
 # redir lines) into it rather than adding this block a second time. Keep a single
 # catch-all `handle` at the end of that block.
 #
-# The Caddy container needs:
-#   volumes:
-#     - /var/www:/srv/www:ro        # the static site and the WordPress files
-#   networks:
-#     - web                         # shared with deploy/wordpress/docker-compose.yml
-# then: docker compose up -d --force-recreate caddy
+# On the VPS this goes in /home/ubuntu/n8n/Caddyfile, served by the n8n-caddy-1
+# container, which already mounts /var/www at /srv/www and sits on the n8n_default
+# network that deploy/wordpress/docker-compose.yml joins. Reload after editing:
+#   sudo docker exec -w /etc/caddy n8n-caddy-1 caddy reload --config /etc/caddy/Caddyfile
+# The Caddyfile is bind-mounted as a single file: edit it in place (nano, or
+# `cat new > Caddyfile`), never replace it with mv, or the container keeps the old one.
 #
 # HTTPS is automatic once the DNS A record for website.taufikandrian.my.id points at
 # this VPS and ports 80 and 443 are open.
