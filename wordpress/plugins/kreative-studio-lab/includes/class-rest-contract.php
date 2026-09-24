@@ -51,14 +51,8 @@ class KSL_REST_Contract {
             'year_range'   => $raw['year_range'],
             'scope'        => self::split_scope_lines( $raw['scope'] ),
             'lab'          => $raw['lab'],
-            'hero_image'   => [
-                'url' => $raw['hero_image']['url'] ?? null,
-                'alt' => $raw['hero_image']['alt'] ?? null,
-            ],
-            'gallery'      => array_map(
-                fn( $img ) => [ 'url' => $img['url'] ?? null, 'alt' => $img['alt'] ?? null ],
-                $raw['gallery']
-            ),
+            'hero_image'   => self::shape_image( $raw['hero_image'] ),
+            'gallery'      => array_map( [ __CLASS__, 'shape_image' ], $raw['gallery'] ),
             'accent_color' => $raw['accent_color'],
         ];
     }
@@ -76,15 +70,29 @@ class KSL_REST_Contract {
     public static function shape_client_logo( array $raw ): array {
         return [
             'name'  => $raw['name'],
-            'logo'  => [
-                'url' => $raw['logo']['url'] ?? null,
-                'alt' => $raw['logo']['alt'] ?? null,
-            ],
+            'logo'  => self::shape_image( $raw['logo'] ),
             // Cast explicitly: confirmed live that ACF's 'number' field type can round-trip
             // through get_field() as a numeric string ("24") rather than an int, even though
             // the field is typed 'number'. The contract's job is a stable shape regardless of
             // ACF's own quirks, not passing through whatever it happens to return.
             'order' => (int) $raw['order'],
+        ];
+    }
+
+    /**
+     * One shape for every image in the contract. Width and height travel with the URL
+     * because the front-end is a static export: it lays out each image before it loads,
+     * and a gallery column span is chosen from the image's proportions. ACF's array
+     * return format carries both. Anything that is not an ACF image array (false when the
+     * field is empty, null from seed data) becomes all-null rather than a missing key.
+     */
+    public static function shape_image( $img ): array {
+        $img = is_array( $img ) ? $img : [];
+        return [
+            'url'    => $img['url'] ?? null,
+            'alt'    => $img['alt'] ?? null,
+            'width'  => isset( $img['width'] ) ? (int) $img['width'] : null,
+            'height' => isset( $img['height'] ) ? (int) $img['height'] : null,
         ];
     }
 
@@ -120,10 +128,7 @@ class KSL_REST_Contract {
             'email'           => $raw['email'],
             'instagram'       => $raw['instagram'],
             'address'         => $raw['address'],
-            'og_image'        => [
-                'url' => $raw['og_image']['url'] ?? null,
-                'alt' => $raw['og_image']['alt'] ?? null,
-            ],
+            'og_image'        => self::shape_image( $raw['og_image'] ),
         ];
     }
 }

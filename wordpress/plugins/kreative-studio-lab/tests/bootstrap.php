@@ -15,4 +15,4 @@ require_once dirname( __DIR__ ) . '/includes/class-acf-fields-archive-project.ph
 require_once dirname( __DIR__ ) . '/includes/class-acf-fields-client-logo.php';
 require_once dirname( __DIR__ ) . '/includes/class-acf-fields-site-setting.php';
 require_once dirname( __DIR__ ) . '/includes/class-rest-contract.php';
-require_once dirname( __DIR__ ) . '/includes/class-revalidate-webhook.php';
+require_once dirname( __DIR__ ) . '/includes/class-deploy-trigger.php';
