@@ -5,3 +5,6 @@ node_modules/
 wordpress/plugins/advanced-custom-fields-pro/
 wordpress/uploads/
 .worktrees/
+
+# VPS details, written by scripts/deploy-vps.sh on first run
+scripts/deploy.env

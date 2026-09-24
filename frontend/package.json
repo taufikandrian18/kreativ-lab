@@ -6,7 +6,7 @@
     "dev": "next dev -p 5656",
     "prebuild": "vitest run lib/fixture-sync.test.ts tests/assets.test.ts",
     "build": "next build",
-    "start": "next start -p 5656",
+    "start": "npx --yes serve@14 out -l 5656",
     "lint": "eslint",
     "test": "vitest run",
     "sync-fixture": "cp ../wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json ./data/rest-contract.json",
