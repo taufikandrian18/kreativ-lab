@@ -21,18 +21,22 @@ logos=$(curl -sfL "${BASE_URL}/?rest_route=/wp/v2/client-logos&per_page=100&_fie
 # original plan never fetched the options page at all (it had no collection endpoint to
 # fetch from), so this is new coverage, not a change to prior behavior.
 settings=$(curl -sfL "${BASE_URL}/?rest_route=/wp/v2/site-settings&per_page=100&_fields=id,ksl_site_setting")
+# Every editable section (Site Pages). Oldest first: the seed creates them in schema order, so the fixture is stable.
+pages=$(curl -sfL "${BASE_URL}/?rest_route=/wp/v2/site-pages&per_page=100&orderby=id&order=asc&_fields=id,ksl_page")
 
 python3 -c "
 import json, sys
 projects = json.loads(sys.argv[1])
 logos = json.loads(sys.argv[2])
 settings = json.loads(sys.argv[3])
+pages = json.loads(sys.argv[4])
 out = {
     'archive_projects': [p['ksl_project'] for p in projects],
     'client_logos': [l['ksl_logo'] for l in logos],
     'site_settings': [s['ksl_site_setting'] for s in settings],
+    'site_pages': [p['ksl_page'] for p in pages if p['ksl_page']],
 }
 print(json.dumps(out, indent=2, ensure_ascii=False))
-" "$projects" "$logos" "$settings" > "$OUT"
+" "$projects" "$logos" "$settings" "$pages" > "$OUT"
 
 echo "Wrote $OUT"

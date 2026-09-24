@@ -28,6 +28,7 @@ class KSL_Deploy_Trigger {
         'archive_project',
         'client_logo',
         'site_setting',
+        'site_page',
     ];
 
     /**

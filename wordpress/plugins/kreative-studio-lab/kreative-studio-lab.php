@@ -1,8 +1,8 @@
 <?php
 /**
  * Plugin Name: Kreative Studio Lab Content
- * Description: Headless content layer for the Kreative Studio Lab site. Registers CPTs, ACF field groups, the REST contract, and the GitHub deploy trigger.
- * Version: 1.1.0
+ * Description: Headless content layer for the Kreative Studio Lab site. Registers CPTs, ACF field groups (including every editable site section), the REST contract, and the GitHub deploy trigger.
+ * Version: 1.2.0
  * Requires PHP: 8.2
  */
 
@@ -20,6 +20,7 @@ require_once KSL_PLUGIN_DIR . '/includes/class-acf-fields-archive-project.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-acf-fields-client-logo.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-acf-fields-site-setting.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-rest-contract.php';
+require_once KSL_PLUGIN_DIR . '/includes/class-site-pages.php';
 require_once KSL_PLUGIN_DIR . '/includes/class-deploy-trigger.php';
 
 add_action( 'init', [ 'KSL_CPT_Archive_Project', 'register' ] );
@@ -28,7 +29,10 @@ add_action( 'init', [ 'KSL_CPT_Site_Setting', 'register' ] );
 add_action( 'acf/init', [ 'KSL_ACF_Fields_Archive_Project', 'register' ] );
 add_action( 'acf/init', [ 'KSL_ACF_Fields_Client_Logo', 'register' ] );
 add_action( 'acf/init', [ 'KSL_ACF_Fields_Site_Setting', 'register' ] );
+add_action( 'init', [ 'KSL_Site_Pages', 'register_post_type' ] );
+add_action( 'acf/init', [ 'KSL_Site_Pages', 'register_fields' ] );
 add_action( 'rest_api_init', [ 'KSL_REST_Contract', 'register' ] );
+add_action( 'rest_api_init', [ 'KSL_Site_Pages', 'register_rest_field' ] );
 add_action( 'transition_post_status', [ 'KSL_Deploy_Trigger', 'maybe_fire' ], 10, 3 );
 
 if ( defined( 'WP_CLI' ) && WP_CLI ) {

@@ -35,11 +35,27 @@ class KSL_REST_Contract {
             'scope'        => get_field( 'scope', $post['id'] ) ?: '',
             'lab'          => get_field( 'lab', $post['id'] ),
             'hero_image'   => get_field( 'hero_image', $post['id'] ),
-            'gallery'      => get_field( 'gallery', $post['id'] ) ?: [],
+            'gallery'      => self::gallery_slots( $post['id'] ),
             'accent_color' => get_field( 'accent_color', $post['id'] ),
+            'featured'     => get_field( 'featured', $post['id'] ),
+            'reel_wide'    => get_field( 'reel_wide', $post['id'] ),
+            'reel_narrow'  => get_field( 'reel_narrow', $post['id'] ),
+            'reel_poster'  => get_field( 'reel_poster', $post['id'] ),
         ];
 
         return self::shape_archive_project( $raw, get_the_title( $post['id'] ) );
+    }
+
+    /** The filled gallery slots, in slot order. See KSL_ACF_Fields_Archive_Project. */
+    private static function gallery_slots( int $post_id ): array {
+        $images = [];
+        for ( $i = 1; $i <= KSL_ACF_Fields_Archive_Project::GALLERY_SLOTS; $i++ ) {
+            $image = get_field( "gallery_{$i}", $post_id );
+            if ( is_array( $image ) ) {
+                $images[] = $image;
+            }
+        }
+        return $images;
     }
 
     public static function shape_archive_project( array $raw, string $title ): array {
@@ -54,6 +70,13 @@ class KSL_REST_Contract {
             'hero_image'   => self::shape_image( $raw['hero_image'] ),
             'gallery'      => array_map( [ __CLASS__, 'shape_image' ], $raw['gallery'] ),
             'accent_color' => $raw['accent_color'],
+            // Added after the first contract: absent from a caller's raw array means off.
+            'featured'     => (bool) ( $raw['featured'] ?? false ),
+            'reel'         => [
+                'wide'   => self::shape_file( $raw['reel_wide'] ?? null ),
+                'narrow' => self::shape_file( $raw['reel_narrow'] ?? null ),
+                'poster' => self::shape_image( $raw['reel_poster'] ?? null ),
+            ],
         ];
     }
 
@@ -93,6 +116,15 @@ class KSL_REST_Contract {
             'alt'    => $img['alt'] ?? null,
             'width'  => isset( $img['width'] ) ? (int) $img['width'] : null,
             'height' => isset( $img['height'] ) ? (int) $img['height'] : null,
+        ];
+    }
+
+    /** A video or other upload: where it is and what it is, nothing else. */
+    public static function shape_file( $file ): array {
+        $file = is_array( $file ) ? $file : [];
+        return [
+            'url'  => $file['url'] ?? null,
+            'mime' => $file['mime_type'] ?? null,
         ];
     }
 

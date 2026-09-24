@@ -51,6 +51,14 @@ class Test_Deploy_Trigger extends TestCase {
         $this->assertTrue( true );
     }
 
+    public function test_dispatches_when_a_site_page_is_edited() {
+        $this->configure();
+        WP_Mock::userFunction( 'wp_remote_post' )->once();
+
+        KSL_Deploy_Trigger::maybe_fire( 'publish', 'publish', $this->post( 'site_page', 37 ) );
+        $this->assertTrue( true );
+    }
+
     public function test_dispatches_when_live_content_is_unpublished_or_trashed() {
         // Removing a case study must rebuild the site, or it stays live forever.
         $this->configure();

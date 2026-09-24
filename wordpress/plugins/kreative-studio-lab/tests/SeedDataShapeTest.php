@@ -35,7 +35,9 @@ class Test_Seed_Data_Shape extends TestCase {
             true
         );
 
-        $this->assertCount( 24, $data );
+        // 25: Nippon Paint is on the deck's client page (page 24) but was missing from
+        // spec §3's transcribed list; the logo wall has always shown it.
+        $this->assertCount( 25, $data );
 
         foreach ( $data as $entry ) {
             $this->assertArrayHasKey( 'name', $entry );

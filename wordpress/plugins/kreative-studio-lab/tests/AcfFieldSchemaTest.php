@@ -20,14 +20,37 @@ class Test_ACF_Field_Schema extends TestCase {
 
         KSL_ACF_Fields_Archive_Project::register();
 
-        $names = array_map( fn( $f ) => $f['name'], $captured['fields'] );
+        $names = array_values( array_filter(
+            array_map( fn( $f ) => $f['name'], $captured['fields'] ),
+            fn( $n ) => $n !== '' && strpos( $n, 'gallery_' ) !== 0
+        ) );
         $expected = [
             'archive_no', 'client', 'industry', 'year_range',
-            'scope', 'lab', 'hero_image', 'gallery', 'accent_color',
+            'scope', 'lab', 'hero_image', 'accent_color',
+            'featured', 'reel_wide', 'reel_narrow', 'reel_poster',
         ];
         sort( $names );
         sort( $expected );
         $this->assertSame( $expected, $names );
+    }
+
+    public function test_gallery_is_free_acf_image_slots_not_the_pro_gallery_field() {
+        $captured = null;
+        WP_Mock::userFunction( 'acf_add_local_field_group' )
+            ->once()
+            ->andReturnUsing( function ( $group ) use ( &$captured ) {
+                $captured = $group;
+            } );
+
+        KSL_ACF_Fields_Archive_Project::register();
+
+        $types = array_column( $captured['fields'], 'type' );
+        $this->assertNotContains( 'gallery', $types );
+        $slots = array_filter( $captured['fields'], fn( $f ) => strpos( $f['name'], 'gallery_' ) === 0 );
+        $this->assertCount( KSL_ACF_Fields_Archive_Project::GALLERY_SLOTS, $slots );
+        foreach ( $slots as $slot ) {
+            $this->assertSame( 'image', $slot['type'] );
+        }
     }
 
     public function test_archive_project_lab_field_has_exact_choices() {
