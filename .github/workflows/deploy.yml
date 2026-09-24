@@ -14,6 +14,7 @@
 #   variables  KSL_CMS_URL      e.g. https://website.taufikandrian.my.id/kreative-lab-cms
 #              DEPLOY_PATH      default /var/www/kreativ-lab
 #              BASE_PATH        default /kreative-lab
+#              SITE_ORIGIN      default https://website.taufikandrian.my.id
 name: Deploy
 
 on:
@@ -53,6 +54,8 @@ jobs:
 
       - run: npm ci --no-audit --no-fund
 
+      - run: npm run lint
+
       # Against the committed fixture: proves the code, before any live content is involved.
       - run: npm test
 
@@ -69,6 +72,9 @@ jobs:
           # Build step only: the unit tests assert root-relative paths and fail if the
           # base path is in their environment.
           NEXT_PUBLIC_BASE_PATH: ${{ vars.BASE_PATH || '/kreative-lab' }}
+          # Public origin, so the social-share image (Site Settings → OG image) is an
+          # absolute URL, which is the only form social networks accept.
+          NEXT_PUBLIC_SITE_ORIGIN: ${{ vars.SITE_ORIGIN || 'https://website.taufikandrian.my.id' }}
         run: npm run build
 
       - name: Configure SSH

@@ -2,8 +2,9 @@
 //
 //   KSL_CMS_URL=https://website.example/kreative-lab-cms npm run fetch-cms
 //
-// The site is a static export, so WordPress is read once, here, at build time: the three
-// collections are fetched over REST, every image they reference is downloaded and resized
+// The site is a static export, so WordPress is read once, here, at build time: the four
+// collections (case studies, logos, settings and Site Pages) are fetched over REST, every
+// image they reference is downloaded and resized (videos are copied as they are)
 // into public/cms/, and the result overwrites data/rest-contract.json — the same file, in
 // the same shape, that the committed fixture provides when no CMS is configured. Nothing
 // downstream knows which of the two it is reading.
@@ -71,6 +72,17 @@ export function validateContent(content) {
     }
   }
 
+  for (const p of projects) {
+    if (p.reel?.wide?.url && !p.reel?.poster?.url) {
+      problems.push(`archive project "${p.title}": a reel video needs a reel poster image`);
+    }
+  }
+
+  const creative = content.site_pages?.find((page) => page.key === 'creative_lab')?.fields;
+  if (creative?.cl_reel_wide?.url && !creative?.cl_reel_poster?.url) {
+    problems.push('Site Pages → Creative Lab: a reel video needs a reel poster image');
+  }
+
   for (const logo of content.client_logos) {
     if (!logo.name?.trim()) problems.push('a client logo has an empty name');
   }
@@ -80,24 +92,43 @@ export function validateContent(content) {
   }
 }
 
-/** Every image object in the content, so they can be downloaded and rewritten in place. */
-export function collectImages(content) {
-  const images = [];
-  for (const p of content.archive_projects) {
-    images.push(p.hero_image, ...p.gallery);
-  }
-  for (const l of content.client_logos) images.push(l.logo);
-  for (const s of content.site_settings) images.push(s.og_image);
-  return images.filter((img) => img && img.url);
+/**
+ * Every uploaded file the content refers to, wherever it sits: case-study images and
+ * reels, logos, the share image, and every image or video field on the Site Pages. An
+ * upload is any object with a `url` next to `alt` (an image) or `mime` (a file). Found by
+ * walking the tree, so a field added to the plugin later is localised without a change
+ * here.
+ */
+export function collectMedia(content) {
+  const found = [];
+  const walk = (node) => {
+    if (Array.isArray(node)) {
+      node.forEach(walk);
+    } else if (node && typeof node === 'object') {
+      if ('url' in node && ('alt' in node || 'mime' in node)) {
+        if (node.url) found.push(node);
+        return;
+      }
+      Object.values(node).forEach(walk);
+    }
+  };
+  walk(content);
+  return found;
 }
 
-async function fetchCollection(baseUrl, restBase, field) {
+async function fetchCollection(baseUrl, restBase, field, { optional = false } = {}) {
   const items = [];
   for (let page = 1; ; page++) {
     // ?rest_route= rather than /wp-json/: it works whatever the permalink settings are.
     // See scripts/fetch-contract-fixture.sh for the history.
     const url = `${baseUrl}/?rest_route=/wp/v2/${restBase}&per_page=100&page=${page}&_fields=id,${field}`;
     const res = await fetch(url, { headers: { Accept: 'application/json' } });
+    if (optional && res.status === 404) {
+      // The plugin on the server predates this collection. Building on the defaults keeps
+      // deploys working until it is updated (scripts/deploy-cms-plugin.sh).
+      console.warn(`    ${restBase}: not on this WordPress yet (update the plugin); using defaults`);
+      return [];
+    }
     if (!res.ok) throw new Error(`GET ${url} → HTTP ${res.status}`);
 
     const body = await res.json();
@@ -116,11 +147,24 @@ async function fetchCollection(baseUrl, restBase, field) {
   }
 }
 
-async function localiseImage(img, sharp, mediaDir) {
+const EXTENSIONS = { 'video/mp4': 'mp4', 'video/webm': 'webm', 'application/pdf': 'pdf' };
+
+async function localiseMedia(img, sharp, mediaDir) {
   const res = await fetch(img.url);
-  if (!res.ok) throw new Error(`image ${img.url} → HTTP ${res.status}`);
+  if (!res.ok) throw new Error(`upload ${img.url} → HTTP ${res.status}`);
   const bytes = Buffer.from(await res.arrayBuffer());
   const id = createHash('sha1').update(img.url).digest('hex').slice(0, 12);
+
+  // Videos and other files are copied byte for byte: the studio exports them at the
+  // size they should play at, and re-encoding belongs in their edit, not in a build.
+  if ('mime' in img) {
+    const ext =
+      EXTENSIONS[img.mime] ?? img.url.match(/\.([a-z0-9]{2,5})(?:\?|$)/i)?.[1]?.toLowerCase() ?? 'bin';
+    const file = `${id}.${ext}`;
+    await writeFile(join(mediaDir, file), bytes);
+    img.url = `${MEDIA_URL}/${file}`;
+    return;
+  }
 
   // Vector logos are copied as they are: resizing an SVG would only rasterise it.
   const isSvg =
@@ -163,12 +207,13 @@ export async function main({ outFile = OUT_FILE, mediaDir = MEDIA_DIR } = {}) {
   }
 
   console.log(`==> Fetching content from ${baseUrl}`);
-  const [archive_projects, client_logos, site_settings] = await Promise.all([
+  const [archive_projects, client_logos, site_settings, site_pages] = await Promise.all([
     fetchCollection(baseUrl, 'archive-projects', 'ksl_project'),
     fetchCollection(baseUrl, 'client-logos', 'ksl_logo'),
     fetchCollection(baseUrl, 'site-settings', 'ksl_site_setting'),
+    fetchCollection(baseUrl, 'site-pages', 'ksl_page', { optional: true }),
   ]);
-  const content = { archive_projects, client_logos, site_settings };
+  const content = { archive_projects, client_logos, site_settings, site_pages };
   validateContent(content);
 
   if (site_settings.length !== 1) {
@@ -177,19 +222,20 @@ export async function main({ outFile = OUT_FILE, mediaDir = MEDIA_DIR } = {}) {
     );
   }
 
-  const images = collectImages(content);
+  const media = collectMedia(content);
   console.log(
-    `==> ${archive_projects.length} projects, ${client_logos.length} logos, ${images.length} images`
+    `==> ${archive_projects.length} projects, ${client_logos.length} logos, ` +
+      `${site_pages.length} site pages, ${media.length} uploads`
   );
 
   const { default: sharp } = await import('sharp');
   await rm(mediaDir, { recursive: true, force: true });
   await mkdir(mediaDir, { recursive: true });
   // A few at a time: fast enough, and gentle on a small VPS serving the uploads.
-  const queue = [...images];
+  const queue = [...media];
   await Promise.all(
     Array.from({ length: 4 }, async () => {
-      while (queue.length > 0) await localiseImage(queue.shift(), sharp, mediaDir);
+      while (queue.length > 0) await localiseMedia(queue.shift(), sharp, mediaDir);
     })
   );
 

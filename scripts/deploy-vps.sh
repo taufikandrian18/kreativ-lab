@@ -69,7 +69,8 @@ else
 fi
 
 echo "==> Building (base path: ${DEPLOY_BASE_PATH:-/})"
-KSL_CMS_URL="$KSL_CMS_URL" NEXT_PUBLIC_BASE_PATH="$DEPLOY_BASE_PATH" npm run build
+KSL_CMS_URL="$KSL_CMS_URL" NEXT_PUBLIC_BASE_PATH="$DEPLOY_BASE_PATH" \
+  NEXT_PUBLIC_SITE_ORIGIN="${SITE_ORIGIN-https://website.taufikandrian.my.id}" npm run build
 
 echo "==> Uploading to $REMOTE:$DEPLOY_PATH"
 ssh "$REMOTE" "mkdir -p '$DEPLOY_PATH.next' '$DEPLOY_PATH'"

@@ -1,0 +1,638 @@
+{
+  "_comment": "Every editable section of the site. Read by the WordPress plugin (field groups, REST, seed) and copied to frontend/data/site-pages.json (defaults). Run `npm run sync-fixture` in frontend/ after editing.",
+  "pages": [
+    {
+      "key": "global",
+      "title": "Global: header, footer & SEO",
+      "sections": [
+        {
+          "label": "Header & footer",
+          "fields": [
+            {
+              "name": "wordmark",
+              "label": "Wordmark",
+              "type": "text",
+              "default": "K STUDIOLAB"
+            },
+            {
+              "name": "nav_about",
+              "label": "Menu: About",
+              "type": "text",
+              "default": "About"
+            },
+            {
+              "name": "nav_product_lab",
+              "label": "Menu: Product Lab",
+              "type": "text",
+              "default": "Product Lab"
+            },
+            {
+              "name": "nav_creative_lab",
+              "label": "Menu: Creative Lab",
+              "type": "text",
+              "default": "Creative Lab"
+            },
+            {
+              "name": "nav_archive",
+              "label": "Menu: Archive",
+              "type": "text",
+              "default": "Archive"
+            },
+            {
+              "name": "nav_contact",
+              "label": "Menu: Contact",
+              "type": "text",
+              "default": "Contact"
+            }
+          ]
+        },
+        {
+          "label": "SEO",
+          "fields": [
+            {
+              "name": "site_title",
+              "label": "Site title",
+              "type": "text",
+              "default": "Kreative Studio Lab",
+              "instructions": "Shown in the browser tab and search results."
+            },
+            {
+              "name": "site_description",
+              "label": "Site description",
+              "type": "textarea",
+              "default": "Clean in form. Sharp in function.",
+              "instructions": "Shown under the title in search results."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "home",
+      "title": "Home",
+      "sections": [
+        {
+          "label": "Hero",
+          "fields": [
+            {
+              "name": "hero_headline",
+              "label": "Headline",
+              "type": "text",
+              "default": "CLEAN IN FORM. SHARP IN FUNCTION."
+            },
+            {
+              "name": "hero_marquee",
+              "label": "Scrolling marquee",
+              "type": "text",
+              "default": "KREATE LIVE"
+            },
+            {
+              "name": "hero_video_wide",
+              "label": "Showreel, desktop",
+              "type": "file",
+              "instructions": "MP4, landscape, 1080p. Leave empty to keep the current video."
+            },
+            {
+              "name": "hero_video_narrow",
+              "label": "Showreel, mobile",
+              "type": "file",
+              "instructions": "MP4, landscape, 720p. Leave empty to keep the current video."
+            },
+            {
+              "name": "hero_poster",
+              "label": "Poster frame",
+              "type": "image",
+              "instructions": "First frame of the showreel, shown while it loads. Leave empty to keep the current one."
+            },
+            {
+              "name": "hero_still",
+              "label": "Still for reduced motion",
+              "type": "image",
+              "instructions": "Shown instead of the video to visitors who switch off animation. Leave empty to keep the current one."
+            },
+            {
+              "name": "hero_video_label",
+              "label": "Showreel description",
+              "type": "text",
+              "default": "Kreative Studio Lab showreel",
+              "instructions": "Read aloud by screen readers."
+            }
+          ]
+        },
+        {
+          "label": "Manifesto",
+          "fields": [
+            {
+              "name": "manifesto_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "KREATE *LIVE* STUDIO LAB",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "manifesto_opening",
+              "label": "Opening line",
+              "type": "text",
+              "default": "More than creativity. Ideas are everywhere."
+            },
+            {
+              "name": "manifesto_body",
+              "label": "Body",
+              "type": "lines",
+              "default": "What makes them valuable is how they are explored, developed, crafted, and experienced.\nAt KREATIVE STUDIO LAB, we believe creativity doesn't end with making something beautiful.",
+              "instructions": "One paragraph per line."
+            },
+            {
+              "name": "manifesto_steps",
+              "label": "Steps",
+              "type": "pairs",
+              "default": "It begins | with understanding.\nIt grows | through experimentation.\nIt comes to life | through craftsmanship.\nAnd it becomes meaningful | when people experience it.",
+              "instructions": "One step per line: the large words, then | then the rest."
+            },
+            {
+              "name": "manifesto_every_label",
+              "label": "Repeated word",
+              "type": "text",
+              "default": "Every"
+            },
+            {
+              "name": "manifesto_every",
+              "label": "Words after it",
+              "type": "lines",
+              "default": "product\ndetail\nstory\nexperience",
+              "instructions": "One per line."
+            },
+            {
+              "name": "manifesto_lead",
+              "label": "Lead-in line",
+              "type": "text",
+              "default": "Because we don't simply create."
+            },
+            {
+              "name": "manifesto_closing",
+              "label": "Closing line",
+              "type": "text",
+              "default": "We Create *Live.*",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "manifesto_image",
+              "label": "Side image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            }
+          ]
+        },
+        {
+          "label": "Who we are",
+          "fields": [
+            {
+              "name": "who_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "WHO WE ARE"
+            },
+            {
+              "name": "pillar_1_word",
+              "label": "Card 1 word",
+              "type": "text",
+              "default": "THINK"
+            },
+            {
+              "name": "pillar_1_image",
+              "label": "Card 1 image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "pillar_2_word",
+              "label": "Card 2 word",
+              "type": "text",
+              "default": "DESIGN"
+            },
+            {
+              "name": "pillar_2_image",
+              "label": "Card 2 image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "pillar_3_word",
+              "label": "Card 3 word",
+              "type": "text",
+              "default": "CRAFT"
+            },
+            {
+              "name": "pillar_3_image",
+              "label": "Card 3 image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "pillar_4_word",
+              "label": "Card 4 word",
+              "type": "text",
+              "default": "EXPERIENCE"
+            },
+            {
+              "name": "pillar_4_image",
+              "label": "Card 4 image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            }
+          ]
+        },
+        {
+          "label": "Two labs",
+          "fields": [
+            {
+              "name": "labs_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "One Studio. Two Labs.",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "labs_subhead",
+              "label": "Subheading",
+              "type": "text",
+              "default": "Different disciplines. One creative ecosystem."
+            },
+            {
+              "name": "labs_product",
+              "label": "Product Lab name",
+              "type": "text",
+              "default": "PRODUCT LAB",
+              "instructions": "Also written inside the white circle, with the last word on its own line."
+            },
+            {
+              "name": "labs_creative",
+              "label": "Creative Lab name",
+              "type": "text",
+              "default": "CREATIVE LAB",
+              "instructions": "Also written inside the ringed circle, with the last word on its own line."
+            }
+          ]
+        },
+        {
+          "label": "Archive preview",
+          "fields": [
+            {
+              "name": "teaser_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "LAB ARCHIVE"
+            },
+            {
+              "name": "teaser_link",
+              "label": "Link text",
+              "type": "text",
+              "default": "View the full archive"
+            },
+            {
+              "name": "teaser_note",
+              "label": "Which case studies appear",
+              "type": "message",
+              "message": "Tick “Show on homepage” on up to three Archive Projects. If fewer than three are ticked, the newest ones fill the remaining places."
+            }
+          ]
+        },
+        {
+          "label": "Clients",
+          "fields": [
+            {
+              "name": "clients_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "OUR CLIENT"
+            },
+            {
+              "name": "clients_note",
+              "label": "Logos",
+              "type": "message",
+              "message": "The logos themselves are edited under Client Logos."
+            }
+          ]
+        },
+        {
+          "label": "Closing",
+          "fields": [
+            {
+              "name": "closing_statement",
+              "label": "Statement",
+              "type": "text",
+              "default": "LET'S *CREATE* SOMETHING THAT *LIVES.*",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "closing_link",
+              "label": "Button text",
+              "type": "text",
+              "default": "Start a project"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "about",
+      "title": "About",
+      "sections": [
+        {
+          "label": "Page",
+          "fields": [
+            {
+              "name": "about_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "WHO WE ARE",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "about_body",
+              "label": "Body",
+              "type": "lines",
+              "default": "KREATIVE STUDIO LAB is a Creative Production Studio specializing in Product Development and Creative Production.\nWe collaborate with brands, corporations, organizations, and communities to develop products, visual content, and brand experiences that create meaningful connections. By combining strategic thinking, creative exploration, and production expertise, we transform ideas into tangible experiences from the first concept to the final execution.\nWe don't separate creativity from production. We believe they belong together.",
+              "instructions": "One paragraph per line."
+            },
+            {
+              "name": "about_image",
+              "label": "Image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "about_image_alt",
+              "label": "Image description",
+              "type": "text",
+              "default": "Studio portrait: a sewing machine foot in high-contrast halftone, and the four pillars as photographic cards — think, design, craft, experience",
+              "instructions": "Describes the image for screen readers and search engines."
+            },
+            {
+              "name": "about_pillars",
+              "label": "Pillars",
+              "type": "lines",
+              "default": "THINK\nDESIGN\nCRAFT\nEXPERIENCE",
+              "instructions": "One per line."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "product_lab",
+      "title": "Product Lab",
+      "sections": [
+        {
+          "label": "Page",
+          "fields": [
+            {
+              "name": "pl_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "PRODUCT *LAB*",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "pl_subhead",
+              "label": "Subheading",
+              "type": "text",
+              "default": "Where Ideas Become Products."
+            },
+            {
+              "name": "pl_body",
+              "label": "Body",
+              "type": "lines",
+              "default": "We transform ideas into products that embody a brand's identity and purpose. From material exploration and design development to prototyping, production, and final finishing, every stage is approached with precision and intention.\nWe believe exceptional products are created through thoughtful craftsmanship, meticulous attention to detail, and a commitment to quality.",
+              "instructions": "One paragraph per line."
+            },
+            {
+              "name": "pl_image",
+              "label": "Process image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "pl_image_alt",
+              "label": "Image description",
+              "type": "text",
+              "default": "Product Lab process: sewing, pattern drafting, and keyring, pouch and cap prototypes",
+              "instructions": "Describes the image for screen readers and search engines."
+            }
+          ]
+        },
+        {
+          "label": "Capabilities",
+          "fields": [
+            {
+              "name": "pl_capabilities_label",
+              "label": "Label",
+              "type": "text",
+              "default": "Capabilities"
+            },
+            {
+              "name": "pl_capabilities",
+              "label": "Capabilities",
+              "type": "groups",
+              "default": "Print & Packaging:\nPackaging Design & Production\nPremium Gift Sets\nPrinting Production\nPublications\nBrand Products:\nBrand Merchandise\nCorporate Merchandise\nEvent Merchandise\nApparel Development\nUniform Development\nSpatial Experience:\nRetail Display\nExhibition Production\nCustom Solutions:\nCustom Product Development",
+              "instructions": "A line ending in a colon starts a group; the lines under it are that group's items."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "creative_lab",
+      "title": "Creative Lab",
+      "sections": [
+        {
+          "label": "Page",
+          "fields": [
+            {
+              "name": "cl_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "CREATIVE *LAB*",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "cl_subhead",
+              "label": "Subheading",
+              "type": "text",
+              "default": "Where Products Become Stories"
+            },
+            {
+              "name": "cl_body",
+              "label": "Body",
+              "type": "lines",
+              "default": "Powerful products deserve meaningful stories. Through Creative Lab, we transform products into visual experiences that strengthen brand perception and create emotional connections.\nFrom creative direction to campaign execution, we produce visual content that communicates not only what a product is, but why it matters.\nBecause every product deserves a story worth remembering.",
+              "instructions": "One paragraph per line."
+            }
+          ]
+        },
+        {
+          "label": "Reel",
+          "fields": [
+            {
+              "name": "cl_reel_wide",
+              "label": "Reel, desktop",
+              "type": "file",
+              "instructions": "MP4, about 720px wide. Leave empty to keep the current reel."
+            },
+            {
+              "name": "cl_reel_narrow",
+              "label": "Reel, mobile",
+              "type": "file",
+              "instructions": "MP4, about 480px wide. Leave empty to keep the current reel."
+            },
+            {
+              "name": "cl_reel_poster",
+              "label": "Reel poster",
+              "type": "image",
+              "instructions": "First frame of the reel, same shape as the video. Required for a new reel."
+            }
+          ]
+        },
+        {
+          "label": "Capabilities",
+          "fields": [
+            {
+              "name": "cl_capabilities_label",
+              "label": "Label",
+              "type": "text",
+              "default": "Capabilities"
+            },
+            {
+              "name": "cl_capabilities",
+              "label": "Capabilities",
+              "type": "groups",
+              "default": "Creative Direction\nProduct Photography\nCampaign Photography\nEditorial\nLookbook\nLifestyle Photography\nBrand Film\nVideo Campaign\nTV Commercial\nMotion Graphics\nContent Production\nSocial Media Assets",
+              "instructions": "One per line. A line ending in a colon starts a named group."
+            }
+          ]
+        },
+        {
+          "label": "Photo strip",
+          "fields": [
+            {
+              "name": "cl_strip_image",
+              "label": "Wide photo strip",
+              "type": "image",
+              "instructions": "A very wide image across the bottom of the page. Leave empty to keep the current one."
+            },
+            {
+              "name": "cl_strip_alt",
+              "label": "Strip description",
+              "type": "text",
+              "default": "Creative Lab on set: mood boards, camera rigs, and the lit studio floor",
+              "instructions": "Describes the image for screen readers and search engines."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "archive",
+      "title": "Archive",
+      "sections": [
+        {
+          "label": "Page",
+          "fields": [
+            {
+              "name": "archive_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "LAB ARCHIVE",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "archive_image",
+              "label": "Statement image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "archive_image_alt",
+              "label": "Image description",
+              "type": "text",
+              "default": "Every great outcome starts with a thoughtful process.",
+              "instructions": "Describes the image for screen readers and search engines."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "contact",
+      "title": "Contact",
+      "sections": [
+        {
+          "label": "Page",
+          "fields": [
+            {
+              "name": "contact_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "LET'S *TALK*",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "contact_image",
+              "label": "Image",
+              "type": "image",
+              "instructions": "Leave empty to keep the current artwork."
+            },
+            {
+              "name": "contact_note",
+              "label": "Phone numbers and email",
+              "type": "message",
+              "message": "Edited under Site Settings."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "key": "not_found",
+      "title": "Page not found (404)",
+      "sections": [
+        {
+          "label": "Page",
+          "fields": [
+            {
+              "name": "nf_code",
+              "label": "Code",
+              "type": "text",
+              "default": "404"
+            },
+            {
+              "name": "nf_heading",
+              "label": "Heading",
+              "type": "text",
+              "default": "NOT FOUND",
+              "instructions": "Wrap words in *stars* to set them in red."
+            },
+            {
+              "name": "nf_body",
+              "label": "Message",
+              "type": "textarea",
+              "default": "That page is not in the lab. It may have moved, or the link may be wrong."
+            },
+            {
+              "name": "nf_home_link",
+              "label": "Home link text",
+              "type": "text",
+              "default": "Back home"
+            },
+            {
+              "name": "nf_archive_link",
+              "label": "Archive link text",
+              "type": "text",
+              "default": "Lab archive"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

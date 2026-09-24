@@ -1,6 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { prefersReducedMotion } from '@/lib/motion-env';
@@ -17,15 +17,21 @@ export function MaskReveal({
   children: React.ReactNode;
 }) {
   const ref = useRef<HTMLElement>(null);
-  const [revealed, setRevealed] = useState(false);
 
+  // `data-revealed` is written straight onto the element rather than kept in state: it
+  // is a marker for tests and styling, and nothing renders differently because of it, so
+  // a state update (and the extra render it forces from inside an effect) buys nothing.
+  // React sets "false" once and never touches the attribute again, since it never changes.
   useLayoutEffect(() => {
-    if (prefersReducedMotion()) {
-      setRevealed(true);
-      return;
-    }
     const el = ref.current;
     if (!el) return;
+    const reveal = () => {
+      el.dataset.revealed = 'true';
+    };
+    if (prefersReducedMotion()) {
+      reveal();
+      return;
+    }
 
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -37,7 +43,7 @@ export function MaskReveal({
           duration: 0.9,
           ease: 'power3.out',
           scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-          onComplete: () => setRevealed(true),
+          onComplete: reveal,
         }
       );
     }, el);
@@ -49,7 +55,7 @@ export function MaskReveal({
     <Tag
       ref={ref as React.Ref<never>}
       data-mask-reveal
-      data-revealed={String(revealed)}
+      data-revealed="false"
       className={className}
     >
       {children}

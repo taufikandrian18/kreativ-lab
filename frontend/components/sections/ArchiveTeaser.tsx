@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { getArchiveProjects } from '@/lib/contract';
+import { getHomepageProjects } from '@/lib/contract';
+import { sitePage } from '@/lib/site-content';
 import { slugify } from '@/lib/slugify';
 import { ProjectOpenerFigure } from '@/components/media/ProjectOpenerFigure';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
@@ -8,14 +9,15 @@ import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
 
 export function ArchiveTeaser() {
-  // getArchiveProjects() is sorted ascending by archive_no; the teaser previews 01-03.
-  const preview = getArchiveProjects().slice(0, 3);
+  // Ticked "Show on homepage" first, then the newest — see getHomepageProjects().
+  const preview = getHomepageProjects();
+  const home = sitePage('home');
 
   return (
     <section className="bg-k-black text-k-paper">
       <div className="section-shell">
         <MaskReveal as="h2" className="display-type">
-          LAB ARCHIVE
+          {home.text('teaser_heading')}
         </MaskReveal>
 
         <StaggerReveal className="mt-12 grid grid-cols-12 gap-4 sm:gap-8 lg:gap-12">
@@ -54,7 +56,7 @@ export function ArchiveTeaser() {
           href="/archive"
           className="font-body mt-16 inline-block py-3 text-xs tracking-widest uppercase"
         >
-          View the full archive
+          {home.text('teaser_link')}
         </Link>
       </div>
     </section>

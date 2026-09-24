@@ -1,3 +1,5 @@
+import { asset } from '@/lib/asset';
+import { ARCHIVE_REELS, type ArchiveReel } from '@/lib/archive-reels';
 import { cmsImage, type CmsImage } from '@/lib/cms-image';
 import type { ArchiveProject } from '@/lib/contract';
 import { ARCHIVE_OPENER_PAGE } from '@/lib/deck';
@@ -34,4 +36,41 @@ export function projectGallery(project: ArchiveProject): readonly GalleryTile[] 
   if (uploaded.length > 0) return uploaded;
 
   return GALLERY_TILES[project.archive_no] ?? [];
+}
+
+function resolveUrl(url: string | null | undefined): string | null {
+  if (!url) return null;
+  return /^https?:\/\//.test(url) ? url : asset(url);
+}
+
+/**
+ * A reel from uploaded files, or null when there is not enough to show one. The poster
+ * is required because it is what reduced-motion visitors and the first paint see, and
+ * its proportions are the only size the column has to reserve. A missing mobile cut
+ * falls back to the desktop one.
+ */
+export function uploadedReel(
+  wide: string | null | undefined,
+  narrow: string | null | undefined,
+  poster: CmsImage | null
+): ArchiveReel | null {
+  const wideUrl = resolveUrl(wide);
+  if (!wideUrl || !poster) return null;
+  return {
+    wide: wideUrl,
+    narrow: resolveUrl(narrow) ?? wideUrl,
+    poster: poster.src,
+    width: poster.width,
+    height: poster.height,
+  };
+}
+
+/** A case study's reel: uploaded in WordPress first, then the one cut from studio footage. */
+export function projectReel(project: ArchiveProject): ArchiveReel | undefined {
+  const uploaded = uploadedReel(
+    project.reel?.wide.url,
+    project.reel?.narrow.url,
+    cmsImage(project.reel?.poster)
+  );
+  return uploaded ?? ARCHIVE_REELS[project.archive_no];
 }

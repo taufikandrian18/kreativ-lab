@@ -22,7 +22,26 @@ gsap.registerPlugin(ScrollTrigger);
  * properties. Under anything but resolved full motion they render already converged,
  * which is the deck's own composition and the end state of the scrub.
  */
-export function LabsVenn() {
+/** "PRODUCT LAB" → PRODUCT / LAB: the last word drops to its own line inside the circle. */
+function CircleLabel({ text }: { text: string }) {
+  const words = text.trim().split(/\s+/);
+  if (words.length < 2) return <>{text}</>;
+  return (
+    <>
+      {words.slice(0, -1).join(' ')}
+      <br />
+      {words[words.length - 1]}
+    </>
+  );
+}
+
+export function LabsVenn({
+  product = 'PRODUCT LAB',
+  creative = 'CREATIVE LAB',
+}: {
+  product?: string;
+  creative?: string;
+}) {
   const root = useRef<HTMLDivElement>(null);
   const preference = useMotionPreference();
 
@@ -73,9 +92,7 @@ export function LabsVenn() {
           className="bg-k-paper text-k-black relative -mr-[12%] flex aspect-square w-[46%] items-end rounded-full p-[6%]"
         >
           <p className="font-display text-xl leading-none tracking-tight sm:text-2xl">
-            PRODUCT
-            <br />
-            LAB
+            <CircleLabel text={product} />
           </p>
         </div>
 
@@ -85,9 +102,7 @@ export function LabsVenn() {
           className="border-k-paper text-k-paper relative flex aspect-square w-[46%] items-start justify-end rounded-full border-4 p-[6%]"
         >
           <p className="font-display text-right text-xl leading-none tracking-tight sm:text-2xl">
-            CREATIVE
-            <br />
-            LAB
+            <CircleLabel text={creative} />
           </p>
         </div>
       </div>

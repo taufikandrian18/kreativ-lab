@@ -1,7 +1,9 @@
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
-import { CLIENT_MARKS } from '@/lib/client-marks';
 import { clientWallLayout } from '@/lib/client-wall-layout';
+import { clientWallMarks } from '@/lib/client-wall-marks';
+import { getClientLogos } from '@/lib/contract';
+import { sitePage } from '@/lib/site-content';
 
 /**
  * Spec §6: "logo grid, opacity stagger on a 40ms interval".
@@ -42,13 +44,14 @@ const SPAN_CLASS: Record<number, string> = {
 };
 
 export function ClientWall() {
-  const marks = clientWallLayout(CLIENT_MARKS);
+  const marks = clientWallLayout(clientWallMarks(getClientLogos()));
+  const home = sitePage('home');
 
   return (
     <section className="bg-k-paper text-k-black">
       <div className="section-shell">
         <MaskReveal as="h2" className="display-type">
-          OUR CLIENT
+          {home.text('clients_heading')}
         </MaskReveal>
 
         <StaggerReveal
@@ -63,23 +66,33 @@ export function ClientWall() {
               aria-label={mark.name}
               className={`hover:text-k-red flex transition-[color,transform] duration-300 ease-out hover:scale-[1.03] ${SPAN_CLASS[mark.span]} ${ALIGN_CLASS[mark.align]}`}
             >
-              <span
-                data-client-mark
-                aria-hidden="true"
-                style={{
-                  maskImage: `url(${mark.file})`,
-                  WebkitMaskImage: `url(${mark.file})`,
-                  maskRepeat: 'no-repeat',
-                  WebkitMaskRepeat: 'no-repeat',
-                  maskPosition: 'center',
-                  WebkitMaskPosition: 'center',
-                  maskSize: 'contain',
-                  WebkitMaskSize: 'contain',
-                  backgroundColor: 'currentcolor',
-                  aspectRatio: `${mark.w} / ${mark.h}`,
-                }}
-                className={`block w-auto ${SIZE_CLASS[mark.size]}`}
-              />
+              {mark.text ? (
+                <span
+                  data-client-mark
+                  aria-hidden="true"
+                  className="font-display text-2xl leading-none tracking-tight whitespace-nowrap lg:text-4xl"
+                >
+                  {mark.name}
+                </span>
+              ) : (
+                <span
+                  data-client-mark
+                  aria-hidden="true"
+                  style={{
+                    maskImage: `url(${mark.file})`,
+                    WebkitMaskImage: `url(${mark.file})`,
+                    maskRepeat: 'no-repeat',
+                    WebkitMaskRepeat: 'no-repeat',
+                    maskPosition: 'center',
+                    WebkitMaskPosition: 'center',
+                    maskSize: 'contain',
+                    WebkitMaskSize: 'contain',
+                    backgroundColor: 'currentcolor',
+                    aspectRatio: `${mark.w} / ${mark.h}`,
+                  }}
+                  className={`block w-auto ${SIZE_CLASS[mark.size]}`}
+                />
+              )}
             </div>
           ))}
         </StaggerReveal>
