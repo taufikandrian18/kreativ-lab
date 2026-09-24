@@ -38,15 +38,20 @@ ask DEPLOY_USER "SSH user" "root"
 ask DEPLOY_PATH "Web root on the VPS" "/var/www/kreativ-lab"
 ask DEPLOY_DOMAIN "Domain (for the final message only)" "$DEPLOY_HOST"
 
+# The site lives under this URL path (e.g. http://HOST/kreative-lab/). Override in
+# scripts/deploy.env with DEPLOY_BASE_PATH="" to serve it at the root instead. The
+# web server must strip this prefix before looking up files (see deploy/Caddyfile.snippet).
+DEPLOY_BASE_PATH="${DEPLOY_BASE_PATH-/kreative-lab}"
+
 REMOTE="$DEPLOY_USER@$DEPLOY_HOST"
 
 echo "==> Checking SSH access to $REMOTE"
 ssh -o BatchMode=yes -o ConnectTimeout=10 "$REMOTE" true \
   || { echo "Cannot reach $REMOTE with your SSH key. Fix access, then re-run."; exit 1; }
 
-echo "==> Building"
+echo "==> Building (base path: ${DEPLOY_BASE_PATH:-/})"
 cd "$ROOT/frontend"
-npm run build
+NEXT_PUBLIC_BASE_PATH="$DEPLOY_BASE_PATH" npm run build
 
 echo "==> Uploading to $REMOTE:$DEPLOY_PATH"
 ssh "$REMOTE" "mkdir -p '$DEPLOY_PATH.next' '$DEPLOY_PATH'"
@@ -58,4 +63,4 @@ rsync -az --delete out/ "$REMOTE:$DEPLOY_PATH.next/"
 echo "==> Switching live"
 ssh "$REMOTE" "rm -rf '$DEPLOY_PATH.prev' && mv '$DEPLOY_PATH' '$DEPLOY_PATH.prev' && mv '$DEPLOY_PATH.next' '$DEPLOY_PATH'"
 
-echo "==> Live at http://$DEPLOY_DOMAIN  (previous version kept at $DEPLOY_PATH.prev)"
+echo "==> Live at http://$DEPLOY_DOMAIN$DEPLOY_BASE_PATH/  (previous version kept at $DEPLOY_PATH.prev)"

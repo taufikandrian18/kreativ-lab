@@ -1,3 +1,4 @@
+import { asset } from '@/lib/asset';
 import { Parallax } from '@/components/motion/Parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { CapabilityList, type CapabilityGroup } from '@/components/sections/CapabilityList';
@@ -72,7 +73,7 @@ export default function CreativeLab() {
             and run edge to edge — the one bleed this route takes. */}
         <Parallax speed={PARALLAX_SPEEDS.figure} className="mt-4">
           <img
-            src="/panels/creative-lab-strip.webp"
+            src={asset('/panels/creative-lab-strip.webp')}
             alt="Creative Lab on set: mood boards, camera rigs, and the lit studio floor"
             width={2048}
             height={398}

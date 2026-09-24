@@ -1,5 +1,6 @@
 'use client';
 
+import { asset } from '@/lib/asset';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -96,8 +97,8 @@ export function LabsVenn() {
         data-studio-mark
         aria-hidden="true"
         style={{
-          maskImage: 'url(/logos/studiolab-mark.png)',
-          WebkitMaskImage: 'url(/logos/studiolab-mark.png)',
+          maskImage: `url(${asset('/logos/studiolab-mark.png')})`,
+          WebkitMaskImage: `url(${asset('/logos/studiolab-mark.png')})`,
           maskRepeat: 'no-repeat',
           WebkitMaskRepeat: 'no-repeat',
           maskPosition: 'center',
