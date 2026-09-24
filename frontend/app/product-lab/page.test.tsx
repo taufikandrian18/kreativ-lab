@@ -43,9 +43,18 @@ describe('/product-lab (spec §4)', () => {
     }
   });
 
-  it('renders deck page 05 as the process imagery', () => {
+  it('opens with the process photography beside the title', () => {
+    // Only the photographic half of deck page 05 — the other half carried the capability
+    // list as pixels, and that list is live text on this page.
     const { container } = render(<ProductLab />);
-    expect(container.querySelector('img')?.getAttribute('src')).toBe('/deck/page-05-1920.webp');
+    const img = container.querySelector('img') as HTMLImageElement;
+    expect(img.getAttribute('src')).toBe('/panels/product-lab.webp');
+    expect(img.getAttribute('alt')).toMatch(/process/i);
+  });
+
+  it('sets the capability groups side by side rather than down one column', () => {
+    const { container } = render(<ProductLab />);
+    expect(container.querySelector('[data-capability-list]')?.className).toMatch(/lg:grid-cols-4/);
   });
 
   it('drops the Stage 2 stub placeholder line', () => {

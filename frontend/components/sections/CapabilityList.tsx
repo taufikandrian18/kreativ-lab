@@ -12,7 +12,18 @@ export interface CapabilityGroup {
   items: readonly string[];
 }
 
-export function CapabilityList({ groups }: { groups: readonly CapabilityGroup[] }) {
+export function CapabilityList({
+  groups,
+  columns = false,
+}: {
+  groups: readonly CapabilityGroup[];
+  /**
+   * Set the list as a block rather than a thin column. A flat list of twelve single-line
+   * items down one column reads as a table of contents; flowed across three columns at
+   * display size it reads as what the studio does. Named groups sit side by side.
+   */
+  columns?: boolean;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const preference = useMotionPreference();
 
@@ -39,17 +50,33 @@ export function CapabilityList({ groups }: { groups: readonly CapabilityGroup[] 
   }, [preference]);
 
   return (
-    <div ref={ref} data-capability-list>
+    <div
+      ref={ref}
+      data-capability-list
+      className={columns && groups.length > 1 ? 'grid gap-x-12 gap-y-10 sm:grid-cols-2 lg:grid-cols-4' : ''}
+    >
       {groups.map((group, index) => (
-        <div key={group.name || `group-${index}`} className="mt-10">
+        <div key={group.name || `group-${index}`} className={columns ? 'mt-0' : 'mt-10'}>
           {group.name ? (
             <p data-capability-group-name className="font-display text-2xl tracking-tight">
               {group.name}
             </p>
           ) : null}
-          <ul className={group.name ? 'mt-2' : ''}>
+          <ul
+            className={`${group.name ? 'mt-3' : ''} ${
+              columns && !group.name ? 'gap-x-12 sm:columns-2 lg:columns-3' : ''
+            }`}
+          >
             {group.items.map((item) => (
-              <li key={item} data-capability-item className="font-body text-lg">
+              <li
+                key={item}
+                data-capability-item
+                className={
+                  columns && !group.name
+                    ? 'font-display break-inside-avoid py-1 text-3xl leading-tight tracking-tight lg:text-4xl'
+                    : 'font-body py-0.5 text-lg'
+                }
+              >
                 {item}
               </li>
             ))}
