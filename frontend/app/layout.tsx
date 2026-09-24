@@ -58,6 +58,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
           href={archivoLatin}
           crossOrigin="anonymous"
         />
+        {/* The hero's letters are hidden until GSAP builds them (globals.css). With JS
+            off nothing will, so they are shown at once rather than after the failsafe. */}
+        <noscript>
+          <style>{'[data-split-char]{opacity:1!important;animation:none!important}'}</style>
+        </noscript>
       </head>
       <body>
         <SiteHeader />

@@ -80,6 +80,7 @@ export function Manifesto() {
               text={closing.text}
               accent={closing.accent}
               className="display-type mt-4"
+              scrub
             />
           </div>
 

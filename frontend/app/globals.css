@@ -162,3 +162,22 @@ body {
     grid-column: 6 / span 7;
   }
 }
+
+/* SplitHeadline: the hero's letters are hidden from first paint, so hydration does not
+   show the finished headline, hide it, and then build it. Only under no-preference — a
+   reduced-motion visitor gets the headline in place from the first byte. The animation is
+   a failsafe, not the entrance: if the GSAP effect never runs, the letters appear after
+   4s rather than never. It only ever sets the value GSAP ends on, so it cannot fight the
+   tween. The layout's <noscript> covers JS switched off. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-split-char] {
+    opacity: 0;
+    animation: k-split-failsafe 0.01s 4s forwards;
+  }
+}
+
+@keyframes k-split-failsafe {
+  to {
+    opacity: 1;
+  }
+}

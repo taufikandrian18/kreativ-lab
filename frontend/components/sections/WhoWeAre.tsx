@@ -7,7 +7,8 @@ import { sitePage } from '@/lib/site-content';
 // photographs were cropped out of that page on 2026-09-19 and sit in public/pillars;
 // Home → Who we are in WordPress replaces any of the four words or pictures. Cards enter
 // from alternating sides: four cards rising identically read as a list, and this section
-// is meant to read as a composition.
+// is meant to read as a composition. They are dealt — tilted, scrubbed to scroll — after
+// the Crency reference's service cards; SlideIn says how.
 const PILLAR_ART = ['think', 'design', 'craft', 'experience'] as const;
 
 export function WhoWeAre() {
@@ -25,7 +26,10 @@ export function WhoWeAre() {
   });
 
   return (
-    <section className="bg-k-paper text-k-black">
+    // overflow-x-clip: a dealt card starts a fifth of its width past its column, which on
+    // a single-column phone is past the viewport edge and would widen the page. `clip`
+    // rather than `hidden`, so the section does not become a scroll container.
+    <section className="bg-k-paper text-k-black overflow-x-clip">
       <div className="section-shell grid grid-cols-12 gap-x-4 gap-y-14 sm:gap-x-8 lg:gap-x-12">
         <WordReveal as="h2" text={home.text('who_heading')} className="display-type col-opener" />
 
@@ -35,6 +39,7 @@ export function WhoWeAre() {
               key={index}
               from={pillar.from}
               delay={index * 0.08}
+              deal
               className="col-span-12 sm:col-span-6 lg:col-span-3"
             >
               <figure className="group">

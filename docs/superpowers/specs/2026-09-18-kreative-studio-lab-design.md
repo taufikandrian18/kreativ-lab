@@ -270,6 +270,27 @@ reversing it means re-opening this spec.
 > are deleted from `CapabilityList`, and `CapabilityList.test.tsx` now asserts their
 > absence so the rule cannot return by accident.
 
+> **Amendment (2026-09-24):** motion moves toward the Crency reference (crency.agency),
+> studied in a browser the same day. Its difference from this site was not effects but
+> choreography: every section here entered the same way, a once-only fade-and-rise at 85%
+> of the viewport, while Crency ties its motion to the scroll and gives each block its
+> own entrance. Five of its moves are adopted, each on `transform` and `opacity` only:
+>
+> | Where | Move |
+> |---|---|
+> | Hero headline | Built letter by letter on load (`SplitHeadline`), replacing the mask reveal that fired on frame one |
+> | Hero exit | Scrubbed three-layer camera move: showreel pushes in, headline lifts and shrinks, marquee band runs ahead |
+> | Manifesto close, Closing | Statement assembles word by word scrubbed to scroll (`WordReveal scrub`), and takes itself apart on the way back |
+> | Who we are | Pillar cards dealt in tilted and uprighted, scrubbed (`SlideIn deal`) |
+> | Closing CTA | Magnetic: leans toward a fine pointer, springs back (`Magnetic`) |
+>
+> Scrubbed moves never animate opacity: a word or photograph parked half-transparent
+> while the reader holds still is a grey, which §5 forbids. The clip hides what has not
+> arrived. Three Crency moves are declined: its custom cursor and preloader, for the
+> reasons the 2026-09-19 editorial amendment gives, and its self-drawing pen line, which
+> is the same gesture as the keyline wipe the studio rejected above. Crency's Lenis
+> smooth scroll is not adopted either; ScrollSmoother stays, per the stack rule.
+
 ### Rules
 
 Animate `transform` and `opacity` only. Anything else is a bug. No layout-triggering
