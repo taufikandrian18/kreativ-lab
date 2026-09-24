@@ -36,13 +36,18 @@ describe('/creative-lab (spec §4)', () => {
     expect(container.querySelectorAll('[data-capability-group-name]')).toHaveLength(0);
   });
 
-  it('renders deck page 06 as the production imagery', () => {
-    // The page now also carries the studio's own campaign film, which renders as its
-    // poster under the suite's reduced-motion default — so this asserts the deck page is
-    // present rather than that it is first.
+  it('runs the set photography edge to edge', () => {
     const { container } = render(<CreativeLab />);
     const srcs = Array.from(container.querySelectorAll('img')).map((i) => i.getAttribute('src'));
-    expect(srcs).toContain('/deck/page-06-1920.webp');
+    expect(srcs).toContain('/panels/creative-lab-strip.webp');
+  });
+
+  it('flows the capabilities across columns at display size', () => {
+    const { container } = render(<CreativeLab />);
+    const list = container.querySelector('[data-capability-list] ul') as HTMLElement;
+    expect(list.className).toMatch(/lg:columns-3/);
+    const item = container.querySelector('[data-capability-item]') as HTMLElement;
+    expect(item.className).toContain('font-display');
   });
 
   it('drops the Stage 2 stub placeholder line', () => {
