@@ -1,0 +1,76 @@
+# WordPress for Kreative Studio Lab, served by the existing Caddy container at
+# https://website.taufikandrian.my.id/kreative-lab-cms/ (see deploy/Caddyfile.snippet).
+#
+# On the VPS:
+#   mkdir -p /opt/kreative-lab-cms && cd /opt/kreative-lab-cms
+#   copy this file, uploads.ini and a .env (see deploy/README.md) here
+#   docker compose up -d
+#
+# The WordPress files land on the host in /var/www/kreative-lab-cms, which is inside the
+# /var/www directory Caddy already mounts. That shared directory is how Caddy serves
+# uploads and admin assets directly while PHP runs here.
+services:
+  ksl-db:
+    image: mariadb:11
+    restart: unless-stopped
+    environment:
+      MARIADB_DATABASE: kreative_lab
+      MARIADB_USER: kreative_lab
+      MARIADB_PASSWORD: ${DB_PASSWORD:?set DB_PASSWORD in .env}
+      MARIADB_RANDOM_ROOT_PASSWORD: "1"
+    volumes:
+      - ksl-db:/var/lib/mysql
+    networks: [internal]
+
+  ksl-wordpress:
+    image: wordpress:6.6-php8.2-fpm
+    restart: unless-stopped
+    depends_on: [ksl-db]
+    # The image installs WordPress into its working directory on first start. Pointing
+    # that at a /kreative-lab-cms subdirectory puts the files where the URL path says
+    # they are, so Caddy needs no rewriting to find them.
+    working_dir: /var/www/html/kreative-lab-cms
+    environment:
+      WORDPRESS_DB_HOST: ksl-db
+      WORDPRESS_DB_NAME: kreative_lab
+      WORDPRESS_DB_USER: kreative_lab
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+      KSL_GITHUB_REPO: ${KSL_GITHUB_REPO:-}
+      KSL_GITHUB_TOKEN: ${KSL_GITHUB_TOKEN:-}
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'WP_HOME', 'https://website.taufikandrian.my.id/kreative-lab-cms' );
+        define( 'WP_SITEURL', 'https://website.taufikandrian.my.id/kreative-lab-cms' );
+        define( 'DISALLOW_FILE_EDIT', true );
+        define( 'KSL_GITHUB_REPO', getenv_docker( 'KSL_GITHUB_REPO', '' ) );
+        define( 'KSL_GITHUB_TOKEN', getenv_docker( 'KSL_GITHUB_TOKEN', '' ) );
+    volumes:
+      - /var/www/kreative-lab-cms:/var/www/html/kreative-lab-cms
+      - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
+    networks: [internal, caddy]
+
+  # WP-CLI, run on demand only:  docker compose run --rm ksl-cli wp ksl seed
+  ksl-cli:
+    image: wordpress:cli-php8.2
+    profiles: [cli]
+    user: "33:33"
+    depends_on: [ksl-db]
+    working_dir: /var/www/html/kreative-lab-cms
+    environment:
+      WORDPRESS_DB_HOST: ksl-db
+      WORDPRESS_DB_NAME: kreative_lab
+      WORDPRESS_DB_USER: kreative_lab
+      WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - /var/www/kreative-lab-cms:/var/www/html/kreative-lab-cms
+    networks: [internal]
+
+volumes:
+  ksl-db:
+
+networks:
+  internal:
+  # The network the VPS's Caddy (n8n-caddy-1, from /home/ubuntu/n8n) already sits on,
+  # so Caddy can reach ksl-wordpress by name.
+  caddy:
+    external: true
+    name: n8n_default

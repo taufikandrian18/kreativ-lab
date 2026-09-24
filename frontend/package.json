@@ -10,6 +10,7 @@
     "lint": "eslint",
     "test": "vitest run",
     "sync-fixture": "cp ../wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json ./data/rest-contract.json",
+    "fetch-cms": "node scripts/fetch-cms.mjs",
     "sync-assets": "mkdir -p public/deck public/video && cp ../assets/web/*.webp public/deck/ && cp ../assets/video/* public/video/"
   },
   "dependencies": {
@@ -26,13 +27,14 @@
     "@testing-library/dom": "^10.4.2",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
-    "@types/node": "^20",
+    "@types/node": "^22.20.4",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^6.1.1",
     "eslint": "^9",
     "eslint-config-next": "16.3.5",
     "jsdom": "^30.1.0",
+    "sharp": "^0.35.4",
     "tailwindcss": "^4",
     "typescript": "^5",
     "vite": "^8.3.0",

@@ -24,7 +24,7 @@ export function CaseStudyGallery({ tiles, client }: { tiles: readonly GalleryTil
     <div className="grid grid-cols-12 items-start gap-4 sm:gap-6 lg:gap-8">
       {tiles.map((tile, index) => (
         <SlideIn
-          key={tile.file}
+          key={`${index}-${tile.file}`}
           from={index % 2 === 0 ? 'left' : 'right'}
           delay={(index % 3) * 0.05}
           className={spanFor(tile)}
@@ -32,7 +32,9 @@ export function CaseStudyGallery({ tiles, client }: { tiles: readonly GalleryTil
           <Parallax speed={PARALLAX_SPEEDS.gallery}>
             <img
               src={tile.file}
-              alt={`${client} — campaign work`}
+              srcSet={tile.srcSet}
+              sizes={tile.srcSet ? '(min-width: 1024px) 60vw, 100vw' : undefined}
+              alt={tile.alt || `${client} — campaign work`}
               width={tile.w}
               height={tile.h}
               loading="lazy"

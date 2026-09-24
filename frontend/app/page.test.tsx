@@ -20,7 +20,7 @@ describe('/ (spec §4 section order)', () => {
   it('previews three archive entries and links to the full index', () => {
     render(<Home />);
     expect(screen.getAllByTestId('teaser-entry')).toHaveLength(3);
-    expect(screen.getByRole('link', { name: /View all six/i })).toHaveAttribute('href', '/archive');
+    expect(screen.getByRole('link', { name: /View the full archive/i })).toHaveAttribute('href', '/archive');
   });
 
   it('closes with the call to action', () => {

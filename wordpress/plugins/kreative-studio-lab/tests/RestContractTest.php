@@ -20,9 +20,10 @@ class Test_REST_Contract extends TestCase {
             'year_range'   => '2025 – 2026',
             'scope'        => "Creative Direction\nProduct RnD",
             'lab'          => 'both',
-            'hero_image'   => [ 'url' => 'https://example.test/hero.jpg', 'alt' => 'N8N hero' ],
+            'hero_image'   => [ 'url' => 'https://example.test/hero.jpg', 'alt' => 'N8N hero', 'width' => 1600, 'height' => 1000 ],
             'gallery'      => [
-                [ 'url' => 'https://example.test/g1.jpg', 'alt' => 'Gallery 1' ],
+                // ACF can hand back width/height as numeric strings; the contract casts.
+                [ 'url' => 'https://example.test/g1.jpg', 'alt' => 'Gallery 1', 'width' => '800', 'height' => '1200' ],
             ],
             'accent_color' => '#1c3fd6',
         ];
@@ -37,8 +38,8 @@ class Test_REST_Contract extends TestCase {
             'year_range'   => '2025 – 2026',
             'scope'        => [ 'Creative Direction', 'Product RnD' ],
             'lab'          => 'both',
-            'hero_image'   => [ 'url' => 'https://example.test/hero.jpg', 'alt' => 'N8N hero' ],
-            'gallery'      => [ [ 'url' => 'https://example.test/g1.jpg', 'alt' => 'Gallery 1' ] ],
+            'hero_image'   => [ 'url' => 'https://example.test/hero.jpg', 'alt' => 'N8N hero', 'width' => 1600, 'height' => 1000 ],
+            'gallery'      => [ [ 'url' => 'https://example.test/g1.jpg', 'alt' => 'Gallery 1', 'width' => 800, 'height' => 1200 ] ],
             'accent_color' => '#1c3fd6',
         ], $shaped );
     }
@@ -58,7 +59,7 @@ class Test_REST_Contract extends TestCase {
 
         $this->assertSame( [
             'name'  => 'BMW Motorrad',
-            'logo'  => [ 'url' => 'https://example.test/bmw.svg', 'alt' => 'BMW Motorrad logo' ],
+            'logo'  => [ 'url' => 'https://example.test/bmw.svg', 'alt' => 'BMW Motorrad logo', 'width' => null, 'height' => null ],
             'order' => 2,
         ], $shaped );
     }
@@ -100,8 +101,16 @@ class Test_REST_Contract extends TestCase {
             'email'           => 'hello@kreativestudiolab.example',
             'instagram'       => '@kreativestudiolab',
             'address'         => 'Jakarta, Indonesia',
-            'og_image'        => [ 'url' => 'https://example.test/og.jpg', 'alt' => 'KSL' ],
+            'og_image'        => [ 'url' => 'https://example.test/og.jpg', 'alt' => 'KSL', 'width' => null, 'height' => null ],
         ], $shaped );
+    }
+
+    public function test_shape_image_turns_an_empty_acf_field_into_all_nulls() {
+        // ACF returns false, not null, for an image field nobody has filled in.
+        $this->assertSame(
+            [ 'url' => null, 'alt' => null, 'width' => null, 'height' => null ],
+            KSL_REST_Contract::shape_image( false )
+        );
     }
 
     public function test_register_attaches_rest_field_to_all_three_post_types() {

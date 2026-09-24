@@ -20,7 +20,11 @@ const canonicalPath = join(
 );
 
 describe('local fixture stays in sync with Stage 1 source', () => {
-  if (!existsSync(canonicalPath)) {
+  if (process.env.KSL_CMS_URL) {
+    // A deploy build: scripts/fetch-cms.mjs has just replaced the local copy with live
+    // WordPress content, which is supposed to differ from the frozen fixture.
+    it.skip('frontend/data/rest-contract.json matches the canonical WordPress fixture byte-for-byte (skipped: building from live CMS content, KSL_CMS_URL is set)', () => {});
+  } else if (!existsSync(canonicalPath)) {
     it.skip('frontend/data/rest-contract.json matches the canonical WordPress fixture byte-for-byte (skipped: canonical fixture not present — wordpress/ directory not found alongside frontend/)', () => {});
     // eslint-disable-next-line no-console
     console.warn(

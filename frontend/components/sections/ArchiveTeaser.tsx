@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { getArchiveProjects } from '@/lib/contract';
 import { slugify } from '@/lib/slugify';
-import { DeckFigure } from '@/components/media/DeckFigure';
+import { ProjectOpenerFigure } from '@/components/media/ProjectOpenerFigure';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
-import { ARCHIVE_OPENER_PAGE } from '@/lib/deck';
+import { projectOpener } from '@/lib/project-media';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { StaggerReveal } from '@/components/motion/StaggerReveal';
 
@@ -30,8 +30,8 @@ export function ArchiveTeaser() {
                   {/* alt="": this link already states the client and the industry as
                       visible text below, so a description would be announced twice and
                       would bloat the link's accessible name. */}
-                  <DeckFigure
-                    page={ARCHIVE_OPENER_PAGE[project.archive_no]}
+                  <ProjectOpenerFigure
+                    opener={projectOpener(project)}
                     alt=""
                     sizes="(min-width: 640px) 33vw, 100vw"
                     parallax={PARALLAX_SPEEDS.gallery}
@@ -54,7 +54,7 @@ export function ArchiveTeaser() {
           href="/archive"
           className="font-body mt-16 inline-block py-3 text-xs tracking-widest uppercase"
         >
-          View all six
+          View the full archive
         </Link>
       </div>
     </section>

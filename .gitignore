@@ -8,3 +8,6 @@ wordpress/uploads/
 
 # VPS details, written by scripts/deploy-vps.sh on first run
 scripts/deploy.env
+
+# Images downloaded from WordPress at build time by frontend/scripts/fetch-cms.mjs
+frontend/public/cms/

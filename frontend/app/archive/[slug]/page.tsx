@@ -1,13 +1,12 @@
 import { notFound } from 'next/navigation';
-import { DeckFigure } from '@/components/media/DeckFigure';
+import { ProjectOpenerFigure } from '@/components/media/ProjectOpenerFigure';
 import { PARALLAX_SPEEDS } from '@/lib/parallax';
 import { MaskReveal } from '@/components/motion/MaskReveal';
 import { CaseStudyReel } from '@/components/sections/CaseStudyReel';
 import { ARCHIVE_REELS } from '@/lib/archive-reels';
 import { CaseStudyGallery } from '@/components/sections/CaseStudyGallery';
-import { GALLERY_TILES } from '@/lib/gallery-tiles';
 import { getArchiveProject, getArchiveProjects } from '@/lib/contract';
-import { ARCHIVE_OPENER_PAGE } from '@/lib/deck';
+import { projectGallery, projectOpener } from '@/lib/project-media';
 import { slugify } from '@/lib/slugify';
 
 export async function generateStaticParams() {
@@ -21,9 +20,9 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
     notFound();
   }
 
-  const openerPage = ARCHIVE_OPENER_PAGE[project.archive_no];
+  const opener = projectOpener(project);
   const reel = ARCHIVE_REELS[project.archive_no];
-  const tiles = GALLERY_TILES[project.archive_no] ?? [];
+  const tiles = projectGallery(project);
 
   return (
     <main>
@@ -44,15 +43,21 @@ export default async function ArchiveCaseStudy({ params }: PageProps<'/archive/[
           {/* The opener card and the reel share the top row. The opener carries the
               SCOPE OF WORK list as artwork, so it belongs beside the moving work rather
               than above it with the film buried further down the page. */}
-          <div className={reel ? 'col-span-12 lg:col-span-7' : 'col-span-12'}>
-            <DeckFigure
-              page={openerPage}
-              alt={`${project.title} case study opener: scope of work and campaign photography`}
-              sizes={reel ? '(min-width: 1024px) 56vw, 100vw' : '100vw'}
-              priority
-              parallax={PARALLAX_SPEEDS.figure}
-            />
-          </div>
+          {opener ? (
+            <div className={reel ? 'col-span-12 lg:col-span-7' : 'col-span-12'}>
+              <ProjectOpenerFigure
+                opener={opener}
+                alt={
+                  opener.kind === 'cms'
+                    ? opener.image.alt || `${project.title} campaign photography`
+                    : `${project.title} case study opener: scope of work and campaign photography`
+                }
+                sizes={reel ? '(min-width: 1024px) 56vw, 100vw' : '100vw'}
+                priority
+                parallax={PARALLAX_SPEEDS.figure}
+              />
+            </div>
+          ) : null}
           {reel ? (
             <div className="col-span-12 lg:col-span-5">
               <CaseStudyReel reel={reel} client={project.client} />
