@@ -40,10 +40,15 @@ export function ArchiveTeaser() {
                       visible text below, so a description would be announced twice and
                       would bloat the link's accessible name. */}
                   <div className="overflow-hidden rounded-[1.1rem]">
+                    {/* Square, framed on the upper part of the photograph where the
+                        people are: the openers are portrait (about 3:4), and at full
+                        height a card stood ~680px tall — the pinned fan no longer fit a
+                        900px screen and fanned out above it, leaving it black. */}
                     <ProjectOpenerFigure
                       opener={projectOpener(project)}
                       alt=""
                       sizes="(min-width: 640px) 33vw, 100vw"
+                      className="aspect-square object-cover object-[50%_25%]"
                     />
                   </div>
                   <div className="flex items-baseline justify-between gap-4 px-2 pt-4 pb-2">

@@ -20,9 +20,11 @@ describe('ArchiveTeaser', () => {
     // correctly removes the img role from the accessibility tree.
     const { container } = render(<ArchiveTeaser />);
     const images = Array.from(container.querySelectorAll('img'));
-    expect(images[0]).toHaveAttribute('src', '/deck/page-08-1920.webp');
-    expect(images[1]).toHaveAttribute('src', '/deck/page-12-1920.webp');
-    expect(images[2]).toHaveAttribute('src', '/deck/page-15-1920.webp');
+    // The photograph alone, cut from each study's deck opener page — not the whole page
+    // with its SCOPE OF WORK list printed into it.
+    expect(images[0]).toHaveAttribute('src', '/openers/01-1060.webp');
+    expect(images[1]).toHaveAttribute('src', '/openers/02-1060.webp');
+    expect(images[2]).toHaveAttribute('src', '/openers/03-1060.webp');
   });
 
   it('links each entry to its case study', () => {

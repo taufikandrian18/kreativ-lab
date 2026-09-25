@@ -66,13 +66,15 @@ export function ClientWall() {
               data-testid="client-cell"
               role="img"
               aria-label={mark.name}
-              className={`hover:text-k-red flex transition-[color,transform] duration-300 ease-out hover:scale-[1.03] ${SPAN_CLASS[mark.span]} ${ALIGN_CLASS[mark.align]}`}
+              // min-w-0: a grid item's minimum width is its content by default, so a wide
+              // mark pushed its cell — and the page — wider instead of fitting it.
+              className={`hover:text-k-red flex min-w-0 transition-[color,transform] duration-300 ease-out hover:scale-[1.03] ${SPAN_CLASS[mark.span]} ${ALIGN_CLASS[mark.align]}`}
             >
               {mark.text ? (
                 <span
                   data-client-mark
                   aria-hidden="true"
-                  className="font-display text-2xl leading-none tracking-tight whitespace-nowrap lg:text-4xl"
+                  className="font-display max-w-full text-2xl leading-none tracking-tight break-words lg:text-4xl"
                 >
                   {mark.name}
                 </span>
@@ -92,7 +94,11 @@ export function ClientWall() {
                     backgroundColor: 'currentcolor',
                     aspectRatio: `${mark.w} / ${mark.h}`,
                   }}
-                  className={`block w-auto ${SIZE_CLASS[mark.size]}`}
+                  // max-w-full: a mark is drawn at a fixed height, so its width follows its
+                  // shape — Grand Hyatt is 288px wide at the phone's large size, in a
+                  // 170px cell, and it ran over Erspo beside it. Capped to the cell, the
+                  // box narrows and the mask (contain) scales the artwork down inside it.
+                  className={`block w-auto max-w-full ${SIZE_CLASS[mark.size]}`}
                 />
               )}
             </div>

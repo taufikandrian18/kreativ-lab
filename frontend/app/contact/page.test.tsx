@@ -3,9 +3,22 @@ import { render, screen } from '@testing-library/react';
 import Contact from './page';
 
 describe('/contact (spec §4)', () => {
-  it('renders deck page 26 as the contact card', () => {
+  it('is the email and the numbers and nothing else — no deck page, no picture', () => {
     const { container } = render(<Contact />);
-    expect(container.querySelector('img')?.getAttribute('src')).toBe('/deck/page-26-1920.webp');
+    expect(container.querySelector('img')).toBeNull();
+    expect(container.querySelector('svg[viewBox="0 0 454 466"]')).toBeNull();
+  });
+
+  it('opens WhatsApp for each number', () => {
+    render(<Contact />);
+    expect(screen.getByRole('link', { name: 'WhatsApp +62 813 1131 9739' })).toHaveAttribute(
+      'href',
+      'https://wa.me/6281311319739'
+    );
+    expect(screen.getByRole('link', { name: 'WhatsApp +62 812 7230 0977' })).toHaveAttribute(
+      'href',
+      'https://wa.me/6281272300977'
+    );
   });
 
   it('makes both numbers dialable', () => {

@@ -346,3 +346,21 @@ html[data-preloader='on'] {
     visibility: hidden;
   }
 }
+
+/* NumberSticker: the burst behind a case study's number turns slowly. Stopped under
+   reduced motion; the sticker is still there, just still. */
+@keyframes k-sticker-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.k-sticker-spin {
+  animation: k-sticker-spin 24s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .k-sticker-spin {
+    animation: none;
+  }
+}

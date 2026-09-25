@@ -34,8 +34,14 @@ export function Gather({ className = '', children }: { className?: string; child
     if (preference !== 'full') return;
     const el = ref.current;
     if (!el) return;
-    const ctx = gsap.context(() => {
-      Array.from(el.children).forEach((child, i) => {
+    const children = Array.from(el.children);
+    const mm = gsap.matchMedia(el);
+
+    // Desktop: one gather across the whole block, scrubbed to its pass through the
+    // viewport — the block fits on screen, so every mark has landed by the time the
+    // block is centred.
+    mm.add('(min-width: 1024px)', () => {
+      children.forEach((child, i) => {
         gsap.fromTo(
           child,
           { ...scatterFor(i), scale: 0.7 },
@@ -54,8 +60,32 @@ export function Gather({ className = '', children }: { className?: string; child
           }
         );
       });
-    }, el);
-    return () => ctx.revert();
+    });
+
+    // Phones: the client wall is taller than the screen, so a gather keyed to the
+    // block's centre left the lower marks mid-flight — crossing each other and half off
+    // the edge — while they were already being read. Each mark gathers on its own pass
+    // instead, from a scatter a third the size, and has landed before it is a quarter of
+    // the way up the screen.
+    mm.add('(max-width: 1023px)', () => {
+      children.forEach((child, i) => {
+        const from = scatterFor(i);
+        gsap.fromTo(
+          child,
+          { xPercent: from.xPercent / 3, yPercent: from.yPercent / 3, rotate: from.rotate / 2, scale: 0.85 },
+          {
+            xPercent: 0,
+            yPercent: 0,
+            rotate: 0,
+            scale: 1,
+            ease: 'power2.out',
+            scrollTrigger: { trigger: child, start: 'top 100%', end: 'top 78%', scrub: 0.5 },
+          }
+        );
+      });
+    });
+
+    return () => mm.revert();
   }, [preference]);
 
   return (

@@ -32,6 +32,13 @@ build in GitHub → **Actions**.
   opening sentence. Any photo works; the site crops it square and loads a small copy.
 - **About cards:** the pillar words come from About → Pillars; their photographs are the
   ones in Home → Who we are, so a picture changed there changes on both pages.
+- **Case studies:** each study's **Scope of work** list shows as tags on its page. Left
+  empty, the list from the studio deck is used. Its **Hero image** is the big photo; left
+  empty, the photograph from the deck is used. The small labels on every case study page
+  (Industry, Year, Lab, Scope of work) are under **Site Pages → Archive**.
+- **Contact page:** shows the email and phone numbers from **Site Settings** and nothing
+  else, one per row, each number with a WhatsApp button. The small labels (Email, Phone,
+  WhatsApp) are under **Site Pages → Contact**.
 - **Card lines (Home → Who we are):** each card has a word and a one-line description
   under it.
 - **Lists are one item per line.**
