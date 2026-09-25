@@ -2,28 +2,52 @@ import { asset } from '@/lib/asset';
 import { ARCHIVE_REELS, type ArchiveReel } from '@/lib/archive-reels';
 import { cmsImage, type CmsImage } from '@/lib/cms-image';
 import type { ArchiveProject } from '@/lib/contract';
-import { ARCHIVE_OPENER_PAGE } from '@/lib/deck';
 import { GALLERY_TILES, type GalleryTile } from '@/lib/gallery-tiles';
 
 /**
  * Where a case study's imagery comes from: WordPress first, the deck second.
  *
  * Studies 01–06 were built from the deck, and their CMS entries carry no images yet, so
- * they keep the deck artwork until an editor uploads something better. A study added in
- * WordPress (07 onward) has no deck pages at all, so its imagery can only come from the
+ * they keep the deck's photography until an editor uploads something better. The opener
+ * is the photograph alone, cut from the left half of the study's deck page
+ * (public/openers): the whole page used to be shown, with its SCOPE OF WORK list and
+ * footer printed into the image — unreadable on a phone and duplicating live text. A study
+ * added in WordPress (07 onward) has no deck pages, so its imagery can only come from the
  * CMS — and one with no images yet must still render, not break the build.
  */
-export type ProjectOpener =
-  | { kind: 'cms'; image: CmsImage }
-  | { kind: 'deck'; page: number }
-  | null;
+export interface ProjectOpener {
+  image: CmsImage;
+  /** True when an editor uploaded it, so its own alt text can be trusted. */
+  uploaded: boolean;
+}
 
-export function projectOpener(project: ArchiveProject): ProjectOpener {
+/** Heights of the 1060px-wide crops in public/openers, keyed by archive number. */
+const OPENER_HEIGHT: Readonly<Record<string, number>> = {
+  '01': 1443,
+  '02': 1444,
+  '03': 1444,
+  '04': 1439,
+  '05': 1436,
+  '06': 1444,
+};
+
+export function projectOpener(project: ArchiveProject): ProjectOpener | null {
   const image = cmsImage(project.hero_image);
-  if (image) return { kind: 'cms', image };
+  if (image) return { image, uploaded: true };
 
-  const page = ARCHIVE_OPENER_PAGE[project.archive_no];
-  return page === undefined ? null : { kind: 'deck', page };
+  const height = OPENER_HEIGHT[project.archive_no];
+  if (!height) return null;
+  const no = project.archive_no;
+  return {
+    uploaded: false,
+    image: {
+      src: asset(`/openers/${no}-1060.webp`),
+      srcSet: `${asset(`/openers/${no}-720.webp`)} 720w, ${asset(`/openers/${no}-1060.webp`)} 1060w`,
+      width: 1060,
+      height,
+      alt: null,
+    },
+  };
 }
 
 export function projectGallery(project: ArchiveProject): readonly GalleryTile[] {

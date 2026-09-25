@@ -1,13 +1,12 @@
 import { CmsFigure } from '@/components/media/CmsFigure';
-import { DeckFigure } from '@/components/media/DeckFigure';
 import type { ProjectOpener } from '@/lib/project-media';
 
-/** A case study's opening image, from whichever source lib/project-media.ts chose. */
+/** A case study's opening photograph, from whichever source lib/project-media.ts chose. */
 export function ProjectOpenerFigure({
   opener,
   ...figure
 }: {
-  opener: ProjectOpener;
+  opener: ProjectOpener | null;
   alt: string;
   sizes?: string;
   className?: string;
@@ -15,6 +14,5 @@ export function ProjectOpenerFigure({
   parallax?: number;
 }) {
   if (!opener) return null;
-  if (opener.kind === 'deck') return <DeckFigure page={opener.page} {...figure} />;
   return <CmsFigure image={opener.image} {...figure} />;
 }

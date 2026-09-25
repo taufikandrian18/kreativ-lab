@@ -4,26 +4,12 @@ import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useMotionPreference } from '@/lib/use-motion-preference';
+import { tearPoints } from '@/lib/shapes';
+
+export { tearPoints };
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** A deterministic ragged line: the same tear on every build, different per seed. */
-export function tearPoints(seed: number, steps = 64): string {
-  let s = seed * 9301 + 49297;
-  const next = () => {
-    s = (s * 9301 + 49297) % 233280;
-    return s / 233280;
-  };
-  const points = ['0,0'];
-  for (let i = 0; i <= steps; i++) {
-    const x = (i / steps) * 100;
-    // Mostly shallow with the occasional deep bite, which is how paper actually tears.
-    const depth = next() < 0.18 ? 55 + next() * 45 : 15 + next() * 35;
-    points.push(`${x.toFixed(2)},${depth.toFixed(1)}`);
-  }
-  points.push('100,0');
-  return points.join(' ');
-}
 
 const FILL = { black: 'var(--k-black)', paper: 'var(--k-paper)' } as const;
 

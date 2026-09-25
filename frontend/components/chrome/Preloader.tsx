@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { MARK_RING, StudioMark } from '@/components/chrome/StudioMark';
-import { tearPoints } from '@/components/motion/TornEdge';
+import { tearPoints } from '@/lib/shapes';
 
 gsap.registerPlugin(ScrollTrigger);
 

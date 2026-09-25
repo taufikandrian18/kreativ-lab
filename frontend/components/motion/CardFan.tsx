@@ -4,19 +4,12 @@ import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useMotionPreference } from '@/lib/use-motion-preference';
+import { burstPoints } from '@/lib/shapes';
+
+export { burstPoints };
 
 gsap.registerPlugin(ScrollTrigger);
 
-/** A burst of `points` spikes, as an SVG polygon in a 0–100 box. */
-export function burstPoints(points = 14, inner = 26, outer = 50): string {
-  const out: string[] = [];
-  for (let i = 0; i < points * 2; i++) {
-    const r = i % 2 === 0 ? outer : inner;
-    const a = (Math.PI * i) / points - Math.PI / 2;
-    out.push(`${(50 + r * Math.cos(a)).toFixed(2)},${(50 + r * Math.sin(a)).toFixed(2)}`);
-  }
-  return out.join(' ');
-}
 
 /**
  * Crency's cases: a hand of cards held in a stack, fanned out while the section holds

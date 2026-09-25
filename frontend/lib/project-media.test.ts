@@ -21,14 +21,17 @@ function project(overrides: Partial<ArchiveProject>): ArchiveProject {
 const upload = { url: '/cms/abc-1600.webp', alt: 'Hero', width: 1600, height: 900 };
 
 describe('project imagery', () => {
-  it('keeps the deck opener and gallery while the CMS entry has no images', () => {
-    expect(projectOpener(project({}))).toEqual({ kind: 'deck', page: 8 });
+  it('keeps the deck photography while the CMS entry has no images — the photo alone, not the page', () => {
+    const opener = projectOpener(project({}));
+    expect(opener).toMatchObject({ uploaded: false, image: { src: '/openers/01-1060.webp' } });
+    expect(opener?.image.srcSet).toContain('/openers/01-720.webp 720w');
+    expect(opener?.image.src).not.toContain('/deck/');
     expect(projectGallery(project({})).length).toBeGreaterThan(5);
   });
 
   it('prefers images uploaded in WordPress over the deck', () => {
     const p = project({ hero_image: upload, gallery: [upload, { url: null, alt: null }] });
-    expect(projectOpener(p)).toMatchObject({ kind: 'cms', image: { src: '/cms/abc-1600.webp' } });
+    expect(projectOpener(p)).toMatchObject({ uploaded: true, image: { src: '/cms/abc-1600.webp' } });
     expect(projectGallery(p)).toEqual([
       { file: '/cms/abc-1600.webp', srcSet: undefined, w: 1600, h: 900, alt: 'Hero' },
     ]);
@@ -66,5 +69,18 @@ describe('reels', () => {
 
   it('shows no uploaded reel without a poster', () => {
     expect(uploadedReel('/cms/w.mp4', null, null)).toBeNull();
+  });
+});
+
+describe('projectScope', () => {
+  it('prefers the list entered in WordPress', async () => {
+    const { projectScope } = await import('./project-scope');
+    expect(projectScope(project({ scope: [' Brand Film ', ''] }))).toEqual(['Brand Film']);
+  });
+
+  it('falls back to the scope printed on the deck opener, as live text', async () => {
+    const { projectScope } = await import('./project-scope');
+    expect(projectScope(project({}))).toContain('Product R&D');
+    expect(projectScope(project({ archive_no: '07', title: 'New Client' }))).toEqual([]);
   });
 });
