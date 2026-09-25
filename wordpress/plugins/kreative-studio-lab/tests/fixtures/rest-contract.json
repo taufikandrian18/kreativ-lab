@@ -777,12 +777,9 @@
       "key": "contact",
       "fields": {
         "contact_heading": "LET'S *TALK*",
-        "contact_image": {
-          "url": null,
-          "alt": null,
-          "width": null,
-          "height": null
-        }
+        "contact_email_label": "Email",
+        "contact_phone_label": "Phone",
+        "contact_whatsapp_label": "WhatsApp"
       }
     },
     {

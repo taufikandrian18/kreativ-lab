@@ -43,3 +43,11 @@ describe('STUDIO_CONTACT', () => {
     });
   });
 });
+
+describe('whatsappHref', () => {
+  it('turns the number as written into a wa.me link of digits only', async () => {
+    const { whatsappHref } = await import('./studio-contact');
+    expect(whatsappHref('+62 813 1131 9739')).toBe('https://wa.me/6281311319739');
+    expect(whatsappHref('+62-812-7230-0977')).toBe('https://wa.me/6281272300977');
+  });
+});
