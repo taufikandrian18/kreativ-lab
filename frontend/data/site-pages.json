@@ -684,6 +684,12 @@
               "instructions": "Wrap words in *stars* to set them in red."
             },
             {
+              "name": "archive_statement",
+              "label": "Statement under the heading",
+              "type": "text",
+              "default": "Every great outcome starts with a thoughtful process."
+            },
+            {
               "name": "archive_image",
               "label": "Statement image",
               "type": "image",
@@ -695,6 +701,47 @@
               "type": "text",
               "default": "Every great outcome starts with a thoughtful process.",
               "instructions": "Describes the image for screen readers and search engines."
+            }
+          ]
+        },
+        {
+          "label": "Case study pages",
+          "fields": [
+            {
+              "name": "case_eyebrow",
+              "label": "Label above each title",
+              "type": "text",
+              "default": "Lab archive"
+            },
+            {
+              "name": "case_industry_label",
+              "label": "Industry label",
+              "type": "text",
+              "default": "Industry"
+            },
+            {
+              "name": "case_year_label",
+              "label": "Year label",
+              "type": "text",
+              "default": "Year"
+            },
+            {
+              "name": "case_lab_label",
+              "label": "Lab label",
+              "type": "text",
+              "default": "Lab"
+            },
+            {
+              "name": "case_lab_both",
+              "label": "Value when a study used both labs",
+              "type": "text",
+              "default": "Both labs"
+            },
+            {
+              "name": "case_scope_label",
+              "label": "Scope of work label",
+              "type": "text",
+              "default": "Scope of work"
             }
           ]
         }

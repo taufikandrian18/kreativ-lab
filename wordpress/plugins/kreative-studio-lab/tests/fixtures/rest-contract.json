@@ -757,13 +757,20 @@
       "key": "archive",
       "fields": {
         "archive_heading": "LAB ARCHIVE",
+        "archive_statement": "Every great outcome starts with a thoughtful process.",
         "archive_image": {
           "url": null,
           "alt": null,
           "width": null,
           "height": null
         },
-        "archive_image_alt": "Every great outcome starts with a thoughtful process."
+        "archive_image_alt": "Every great outcome starts with a thoughtful process.",
+        "case_eyebrow": "Lab archive",
+        "case_industry_label": "Industry",
+        "case_year_label": "Year",
+        "case_lab_label": "Lab",
+        "case_lab_both": "Both labs",
+        "case_scope_label": "Scope of work"
       }
     },
     {

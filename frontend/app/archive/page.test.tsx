@@ -32,9 +32,13 @@ describe('/archive (spec §4, §6)', () => {
     );
   });
 
-  it('opens with deck page 07', () => {
+  it('sets its statement as live text instead of deck page 07, and leads each row with its photo', () => {
     const { container } = render(<ArchiveIndex />);
-    expect(container.querySelector('img')?.getAttribute('src')).toBe('/deck/page-07-1920.webp');
+    const srcs = Array.from(container.querySelectorAll('img')).map((i) => i.getAttribute('src'));
+    expect(srcs.some((src) => src?.startsWith('/deck/'))).toBe(false);
+    expect(srcs).toHaveLength(6);
+    for (const src of srcs) expect(src).toMatch(/^\/openers\/0[1-6]-1060\.webp$/);
+    expect(container.textContent).toContain('Every great outcome starts with a thoughtful process.');
   });
 
   it('uses no alpha-composited grey, which spec §5 forbids', () => {

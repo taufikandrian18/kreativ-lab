@@ -3,9 +3,10 @@ import { render, screen } from '@testing-library/react';
 import Contact from './page';
 
 describe('/contact (spec §4)', () => {
-  it('renders deck page 26 as the contact card', () => {
+  it('draws the studio mark as vectors instead of deck page 26, whose details were printed into it', () => {
     const { container } = render(<Contact />);
-    expect(container.querySelector('img')?.getAttribute('src')).toBe('/deck/page-26-1920.webp');
+    expect(container.querySelector('[data-contact-mark] [data-mark-ring]')).not.toBeNull();
+    expect(container.querySelector('img[src*="/deck/"]')).toBeNull();
   });
 
   it('makes both numbers dialable', () => {

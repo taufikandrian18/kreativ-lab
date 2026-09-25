@@ -26,16 +26,16 @@ describe('/archive/[slug] (spec §4, §6)', () => {
     ]);
   });
 
-  it('opens on the verified deck page and then shows the work itself', async () => {
+  it('opens on the photograph cut from its deck page and then shows the work itself', async () => {
     // The gallery used to be whole deck pages — screenshots of someone else's layout,
     // page margins and "LAB ARCHIVE 01" footer included. It is now the individual pieces
-    // of work, cut out of those pages, so the site can compose them. The opener page is
-    // still a deck page, because that page IS the study's title card.
+    // of work, cut out of those pages. The opener went the same way on 2026-09-25: the
+    // deck page's title card (scope list, client, year) is live text on the page, and
+    // the photograph is cut out on its own.
     const { container } = await renderSlug('n8n-collective');
-    const deck = Array.from(container.querySelectorAll('img'))
-      .map((img) => img.getAttribute('src'))
-      .filter((src) => src?.startsWith('/deck/'));
-    expect(deck).toEqual(['/deck/page-08-1920.webp']);
+    const srcs = Array.from(container.querySelectorAll('img')).map((img) => img.getAttribute('src'));
+    expect(srcs.filter((src) => src?.startsWith('/deck/'))).toEqual([]);
+    expect(srcs).toContain('/openers/01-1060.webp');
 
     const gallery = Array.from(container.querySelectorAll('img'))
       .map((img) => img.getAttribute('src'))
@@ -59,14 +59,22 @@ describe('/archive/[slug] (spec §4, §6)', () => {
   it('renders the project metadata as live text', async () => {
     await renderSlug('drx-wear');
     expect(screen.getByRole('heading', { name: /DRX Wear/i, level: 1 })).toBeInTheDocument();
-    expect(screen.getByText('02')).toBeInTheDocument();
+    // The number appears in the eyebrow and again on the sticker over the photograph.
+    expect(screen.getAllByText('02').length).toBeGreaterThan(0);
     expect(screen.getByText(/Sport Brand Apparel/i)).toBeInTheDocument();
   });
 
-  it('renders no scope list while the fixture carries none, and no empty container', async () => {
+  it('sets the scope printed on the deck opener as live text while WordPress has none', async () => {
     const { container } = await renderSlug('kemenpora');
-    expect(container.querySelector('[data-scope-list]')).toBeNull();
+    const items = Array.from(container.querySelectorAll('[data-scope-list] li')).map((li) => li.textContent);
+    expect(items).toEqual(['Product R&D', 'Event Merchandise Production', 'Printing Production']);
     expect(screen.queryByText(/undefined|null/i)).not.toBeInTheDocument();
+  });
+
+  it('keeps the number sticker out of the accessibility tree', async () => {
+    const { container } = await renderSlug('drx-wear');
+    const sticker = container.querySelector('.k-sticker-spin')?.parentElement as HTMLElement;
+    expect(sticker.getAttribute('aria-hidden')).toBe('true');
   });
 
   it('404s on a slug that is not a case study', async () => {
