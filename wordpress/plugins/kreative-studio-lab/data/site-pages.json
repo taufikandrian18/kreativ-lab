@@ -762,10 +762,22 @@
               "instructions": "Wrap words in *stars* to set them in red."
             },
             {
-              "name": "contact_image",
-              "label": "Image",
-              "type": "image",
-              "instructions": "Leave empty to keep the current artwork."
+              "name": "contact_email_label",
+              "label": "Label above the email",
+              "type": "text",
+              "default": "Email"
+            },
+            {
+              "name": "contact_phone_label",
+              "label": "Label above each number",
+              "type": "text",
+              "default": "Phone"
+            },
+            {
+              "name": "contact_whatsapp_label",
+              "label": "WhatsApp button",
+              "type": "text",
+              "default": "WhatsApp"
             },
             {
               "name": "contact_note",

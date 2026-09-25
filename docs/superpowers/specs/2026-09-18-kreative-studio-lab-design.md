@@ -585,3 +585,11 @@ written, not amendments to it:
 > transform: a deliberate exception to §6's transform-and-opacity rule, confined to the
 > ~30 headline letters and paused whenever the hero is off screen or the tab is hidden.
 
+> **Amendment (2026-09-25c):** by the studio's direction the contact page is the email and
+> the phone numbers only — set large, one per full-width row between rules, the row itself
+> the link, each number with a WhatsApp button (wa.me). The drawn studio mark and the
+> optional contact image are removed (`contact_image` leaves the CMS schema). The client
+> wall fits every mark to its grid cell (a wide mark at a fixed height had outgrown its
+> cell and overlapped its neighbour), and below 1024px each mark gathers on its own scroll
+> pass, so none is still in flight while it is on screen.
+

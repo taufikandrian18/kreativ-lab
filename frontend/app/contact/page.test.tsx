@@ -3,10 +3,22 @@ import { render, screen } from '@testing-library/react';
 import Contact from './page';
 
 describe('/contact (spec §4)', () => {
-  it('draws the studio mark as vectors instead of deck page 26, whose details were printed into it', () => {
+  it('is the email and the numbers and nothing else — no deck page, no picture', () => {
     const { container } = render(<Contact />);
-    expect(container.querySelector('[data-contact-mark] [data-mark-ring]')).not.toBeNull();
-    expect(container.querySelector('img[src*="/deck/"]')).toBeNull();
+    expect(container.querySelector('img')).toBeNull();
+    expect(container.querySelector('svg[viewBox="0 0 454 466"]')).toBeNull();
+  });
+
+  it('opens WhatsApp for each number', () => {
+    render(<Contact />);
+    expect(screen.getByRole('link', { name: 'WhatsApp +62 813 1131 9739' })).toHaveAttribute(
+      'href',
+      'https://wa.me/6281311319739'
+    );
+    expect(screen.getByRole('link', { name: 'WhatsApp +62 812 7230 0977' })).toHaveAttribute(
+      'href',
+      'https://wa.me/6281272300977'
+    );
   });
 
   it('makes both numbers dialable', () => {

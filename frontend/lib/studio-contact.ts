@@ -41,3 +41,11 @@ export function studioContact(settings: SiteSetting | undefined): {
 export function telHref(phone: string): string {
   return `tel:${phone.replace(/\s+/g, '')}`;
 }
+
+/**
+ * A WhatsApp chat link for a number as the studio writes it ("+62 813 1131 9739"):
+ * wa.me takes the international number as digits only, no plus, spaces or dashes.
+ */
+export function whatsappHref(phone: string): string {
+  return `https://wa.me/${phone.replace(/\D+/g, '')}`;
+}

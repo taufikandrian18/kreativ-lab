@@ -36,8 +36,9 @@ build in GitHub → **Actions**.
   empty, the list from the studio deck is used. Its **Hero image** is the big photo; left
   empty, the photograph from the deck is used. The small labels on every case study page
   (Industry, Year, Lab, Scope of work) are under **Site Pages → Archive**.
-- **Contact page:** the Instagram handle and address from **Site Settings** appear as soon
-  as they are filled in; an empty one is simply left out.
+- **Contact page:** shows the email and phone numbers from **Site Settings** and nothing
+  else, one per row, each number with a WhatsApp button. The small labels (Email, Phone,
+  WhatsApp) are under **Site Pages → Contact**.
 - **Card lines (Home → Who we are):** each card has a word and a one-line description
   under it.
 - **Lists are one item per line.**
