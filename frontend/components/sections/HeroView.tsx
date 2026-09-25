@@ -6,6 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Marquee } from '@/components/motion/Marquee';
 import { SplitHeadline } from '@/components/motion/SplitHeadline';
 import { useMotionPreference } from '@/lib/use-motion-preference';
+import { useSampledDifference } from '@/components/motion/useSampledDifference';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -53,6 +54,12 @@ export function HeroView({ content }: { content: HeroContent }) {
 
     return () => ctx.revert();
   }, [preference]);
+
+  // iOS cannot blend page content with a playing video, so there the headline's
+  // difference is computed from the frame instead (lib/blend-fallback.ts). Only while the
+  // video is what is showing: the poster and the reduced-motion still are images, which
+  // WebKit blends normally.
+  useSampledDifference(section, preference === 'full');
 
   return (
     <section

@@ -574,3 +574,14 @@ written, not amendments to it:
 > page 07's line as a statement (Archive → Statement) and leads each row with the study's
 > photo. Contact draws the studio mark in place of page 26, and shows Site Settings'
 > Instagram and address when filled. Uploaded images in WordPress still take precedence.
+
+> **Amendment (2026-09-25b):** iOS cannot blend page content with a playing video (every
+> iOS browser is WebKit, which plays inline video in its own hardware layer), so the hero
+> headline's `mix-blend-mode: difference` did nothing on iPhones and the white headline
+> vanished over white frames. On iOS only, the page samples the playing frame ten times a
+> second into a 1/8-size canvas and sets each letter to the inverse of the colour behind
+> it — the same result the blend gives elsewhere, letter by letter
+> (lib/blend-fallback.ts, components/motion/useSampledDifference.ts). Colour, not
+> transform: a deliberate exception to §6's transform-and-opacity rule, confined to the
+> ~30 headline letters and paused whenever the hero is off screen or the tab is hidden.
+
