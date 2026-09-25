@@ -136,6 +136,13 @@ Publish any change in WordPress and watch **Actions** start a run.
 
 ## Updating the plugin
 
+The CMS never shows its own front end. Every visit to `/kreative-lab-cms/` outside the
+admin, and "Visit Site" in the admin bar, goes to the public site; a case study's
+WordPress link lands on its page there. The public address defaults to
+`https://website.taufikandrian.my.id/kreative-lab` and can be changed in wp-config.php
+with `define( 'KSL_PUBLIC_SITE_URL', '...' );`. The admin, REST, login and cron are
+unaffected.
+
 After a plugin change is merged (this repository's `wordpress/plugins/kreative-studio-lab`):
 
 ```sh
