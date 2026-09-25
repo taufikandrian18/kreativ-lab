@@ -1,11 +1,16 @@
 # Kreative Studio Lab on website.taufikandrian.my.id, one path per site:
 #
-#   /kreative-lab/        the public site (static files, built by GitHub Actions)
-#   /kreative-lab-cms/    WordPress, where the studio edits content
+#   /kreative-lab/               the public site (static files, built by GitHub Actions)
+#   /kreative-lab/wp-admin/      WordPress, where the studio edits content
+#
+# Both live under the one prefix. WordPress answers only for its own paths (wp-admin,
+# wp-login.php and the other root .php files, wp-includes, wp-content, wp-json, and the
+# ?rest_route= API the build reads); every other path is the static site. The old
+# /kreative-lab-cms/ address redirects to the same path under /kreative-lab/.
 #
 # Caddy allows ONE block per hostname. If website.taufikandrian.my.id already has a
-# block for your other sites, paste the two `handle` sections (and the @cms matcher and
-# redir lines) into it rather than adding this block a second time. Keep a single
+# block for your other sites, paste everything between its braces except `encode` into
+# it rather than adding this block a second time. Keep a single
 # catch-all `handle` at the end of that block.
 #
 # On the VPS this goes in /home/ubuntu/n8n/Caddyfile, served by the n8n-caddy-1
@@ -20,34 +25,69 @@
 website.taufikandrian.my.id {
 	encode zstd gzip
 
-	# ── The public site ──────────────────────────────────────────────────────────────
-	# The build's basePath (/kreative-lab) is baked into every URL, but the files sit at
-	# the root of /var/www/kreativ-lab, so handle_path strips the prefix before lookup.
-	redir /kreative-lab /kreative-lab/ 308
-	handle_path /kreative-lab/* {
-		root * /srv/www/kreativ-lab
-		@static path /_next/static/*
-		header @static Cache-Control "public, max-age=31536000, immutable"
-		@media path /cms/*
-		header @media Cache-Control "public, max-age=604800"
-		try_files {path} {path}/ {path}/index.html
-		file_server
+	# ── The old CMS address ──────────────────────────────────────────────────────────
+	# WordPress used to live at /kreative-lab-cms/. Bookmarks, saved logins and any link
+	# still pointing there land on the same path under /kreative-lab/. 308 keeps the
+	# method, so a login form posted to the old address still logs in. The inner `route`
+	# keeps the two lines in this order (on their own, redir would run before the strip);
+	# the outer `handle` keeps it ahead of the catch-all 404 below, which a bare `route`
+	# is sorted after.
+	@oldcms path /kreative-lab-cms /kreative-lab-cms/*
+	handle @oldcms {
+		route {
+			uri strip_prefix /kreative-lab-cms
+			redir * /kreative-lab{uri} 308
+		}
 	}
 
-	# ── WordPress ────────────────────────────────────────────────────────────────────
-	# No handle_path here: WordPress lives in a real /kreative-lab-cms directory and
-	# builds its own URLs with that prefix, so the path is passed through unchanged.
-	# Caddy serves the static files (uploads, admin CSS/JS) itself from /srv/www and
-	# hands PHP to the ksl-wordpress container, where the same files sit under
-	# /var/www/html.
-	@cms path /kreative-lab-cms /kreative-lab-cms/*
-	handle @cms {
-		root * /srv/www
-		php_fastcgi ksl-wordpress:9000 {
-			root /var/www/html
-			try_files {path} {path}/index.php /kreative-lab-cms/index.php
+	redir /kreative-lab /kreative-lab/ 308
+
+	handle /kreative-lab/* {
+		# ── WordPress ────────────────────────────────────────────────────────────────
+		# WordPress's own paths. `*.php` covers wp-login.php, xmlrpc.php, wp-cron.php and
+		# index.php at the root; the directories cover the admin and its assets.
+		@wp path /kreative-lab/wp-admin /kreative-lab/wp-admin/* /kreative-lab/wp-includes/* /kreative-lab/wp-content/* /kreative-lab/wp-json /kreative-lab/wp-json/* /kreative-lab/*.php
+		# The REST API as the build reads it: /kreative-lab/?rest_route=/wp/v2/... Only that
+		# query goes to WordPress; any other query on the home page (?utm_source=...) is
+		# still the static site.
+		@wprest {
+			path /kreative-lab/
+			query rest_route=*
 		}
-		file_server
+		# The WordPress files sit in a real kreative-lab directory, on the host at
+		# /var/www/ksl-wordpress/kreative-lab, so the URL path is the file path and nothing
+		# is rewritten. Caddy serves uploads and admin CSS/JS itself (it sees /var/www as
+		# /srv/www) and hands PHP to the ksl-wordpress container, where the same directory
+		# is mounted under /var/www/html.
+		handle @wp {
+			root * /srv/www/ksl-wordpress
+			php_fastcgi ksl-wordpress:9000 {
+				root /var/www/html
+				try_files {path} {path}/index.php /kreative-lab/index.php
+			}
+			file_server
+		}
+		handle @wprest {
+			root * /srv/www/ksl-wordpress
+			rewrite * /kreative-lab/index.php?{query}
+			php_fastcgi ksl-wordpress:9000 {
+				root /var/www/html
+			}
+		}
+
+		# ── The public site ──────────────────────────────────────────────────────────
+		# The build's basePath (/kreative-lab) is baked into every URL, but the files sit
+		# at the root of /var/www/kreativ-lab, so the prefix is stripped before lookup.
+		handle {
+			uri strip_prefix /kreative-lab
+			root * /srv/www/kreativ-lab
+			@static path /_next/static/*
+			header @static Cache-Control "public, max-age=31536000, immutable"
+			@media path /cms/*
+			header @media Cache-Control "public, max-age=604800"
+			try_files {path} {path}/ {path}/index.html
+			file_server
+		}
 	}
 
 	handle {

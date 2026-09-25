@@ -1,6 +1,6 @@
 // Pull the live content out of WordPress and into the build.
 //
-//   KSL_CMS_URL=https://website.example/kreative-lab-cms npm run fetch-cms
+//   KSL_CMS_URL=https://website.example/kreative-lab npm run fetch-cms
 //
 // The site is a static export, so WordPress is read once, here, at build time: the four
 // collections (case studies, logos, settings and Site Pages) are fetched over REST, every
@@ -203,7 +203,7 @@ async function localiseMedia(img, sharp, mediaDir) {
 export async function main({ outFile = OUT_FILE, mediaDir = MEDIA_DIR } = {}) {
   const baseUrl = process.env.KSL_CMS_URL?.replace(/\/+$/, '');
   if (!baseUrl) {
-    throw new Error('KSL_CMS_URL is not set (e.g. https://website.example/kreative-lab-cms)');
+    throw new Error('KSL_CMS_URL is not set (e.g. https://website.example/kreative-lab)');
   }
 
   console.log(`==> Fetching content from ${baseUrl}`);

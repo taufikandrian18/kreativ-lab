@@ -14,7 +14,7 @@ ENV_FILE="$ROOT/scripts/deploy.env"
 
 : "${DEPLOY_HOST:?run scripts/deploy-vps.sh once first, or set DEPLOY_HOST in scripts/deploy.env}"
 DEPLOY_USER="${DEPLOY_USER:-root}"
-CMS_PATH="${CMS_PATH:-/var/www/kreative-lab-cms}"
+CMS_PATH="${CMS_PATH:-/var/www/ksl-wordpress/kreative-lab}"
 PLUGIN_DIR="$CMS_PATH/wp-content/plugins/kreative-studio-lab"
 REMOTE="$DEPLOY_USER@$DEPLOY_HOST"
 # wp-content belongs to www-data, so a non-root login (e.g. ubuntu) writes through sudo.
