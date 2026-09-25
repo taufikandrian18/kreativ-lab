@@ -183,6 +183,7 @@ cd /opt/kreative-lab-cms
 # 1. Back up the database and the files.
 sudo docker compose run --rm -T ksl-cli wp db export - > ~/ksl-before-move.sql
 sudo tar -C /var/www -czf ~/ksl-files-before-move.tgz kreative-lab-cms
+sudo cp docker-compose.yml docker-compose.yml.before-move
 
 # 2. Rewrite the stored addresses (uploads, links, home and siteurl). Look at the
 #    dry run first: only a handful of rows should show a count above 0 (home,
@@ -223,7 +224,7 @@ sudo docker compose up -d
    deploy reads from the new address.
 
 If step 2 or 4 goes wrong: `sudo docker compose down`, move the directory back to
-`/var/www/kreative-lab-cms`, restore the old compose file, import the backup with
+`/var/www/kreative-lab-cms`, restore `docker-compose.yml.before-move`, import the backup with
 `sudo docker compose run --rm -T ksl-cli wp db import - < ~/ksl-before-move.sql`, and start
 it again.
 
