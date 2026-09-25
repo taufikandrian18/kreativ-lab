@@ -483,7 +483,11 @@
         "nav_archive": "Archive",
         "nav_contact": "Contact",
         "site_title": "Kreative Studio Lab",
-        "site_description": "Clean in form. Sharp in function."
+        "site_description": "Clean in form. Sharp in function.",
+        "dock_menu": "Menu",
+        "dock_cta": "Let's talk",
+        "dock_work": "Work",
+        "menu_close": "Close"
       }
     },
     {
@@ -512,28 +516,28 @@
           "height": null
         },
         "hero_video_label": "Kreative Studio Lab showreel",
-        "manifesto_heading": "KREATE *LIVE* STUDIO LAB",
-        "manifesto_opening": "More than creativity. Ideas are everywhere.",
+        "manifesto_heading": "IDEAS ARE EVERYWHERE. WE MAKE THEM *REAL.*",
+        "manifesto_opening": "We build products people keep and stories people remember.",
         "manifesto_body": [
-          "What makes them valuable is how they are explored, developed, crafted, and experienced.",
-          "At KREATIVE STUDIO LAB, we believe creativity doesn't end with making something beautiful."
+          "Having the idea is the easy part. Exploring it, building it and putting it in people's hands — that's the work, and it's the part we love.",
+          "Beautiful is where we start, not where we stop."
         ],
         "manifesto_steps": [
           {
-            "first": "It begins",
-            "second": "with understanding."
+            "first": "First, we listen",
+            "second": "so we know what you actually need."
           },
           {
-            "first": "It grows",
-            "second": "through experimentation."
+            "first": "Then we play",
+            "second": "sketch, test, break things on purpose."
           },
           {
-            "first": "It comes to life",
-            "second": "through craftsmanship."
+            "first": "Then we build it",
+            "second": "with care, down to the last stitch."
           },
           {
-            "first": "And it becomes meaningful",
-            "second": "when people experience it."
+            "first": "And then it lives",
+            "second": "the moment people pick it up."
           }
         ],
         "manifesto_every_label": "Every",
@@ -543,15 +547,39 @@
           "story",
           "experience"
         ],
-        "manifesto_lead": "Because we don't simply create.",
-        "manifesto_closing": "We Create *Live.*",
+        "manifesto_lead": "We don't just make things.",
+        "manifesto_closing": "We make them *live.*",
         "manifesto_image": {
           "url": null,
           "alt": null,
           "width": null,
           "height": null
         },
-        "who_heading": "WHO WE ARE",
+        "manifesto_chip_1": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "manifesto_chip_2": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "manifesto_chip_3": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "manifesto_chip_4": {
+          "url": null,
+          "alt": null,
+          "width": null,
+          "height": null
+        },
+        "who_heading": "HOW WE WORK",
         "pillar_1_word": "THINK",
         "pillar_1_image": {
           "url": null,
@@ -559,6 +587,7 @@
           "width": null,
           "height": null
         },
+        "pillar_1_line": "We ask the awkward questions first, so the answers hold up later.",
         "pillar_2_word": "DESIGN",
         "pillar_2_image": {
           "url": null,
@@ -566,6 +595,7 @@
           "width": null,
           "height": null
         },
+        "pillar_2_line": "Ideas get a shape, a look and a reason to exist.",
         "pillar_3_word": "CRAFT",
         "pillar_3_image": {
           "url": null,
@@ -573,6 +603,7 @@
           "width": null,
           "height": null
         },
+        "pillar_3_line": "Samples, stitches, prints — we make it until it's right.",
         "pillar_4_word": "EXPERIENCE",
         "pillar_4_image": {
           "url": null,
@@ -580,25 +611,26 @@
           "width": null,
           "height": null
         },
-        "labs_heading": "One Studio. Two Labs.",
-        "labs_subhead": "Different disciplines. One creative ecosystem.",
+        "pillar_4_line": "The part that counts: how it feels in someone's hands.",
+        "labs_heading": "One studio. Two *labs.*",
+        "labs_subhead": "One makes the thing. The other makes people *care* about it.",
         "labs_product": "PRODUCT LAB",
         "labs_creative": "CREATIVE LAB",
-        "teaser_heading": "LAB ARCHIVE",
-        "teaser_link": "View the full archive",
-        "clients_heading": "OUR CLIENT",
-        "closing_statement": "LET'S *CREATE* SOMETHING THAT *LIVES.*",
-        "closing_link": "Start a project"
+        "teaser_heading": "FRESH FROM THE *LAB*",
+        "teaser_link": "See everything we've made",
+        "clients_heading": "IN GOOD *COMPANY*",
+        "closing_statement": "GOT AN IDEA? LET'S MAKE IT *LIVE.*",
+        "closing_link": "Tell us about it"
       }
     },
     {
       "key": "about",
       "fields": {
-        "about_heading": "WHO WE ARE",
+        "about_heading": "HI, WE'RE *KREATIVE* STUDIO LAB",
         "about_body": [
-          "KREATIVE STUDIO LAB is a Creative Production Studio specializing in Product Development and Creative Production.",
-          "We collaborate with brands, corporations, organizations, and communities to develop products, visual content, and brand experiences that create meaningful connections. By combining strategic thinking, creative exploration, and production expertise, we transform ideas into tangible experiences from the first concept to the final execution.",
-          "We don't separate creativity from production. We believe they belong together."
+          "We're a creative production studio. One side of the studio makes products; the other makes the photos, films and campaigns that make people want them.",
+          "We work with brands, companies, organisations and communities — from the first rough idea to the finished thing on the shelf, the screen or the street.",
+          "Most studios hand the making off to someone else. We don't. Creative and production sit in the same room here, and that's the whole point."
         ],
         "about_image": {
           "url": null,
@@ -619,10 +651,10 @@
       "key": "product_lab",
       "fields": {
         "pl_heading": "PRODUCT *LAB*",
-        "pl_subhead": "Where Ideas Become Products.",
+        "pl_subhead": "Where ideas turn into things you can hold.",
         "pl_body": [
-          "We transform ideas into products that embody a brand's identity and purpose. From material exploration and design development to prototyping, production, and final finishing, every stage is approached with precision and intention.",
-          "We believe exceptional products are created through thoughtful craftsmanship, meticulous attention to detail, and a commitment to quality."
+          "Got a product in your head? We'll get it into your hands. Materials, design, samples, production, finishing — we take it the whole way and sweat every stage.",
+          "Good products aren't lucky. They come from patience, obsessive detail and never settling for \"close enough\"."
         ],
         "pl_image": {
           "url": null,
@@ -631,7 +663,7 @@
           "height": null
         },
         "pl_image_alt": "Product Lab process: sewing, pattern drafting, and keyring, pouch and cap prototypes",
-        "pl_capabilities_label": "Capabilities",
+        "pl_capabilities_label": "What we make",
         "pl_capabilities": [
           {
             "name": "Print & Packaging",
@@ -672,11 +704,11 @@
       "key": "creative_lab",
       "fields": {
         "cl_heading": "CREATIVE *LAB*",
-        "cl_subhead": "Where Products Become Stories",
+        "cl_subhead": "Where products get their story.",
         "cl_body": [
-          "Powerful products deserve meaningful stories. Through Creative Lab, we transform products into visual experiences that strengthen brand perception and create emotional connections.",
-          "From creative direction to campaign execution, we produce visual content that communicates not only what a product is, but why it matters.",
-          "Because every product deserves a story worth remembering."
+          "A great product still needs a reason to care. Creative Lab gives it one — photos, films and campaigns that make people feel something.",
+          "From the first idea to the final cut, we show what your product is and, more importantly, why it matters.",
+          "Because the best products are the ones people remember."
         ],
         "cl_reel_wide": {
           "url": null,
@@ -692,7 +724,7 @@
           "width": null,
           "height": null
         },
-        "cl_capabilities_label": "Capabilities",
+        "cl_capabilities_label": "What we do",
         "cl_capabilities": [
           {
             "name": "",
@@ -750,10 +782,10 @@
       "key": "not_found",
       "fields": {
         "nf_code": "404",
-        "nf_heading": "NOT FOUND",
-        "nf_body": "That page is not in the lab. It may have moved, or the link may be wrong.",
-        "nf_home_link": "Back home",
-        "nf_archive_link": "Lab archive"
+        "nf_heading": "WELL, THIS IS *AWKWARD*",
+        "nf_body": "This page wandered off, or the link is wrong. Either way, it isn't in the lab.",
+        "nf_home_link": "Take me home",
+        "nf_archive_link": "Browse the archive"
       }
     }
   ]

@@ -52,6 +52,27 @@ class KSL_Site_Pages {
         return $fields;
     }
 
+    /**
+     * The new default to write over `$current`, or null to leave it alone.
+     *
+     * A field is refreshed only when its stored value is word for word one of the copy
+     * the site used to ship (`was` in data/site-pages.json) — a value nobody edited.
+     * Anything an editor typed is never touched. Compared with line endings and outer
+     * whitespace normalised, because WordPress stores textareas with CRLF.
+     */
+    public static function refreshed_value( array $field, $current ): ?string {
+        if ( ! isset( $field['default'], $field['was'] ) || ! is_string( $current ) ) {
+            return null;
+        }
+        $norm = fn( string $v ): string => trim( str_replace( [ "\r\n", "\r" ], "\n", $v ) );
+        foreach ( (array) $field['was'] as $old ) {
+            if ( $norm( (string) $old ) === $norm( $current ) && $norm( $current ) !== $norm( $field['default'] ) ) {
+                return $field['default'];
+            }
+        }
+        return null;
+    }
+
     public static function field_key( string $page_key, string $name ): string {
         return "field_ksl_{$page_key}_{$name}";
     }

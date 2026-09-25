@@ -143,6 +143,17 @@ After a plugin change is merged (this repository's `wordpress/plugins/kreative-s
 cd /opt/kreative-lab-cms && sudo docker compose run --rm ksl-cli wp ksl seed   # on the VPS
 ```
 
+To bring copy the studio never edited up to the current wording (after a copy rewrite in
+`data/site-pages.json`), add `--refresh-copy`:
+
+```sh
+cd /opt/kreative-lab-cms && sudo docker compose run --rm ksl-cli wp ksl seed --refresh-copy
+```
+
+It replaces a field only when its stored text is still exactly a previous default (the
+`was` list beside each field) and prints each one it changes. Anything an editor typed
+is left alone, so it is safe to run on a live site.
+
 Then save any page in WordPress, or press **Run workflow**, to deploy. Until the plugin
 is updated, deploys still work: a Site Pages collection the server does not have yet is
 treated as empty, and the site shows its current copy.
@@ -151,14 +162,21 @@ treated as empty, and the site shows its current copy.
 
 The VPS also runs other projects, and some of them publish internal services on every
 network interface (`0.0.0.0`): Redis `6379`, Postgres `5433`, Celery Flower `5555`, Svix
-`8071`, and Portainer `8000`/`9443`. Redis and Flower have no password by default. Only
-Tencent Cloud's firewall stands between them and the internet, and Docker-published
-ports bypass `ufw`.
+`8071`, Portainer `8000`/`9443`, and the open-wearables app on `3000`/`8010`. Redis and
+Flower have no password by default. Docker-published ports bypass `ufw`, so the Tencent
+Cloud firewall is what keeps them private. Checked from outside on 2026-09-24: only 22,
+80 and 443 answered. Keep it that way, and test from your Mac (not the server) after any
+firewall change:
 
-1. **Now:** in the Tencent Cloud console, go to the instance's **Firewall** and make
-   sure only **22, 80 and 443** are open to `0.0.0.0/0`. Remove any rule allowing all
-   ports.
-2. **Properly:** in each project's `docker-compose.yml`, publish those ports on
+```sh
+for p in 22 80 443 3000 5433 5555 6379 8000 8010 8071 9443; do
+  nc -z -w 3 <VPS IP> $p && echo "$p OPEN" || echo "$p closed"
+done
+```
+
+1. **Firewall:** in the Tencent Cloud console, the instance's **Firewall** (Lighthouse) or
+   **Security Group** (CVM) should allow only **22, 80 and 443** from `0.0.0.0/0`.
+2. **Defence in depth:** in each project's `docker-compose.yml`, publish those ports on
    loopback only, then `sudo docker compose up -d`:
    ```yaml
    ports:
@@ -167,7 +185,7 @@ ports bypass `ufw`.
    Services that only other containers need (Redis, Postgres, Svix) need no `ports:`
    entry at all. Reach Portainer or Flower from your Mac through an SSH tunnel instead:
    `ssh -L 9443:127.0.0.1:9443 ubuntu@<VPS IP>`, then open `https://localhost:9443`.
-3. **Check:** from your Mac, `nc -zv <VPS IP> 6379` should say *refused* or time out.
+   Then the services stay private even if a firewall rule is opened by mistake.
 
 ## Things to know
 

@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { existsSync, readdirSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 // A missing derivative does not fail a build — it 404s into a blank section at
@@ -29,13 +29,32 @@ describe('deck and video assets are present in public/ (spec §9, §8)', () => {
 
   it('ships the hero video, its poster, and the reduced-motion still', () => {
     for (const file of [
-      'hero-1080.mp4',
       'hero-720.mp4',
-      'hero-poster.jpg',
-      'hero-still-reduced.jpg',
+      'hero-480.mp4',
+      'hero-poster.webp',
+      'hero-still-reduced.webp',
     ]) {
       expect(existsSync(join(videoDir, file)), `missing ${file}`).toBe(true);
     }
+  });
+
+  // hero-1080.mp4 shipped truncated: an mdat box running to the end of the file and no
+  // moov box, so no browser could play it — yet every desktop visitor downloaded all
+  // 1.3MB of it before falling back. A file that exists is not a file that plays.
+  it('ships only videos that carry their moov index', () => {
+    const broken: string[] = [];
+    for (const file of readdirSync(videoDir).filter((f) => f.endsWith('.mp4'))) {
+      const data = readFileSync(join(videoDir, file));
+      const boxes: string[] = [];
+      for (let at = 0; at + 8 <= data.length; ) {
+        const size = data.readUInt32BE(at);
+        boxes.push(data.toString('latin1', at + 4, at + 8));
+        if (size < 8) break;
+        at += size;
+      }
+      if (!boxes.includes('moov')) broken.push(file);
+    }
+    expect(broken).toEqual([]);
   });
 });
 

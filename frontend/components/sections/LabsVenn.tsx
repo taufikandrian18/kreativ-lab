@@ -60,17 +60,17 @@ export function LabsVenn({
       timeline
         .from('[data-lab-circle="product"]', { xPercent: -42, scale: 0.86, ease: 'none' }, 0)
         .from('[data-lab-circle="creative"]', { xPercent: 42, scale: 0.86, ease: 'none' }, 0)
-        .from('[data-studio-mark]', { opacity: 0, scale: 0.7, ease: 'none' }, 0.45);
+        .from('[data-studio-mark-scale]', { opacity: 0, scale: 0.7, ease: 'none' }, 0.45);
 
-      // Once they have met, the composition keeps breathing rather than freezing: the
-      // ring turns slowly and the mark counter-turns, so the section is alive while the
-      // reader is still in it. Rotation only — no layout, no repaint of anything else.
-      gsap.to('[data-lab-circle="creative"]', {
-        rotation: 360,
-        duration: 90,
-        repeat: -1,
-        ease: 'none',
-      });
+      // Once they have met, the mark keeps turning slowly, so the section is alive
+      // while the reader is still in it. Rotation only.
+      //
+      // The spin runs on its own inner element, never on an element the scrub moves.
+      // The ring used to spin on the same element that converged, and GSAP cached its
+      // starting offset as a fixed 102px x: the ring stopped 102px short of the Venn on
+      // every visit, and the CREATIVE LAB label turned with it and read sideways.
+      // Measured in a browser. The ring no longer spins at all: a solid circle turning
+      // looks exactly like one standing still, so the spin only ever showed as the label.
       gsap.to('[data-studio-mark]', {
         rotation: -360,
         duration: 140,
@@ -99,15 +99,24 @@ export function LabsVenn({
         {/* Creative Lab: the ringed disc, right of centre, over the product disc. */}
         <div
           data-lab-circle="creative"
-          className="border-k-paper text-k-paper relative flex aspect-square w-[46%] items-start justify-end rounded-full border-4 p-[6%]"
+          className="text-k-paper relative flex aspect-square w-[46%] items-start justify-end rounded-full p-[6%]"
         >
-          <p className="font-display text-right text-xl leading-none tracking-tight sm:text-2xl">
+          <span
+            aria-hidden="true"
+            className="border-k-paper absolute inset-0 rounded-full border-4"
+          />
+          <p className="font-display relative text-right text-xl leading-none tracking-tight sm:text-2xl">
             <CircleLabel text={creative} />
           </p>
         </div>
       </div>
 
       {/* The crossed-K mark sits at the intersection, cropped off deck page 04. */}
+      {/* Centred by the outer span; scaled in by the scrub on the middle one; turned on
+          the inner one. Three elements because a transform GSAP writes replaces the
+          centring translate, and two tweens on one element fight over its cache. */}
+      <span className="pointer-events-none absolute top-1/2 left-1/2 block aspect-square w-[16%] -translate-x-1/2 -translate-y-1/2">
+      <span data-studio-mark-scale aria-hidden="true" className="block h-full w-full">
       <span
         data-studio-mark
         aria-hidden="true"
@@ -122,8 +131,10 @@ export function LabsVenn({
           WebkitMaskSize: 'contain',
           backgroundColor: 'var(--k-red)',
         }}
-        className="pointer-events-none absolute top-1/2 left-1/2 block aspect-square w-[16%] -translate-x-1/2 -translate-y-1/2"
+        className="block h-full w-full"
       />
+      </span>
+      </span>
     </div>
   );
 }

@@ -69,7 +69,7 @@ describe('sitePage', () => {
   it('falls back to the current copy for anything left empty', () => {
     const home = sitePage('home', cms);
     expect(home.text('hero_marquee')).toBe('KREATE LIVE');
-    expect(home.pairs('manifesto_steps')[0]).toEqual({ first: 'It begins', second: 'with understanding.' });
+    expect(home.pairs('manifesto_steps')[0]).toEqual({ first: 'First, we listen', second: 'so we know what you actually need.' });
     expect(home.file('hero_video_narrow')).toBeNull();
     expect(home.image('manifesto_image')).toBeNull();
     expect(sitePage('about', []).lines('about_pillars')).toEqual(['THINK', 'DESIGN', 'CRAFT', 'EXPERIENCE']);

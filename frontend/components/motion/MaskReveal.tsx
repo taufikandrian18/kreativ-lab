@@ -4,6 +4,7 @@ import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { prefersReducedMotion } from '@/lib/motion-env';
+import { stretchSwaps } from '@/lib/swap-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -43,7 +44,12 @@ export function MaskReveal({
           duration: 0.9,
           ease: 'power3.out',
           scrollTrigger: { trigger: el, start: 'top 85%', once: true },
-          onComplete: reveal,
+          onComplete: () => {
+            reveal();
+            // Through ctx.add: a callback runs after the context function has returned,
+            // so a tween made there would otherwise escape the route's teardown.
+            ctx.add(() => stretchSwaps(el));
+          },
         }
       );
     }, el);

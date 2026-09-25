@@ -29,7 +29,7 @@ export default function CreativeLab() {
             <MaskReveal as="h1" className="display-type">
               <Accented text={page.text('cl_heading')} />
             </MaskReveal>
-            <p className="type-subhead mt-8">{page.text('cl_subhead')}</p>
+            <p className="type-statement mt-8 max-w-[16ch]">{page.text('cl_subhead')}</p>
             <div className="mt-8 max-w-[46ch]">
               {page.lines('cl_body').map((paragraph) => (
                 <p key={paragraph.slice(0, 24)} className="font-body mt-4 text-base leading-relaxed">
