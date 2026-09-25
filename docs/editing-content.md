@@ -1,7 +1,7 @@
 # Editing the Kreative Studio Lab site
 
 Everything on the site is edited in WordPress at
-`https://website.taufikandrian.my.id/kreative-lab-cms/wp-admin/`. Press **Update** and
+`https://website.taufikandrian.my.id/kreative-lab/wp-admin/`. Press **Update** and
 the site rebuilds itself. Changes are live in about two minutes. You can follow the
 build in GitHub → **Actions**.
 
