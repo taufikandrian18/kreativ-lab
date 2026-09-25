@@ -1,13 +1,15 @@
 # WordPress for Kreative Studio Lab, served by the existing Caddy container at
-# https://website.taufikandrian.my.id/kreative-lab-cms/ (see deploy/Caddyfile.snippet).
+# https://website.taufikandrian.my.id/kreative-lab/wp-admin/ (see deploy/Caddyfile.snippet).
+# It shares the /kreative-lab/ prefix with the static public site; Caddy sends only
+# WordPress's own paths here.
 #
 # On the VPS:
 #   mkdir -p /opt/kreative-lab-cms && cd /opt/kreative-lab-cms
 #   copy this file, uploads.ini and a .env (see deploy/README.md) here
 #   docker compose up -d
 #
-# The WordPress files land on the host in /var/www/kreative-lab-cms, which is inside the
-# /var/www directory Caddy already mounts. That shared directory is how Caddy serves
+# The WordPress files land on the host in /var/www/ksl-wordpress/kreative-lab, which is
+# inside the /var/www directory Caddy already mounts. That shared directory is how Caddy serves
 # uploads and admin assets directly while PHP runs here.
 services:
   ksl-db:
@@ -27,9 +29,11 @@ services:
     restart: unless-stopped
     depends_on: [ksl-db]
     # The image installs WordPress into its working directory on first start. Pointing
-    # that at a /kreative-lab-cms subdirectory puts the files where the URL path says
-    # they are, so Caddy needs no rewriting to find them.
-    working_dir: /var/www/html/kreative-lab-cms
+    # that at a /kreative-lab subdirectory puts the files where the URL path says they
+    # are, so Caddy needs no rewriting to find them. The host directory is named for
+    # WordPress, not the site, so it cannot be mistaken for /var/www/kreativ-lab, where
+    # the static build lives.
+    working_dir: /var/www/html/kreative-lab
     environment:
       WORDPRESS_DB_HOST: ksl-db
       WORDPRESS_DB_NAME: kreative_lab
@@ -38,13 +42,13 @@ services:
       KSL_GITHUB_REPO: ${KSL_GITHUB_REPO:-}
       KSL_GITHUB_TOKEN: ${KSL_GITHUB_TOKEN:-}
       WORDPRESS_CONFIG_EXTRA: |
-        define( 'WP_HOME', 'https://website.taufikandrian.my.id/kreative-lab-cms' );
-        define( 'WP_SITEURL', 'https://website.taufikandrian.my.id/kreative-lab-cms' );
+        define( 'WP_HOME', 'https://website.taufikandrian.my.id/kreative-lab' );
+        define( 'WP_SITEURL', 'https://website.taufikandrian.my.id/kreative-lab' );
         define( 'DISALLOW_FILE_EDIT', true );
         define( 'KSL_GITHUB_REPO', getenv_docker( 'KSL_GITHUB_REPO', '' ) );
         define( 'KSL_GITHUB_TOKEN', getenv_docker( 'KSL_GITHUB_TOKEN', '' ) );
     volumes:
-      - /var/www/kreative-lab-cms:/var/www/html/kreative-lab-cms
+      - /var/www/ksl-wordpress:/var/www/html
       - ./uploads.ini:/usr/local/etc/php/conf.d/uploads.ini:ro
     networks: [internal, caddy]
 
@@ -54,14 +58,14 @@ services:
     profiles: [cli]
     user: "33:33"
     depends_on: [ksl-db]
-    working_dir: /var/www/html/kreative-lab-cms
+    working_dir: /var/www/html/kreative-lab
     environment:
       WORDPRESS_DB_HOST: ksl-db
       WORDPRESS_DB_NAME: kreative_lab
       WORDPRESS_DB_USER: kreative_lab
       WORDPRESS_DB_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - /var/www/kreative-lab-cms:/var/www/html/kreative-lab-cms
+      - /var/www/ksl-wordpress:/var/www/html
     networks: [internal]
 
 volumes:

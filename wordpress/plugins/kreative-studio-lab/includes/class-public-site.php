@@ -15,6 +15,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * page there, and the admin bar's site links point there too. The admin, the REST API the
  * build reads, login, AJAX and cron never pass through template_redirect and are untouched.
  *
+ * WordPress and the public site share the /kreative-lab/ prefix; Caddy sends WordPress
+ * only its own paths (deploy/Caddyfile.snippet). The redirect cannot loop: its targets
+ * (/kreative-lab/ and /kreative-lab/archive/...) are paths Caddy serves statically.
+ *
  * The public address comes from wp-config.php, falling back to the live one:
  *
  *   define( 'KSL_PUBLIC_SITE_URL', 'https://website.taufikandrian.my.id/kreative-lab' );
