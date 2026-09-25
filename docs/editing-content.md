@@ -28,6 +28,10 @@ build in GitHub → **Actions**.
   letters. In the "Two labs" subheading, starred words get a red highlighter stroke instead.
 - **Phone dock (Global → Header & footer):** the three labels on the floating bar phones
   see at the bottom of the screen (Menu, the call to action, Work) and the menu's Close.
+- **Statement photos (Home → Manifesto):** four small square photos set inside the
+  opening sentence. Any photo works; the site crops it square and loads a small copy.
+- **About cards:** the pillar words come from About → Pillars; their photographs are the
+  ones in Home → Who we are, so a picture changed there changes on both pages.
 - **Card lines (Home → Who we are):** each card has a word and a one-line description
   under it.
 - **Lists are one item per line.**

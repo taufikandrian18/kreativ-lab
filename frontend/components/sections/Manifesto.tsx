@@ -13,12 +13,7 @@ import { accentWords, sitePage } from '@/lib/site-content';
 // makes. Picked from the case-study galleries, so every chip is a real piece of work,
 // and cut down to 180px squares in public/chips: the chip shows at about 70px, and the
 // full gallery files cost 3–99KB each where the thumbnails cost 3–6KB.
-const CHIPS = [
-  { src: asset('/chips/03-04.webp') },
-  { src: asset('/chips/01-02.webp') },
-  { src: asset('/chips/06-01.webp') },
-  { src: asset('/chips/04-01.webp') },
-];
+const CHIP_ART = ['03-04', '01-02', '06-01', '04-01'] as const;
 
 /**
  * Deck page 02, edited in WordPress (Home → Manifesto), laid out after the Crency
@@ -35,6 +30,14 @@ export function Manifesto() {
   const closing = accentWords(home.text('manifesto_closing'));
   const image = home.image('manifesto_image');
   const every = home.text('manifesto_every_label');
+  // Home → Manifesto → Statement photo 1–4 in WordPress; each empty one keeps its
+  // default chip.
+  const chips = CHIP_ART.map((art, index) => {
+    const uploaded = home.image(`manifesto_chip_${index + 1}`);
+    return uploaded
+      ? { src: uploaded.src, srcSet: uploaded.srcSet }
+      : { src: asset(`/chips/${art}.webp`) };
+  });
 
   return (
     <section className="bg-k-black text-k-paper relative overflow-hidden">
@@ -45,7 +48,7 @@ export function Manifesto() {
 
         <ChipStatement
           text={home.text('manifesto_opening')}
-          chips={CHIPS}
+          chips={chips}
           className="type-statement mx-auto mt-[clamp(4rem,9vw,9rem)] max-w-[22ch] text-center"
         />
 

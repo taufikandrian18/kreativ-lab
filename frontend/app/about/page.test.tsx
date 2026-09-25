@@ -31,9 +31,15 @@ describe('/about (spec §4)', () => {
     }
   });
 
-  it('renders deck page 03 as the route opener', () => {
+  it('sets each pillar over its own photograph, not the deck page with old copy baked in', () => {
     const { container } = render(<About />);
-    const img = container.querySelector('img') as HTMLImageElement;
-    expect(img.getAttribute('src')).toBe('/deck/page-03-1920.webp');
+    const srcs = Array.from(container.querySelectorAll('img')).map((i) => i.getAttribute('src'));
+    expect(srcs).toEqual([
+      '/pillars/think.jpg',
+      '/pillars/design.jpg',
+      '/pillars/craft.jpg',
+      '/pillars/experience.jpg',
+    ]);
+    expect(srcs.some((src) => src?.includes('/deck/page-03'))).toBe(false);
   });
 });

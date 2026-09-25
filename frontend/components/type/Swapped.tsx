@@ -7,6 +7,10 @@ import { Fragment } from 'react';
  * once for the headline and a headline is rendered as several runs (accent words, or
  * one span per word while it animates). The swapped letter is a plain inline span, so
  * the heading's accessible name is the same string as before the swap.
+ *
+ * A word that holds a swapped letter is wrapped nowrap. The swap is an inline-block, and
+ * an inline-block is a line-break opportunity on both sides — at 390px the 404 heading
+ * broke as "AWKWA R / D", the last letter of a word alone on its own line.
  */
 export function Swapped({
   text,
@@ -19,21 +23,35 @@ export function Swapped({
 }) {
   if (!Array.from(text).some((_, i) => plan.has(offset + i))) return <>{text}</>;
 
-  const parts: React.ReactNode[] = [];
-  let plain = '';
-  Array.from(text).forEach((char, i) => {
-    if (plan.has(offset + i)) {
-      if (plain) parts.push(<Fragment key={`p${i}`}>{plain}</Fragment>);
-      plain = '';
-      parts.push(
-        <span key={`s${i}`} data-swap className="k-swap">
-          {char}
-        </span>
-      );
-    } else {
-      plain += char;
-    }
-  });
-  if (plain) parts.push(<Fragment key="tail">{plain}</Fragment>);
-  return <>{parts}</>;
+  // Split into words and the whitespace between them, keeping each piece's position.
+  const pieces: { text: string; start: number }[] = [];
+  let at = 0;
+  for (const part of text.split(/(\s+)/)) {
+    if (part) pieces.push({ text: part, start: at });
+    at += part.length;
+  }
+
+  return (
+    <>
+      {pieces.map((piece) => {
+        const chars = Array.from(piece.text);
+        if (!chars.some((_, i) => plan.has(offset + piece.start + i))) {
+          return <Fragment key={piece.start}>{piece.text}</Fragment>;
+        }
+        return (
+          <span key={piece.start} className="whitespace-nowrap">
+            {chars.map((char, i) =>
+              plan.has(offset + piece.start + i) ? (
+                <span key={i} data-swap className="k-swap">
+                  {char}
+                </span>
+              ) : (
+                <Fragment key={i}>{char}</Fragment>
+              )
+            )}
+          </span>
+        );
+      })}
+    </>
+  );
 }

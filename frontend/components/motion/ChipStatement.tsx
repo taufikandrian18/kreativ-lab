@@ -9,6 +9,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 export interface Chip {
   src: string;
+  /** Set for photos uploaded in WordPress, which the build resizes to several widths. */
+  srcSet?: string;
 }
 
 /** After which word each chip sits: spread evenly, never after the last word. */
@@ -106,6 +108,10 @@ export function ChipStatement({
               <span data-chip aria-hidden="true" className="k-chip bg-k-black">
                 <img
                   src={chips[slots.indexOf(i)].src}
+                  srcSet={chips[slots.indexOf(i)].srcSet}
+                  // A chip is about 70px across; this lets an uploaded photo come down at
+                  // its smallest generated width rather than full size.
+                  sizes={chips[slots.indexOf(i)].srcSet ? '96px' : undefined}
                   alt=""
                   loading="lazy"
                   decoding="async"

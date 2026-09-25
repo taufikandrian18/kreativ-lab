@@ -17,7 +17,7 @@ export function Closing() {
     <section className="bg-k-black text-k-paper relative overflow-hidden">
       <TornEdge from="paper" seed={19} />
       <Grain />
-      <div className="section-shell relative flex min-h-[80svh] flex-col items-center justify-center text-center">
+      <div className="section-shell relative flex min-h-[55svh] flex-col items-center justify-center text-center lg:min-h-[80svh]">
         <WordReveal
           as="p"
           text={statement.text}

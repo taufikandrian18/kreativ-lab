@@ -8,7 +8,7 @@ export function SiteHeader() {
   return (
     <header className="fixed top-0 right-0 left-0 z-50 mix-blend-difference">
       <div className="shell-inline flex flex-wrap items-center justify-between gap-x-6 gap-y-1 py-3">
-        <Link href="/" className="font-display text-k-paper text-xl tracking-tight">
+        <Link href="/" className="font-display text-k-paper inline-block py-2 text-xl tracking-tight">
           {wordmark}
         </Link>
         {/* Below 1024px these links give way to the floating dock and its menu

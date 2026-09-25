@@ -217,6 +217,15 @@ body {
     transform-origin: 50% 70%;
   }
 
+  /* At phone sizes a 200-weight stroke is a hairline: the swapped O in "C O MPANY" read
+     as a gap in the word, not a letter. Heavier below 768px; the contrast in width
+     still carries the swap. */
+  @media (max-width: 767px) {
+    .k-swap {
+      font-weight: 380;
+    }
+  }
+
   /* The statement step: sentence case, heavy grotesque, set centred. Crency's "We build
      brands people love…" register — conversational where the display step shouts. Sits
      between display and subhead, and is only used for one statement per section. */

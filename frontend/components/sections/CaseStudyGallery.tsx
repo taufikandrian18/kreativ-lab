@@ -19,7 +19,10 @@ export function CaseStudyGallery({ tiles, client }: { tiles: readonly GalleryTil
   const rows = justifyRows(tiles).map((row) => row.map((tile) => ({ tile, index: index++ })));
 
   return (
-    <div className="flex flex-col gap-4 sm:gap-6 lg:gap-8">
+    // overflow-x-clip: tiles enter from past their own edge, which on a phone is past the
+    // viewport — the DRX page scrolled sideways by 48px at 390px. `clip`, so the gallery
+    // does not become a scroll container.
+    <div className="flex flex-col gap-4 overflow-x-clip sm:gap-6 lg:gap-8">
       {rows.map((row, r) => (
         <div key={r} data-gallery-row className="flex flex-col gap-4 sm:flex-row sm:gap-6 lg:gap-8">
           {row.map(({ tile, index: i }) => (
