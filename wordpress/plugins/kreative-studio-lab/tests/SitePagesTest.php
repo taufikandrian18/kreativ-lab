@@ -94,4 +94,27 @@ class Test_Site_Pages extends TestCase {
         $this->assertSame( [ 'url' => null, 'mime' => null ], $shaped['fields']['hero_video_wide'] );
         $this->assertArrayNotHasKey( 'teaser_note', $shaped['fields'] );
     }
+
+    public function test_refresh_copy_replaces_only_untouched_previous_defaults() {
+        $field = [ 'default' => 'New copy.', 'was' => [ "Old copy.\nSecond line." ] ];
+
+        // Still the old default (as WordPress stores it, with CRLF) — refreshed.
+        $this->assertSame( 'New copy.', KSL_Site_Pages::refreshed_value( $field, "Old copy.\r\nSecond line.  " ) );
+        // An editor's own words — never touched.
+        $this->assertNull( KSL_Site_Pages::refreshed_value( $field, 'Something the studio wrote.' ) );
+        // Already current — nothing to do.
+        $this->assertNull( KSL_Site_Pages::refreshed_value( $field, 'New copy.' ) );
+        // A field with no history — nothing to compare against.
+        $this->assertNull( KSL_Site_Pages::refreshed_value( [ 'default' => 'x' ], 'y' ) );
+    }
+
+    public function test_every_previous_default_differs_from_the_current_one() {
+        foreach ( KSL_Site_Pages::schema() as $page ) {
+            foreach ( KSL_Site_Pages::fields( $page ) as $field ) {
+                foreach ( $field['was'] ?? [] as $old ) {
+                    $this->assertNotSame( $field['default'], $old, "{$page['key']}.{$field['name']}" );
+                }
+            }
+        }
+    }
 }

@@ -270,6 +270,82 @@ reversing it means re-opening this spec.
 > are deleted from `CapabilityList`, and `CapabilityList.test.tsx` now asserts their
 > absence so the rule cannot return by accident.
 
+> **Amendment (2026-09-24):** motion moves toward the Crency reference (crency.agency),
+> studied in a browser the same day. Its difference from this site was not effects but
+> choreography: every section here entered the same way, a once-only fade-and-rise at 85%
+> of the viewport, while Crency ties its motion to the scroll and gives each block its
+> own entrance. Five of its moves are adopted, each on `transform` and `opacity` only:
+>
+> | Where | Move |
+> |---|---|
+> | Hero headline | Built letter by letter on load (`SplitHeadline`), replacing the mask reveal that fired on frame one |
+> | Hero exit | Scrubbed three-layer camera move: showreel pushes in, headline lifts and shrinks, marquee band runs ahead |
+> | Manifesto close, Closing | Statement assembles word by word scrubbed to scroll (`WordReveal scrub`), and takes itself apart on the way back |
+> | Who we are | Pillar cards dealt in tilted and uprighted, scrubbed (`SlideIn deal`) |
+> | Closing CTA | Magnetic: leans toward a fine pointer, springs back (`Magnetic`) |
+>
+> Scrubbed moves never animate opacity: a word or photograph parked half-transparent
+> while the reader holds still is a grey, which §5 forbids. The clip hides what has not
+> arrived. Three Crency moves are declined: its custom cursor and preloader, for the
+> reasons the 2026-09-19 editorial amendment gives, and its self-drawing pen line, which
+> is the same gesture as the keyline wipe the studio rejected above. Crency's Lenis
+> smooth scroll is not adopted either; ScrollSmoother stays, per the stack rule.
+
+> **Amendment (2026-09-24b):** the studio asked for the rest of the site — type,
+> placement, motion and copy — to follow the Crency reference, keeping the hero headline
+> as it is. The palette does not change: red, black and paper remain the only CSS
+> colours, and every fill below cycles through them. What changes:
+>
+> - **Type.** Anton stays for display, Archivo for text. Crency's second face — one
+>   wide, light letter swapped into each compressed line — is Archivo at its widest and
+>   lightest (`Archivo Wide`, the width-axis cut of a face already shipped), chosen per
+>   headline by `lib/swap-letters.ts` so editors type nothing. Capital E is excluded: its
+>   hairline arms read as a bracket. A fourth step, `.type-statement` (heavy sentence-case
+>   Archivo), carries one conversational statement per section; it sits between display
+>   and subhead and does not replace either.
+> - **Placement.** Openers are centred or set as two offset lines. Section seams are torn
+>   edges that flatten on scroll — Crency's waves, in the showreel's own torn paper.
+>   Pillars and product capabilities are filled, rounded cards; flat capability lists are
+>   pill tags; lab and archive links are signposts; calls to action are pills.
+> - **Motion.** Added, all transform-only: image chips of real work flying into the
+>   manifesto statement; a pinned card fan over a turning burst for the archive teaser
+>   (1024px and up — §7's no-pinning rule holds below); client marks and capability tags
+>   gathering out of a scatter; a highlighter stroke; a swinging signpost; a stretch on
+>   each swapped letter. The client wall's opacity stagger is removed, since a wall of
+>   half-faded marks is a wall of greys.
+> - **Copy.** Rewritten looser and in the second person, keeping every fact, service and
+>   client name; no figures are invented (Crency's review scores and project counts have
+>   no equivalent here and none were made up). Four `pillar_n_line` fields are added.
+>
+> Still declined, for the reasons already recorded: custom cursor, preloader,
+> self-drawing line, Lenis. Crency's floating bottom dock is not adopted; the header
+> already does its job.
+
+> **Amendment (2026-09-24c):** the studio overturned three earlier calls and asked for a
+> lighter first load.
+>
+> - **Preloader — overturned.** The red crossed-K draws itself (ring round, K dropped in)
+>   and the black curtain lifts with a torn edge. It is bounded so it cannot spend the LCP
+>   budget the 2026-09-19 amendment protected: first page of a visit only (sessionStorage),
+>   never under reduced motion, never with JS off (the curtain exists only once a <head>
+>   script opts in), out as soon as fonts and the page load after a 0.9s minimum, at 1.6s
+>   regardless, and a pure-CSS failsafe lifts it at 2.8s. The mark is a vector traced from
+>   the showreel frame where it stands alone at ~420px; the ring is a fitted circle.
+> - **Fonts — replaced.** Two families. Display: Archivo on its width axis at 62% / 850,
+>   closer to the deck's Helvetica Now Condensed than Anton was; the same file at 125% /
+>   200 sets the swapped letters. Body: Inter. Anton is removed.
+> - **Phone navigation — Crency's dock adopted.** Below 1024px the header keeps only the
+>   wordmark; a floating pill (Menu · Let's talk · Work) carries navigation, and Menu opens
+>   a full-screen dialog of the routes set huge. The 2026-09-24 note declining the dock is
+>   superseded for phones; desktop keeps its header.
+> - **Weight.** hero-1080.mp4 was truncated (no moov box) and unplayable, yet every desktop
+>   visit downloaded it before falling back; it is removed, desktop plays a re-encoded
+>   720p (−36%) and phones a new 480p (382KB). Posters are WebP (126KB → 43KB), gallery and
+>   panel images are re-encoded (4.0MB → 2.2MB), statement chips use 180px thumbnails, and
+>   header links no longer prefetch, which had pulled other routes' opener images into
+>   every page (220KB). Measured on the production build: the homepage went from 2.66MB to
+>   about 1.36MB on desktop. §8's "1080p above 768px" is amended to 720p / 480p.
+
 ### Rules
 
 Animate `transform` and `opacity` only. Anything else is a bug. No layout-triggering

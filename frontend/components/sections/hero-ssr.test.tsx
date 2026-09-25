@@ -29,12 +29,12 @@ describe('server-rendered hero (spec §6, §10)', () => {
   });
 
   it('ships the poster as the static hero image, which spec §10 names the LCP element', () => {
-    expect(ssr(<Hero />)).toContain('/video/hero-poster.jpg');
+    expect(ssr(<Hero />)).toContain('/video/hero-poster.webp');
   });
 
   it('preloads the poster at high priority', () => {
     const html = ssr(<Hero />);
-    expect(html).toMatch(/rel="preload"[^>]*\/video\/hero-poster\.jpg|\/video\/hero-poster\.jpg[^>]*rel="preload"/);
+    expect(html).toMatch(/rel="preload"[^>]*\/video\/hero-poster\.webp|\/video\/hero-poster\.webp[^>]*rel="preload"/);
     expect(html).toContain('fetchPriority="high"');
   });
 });

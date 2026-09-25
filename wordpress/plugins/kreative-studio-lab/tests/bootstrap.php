@@ -17,3 +17,4 @@ require_once dirname( __DIR__ ) . '/includes/class-acf-fields-site-setting.php';
 require_once dirname( __DIR__ ) . '/includes/class-rest-contract.php';
 require_once dirname( __DIR__ ) . '/includes/class-site-pages.php';
 require_once dirname( __DIR__ ) . '/includes/class-deploy-trigger.php';
+require_once dirname( __DIR__ ) . '/includes/class-public-site.php';

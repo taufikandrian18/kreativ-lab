@@ -23,6 +23,17 @@ build in GitHub → **Actions**.
   original; it never leaves a gap. The same goes for images and videos: leave one empty
   to keep the artwork the site has today.
 - **Red words:** in headlines, wrap words in stars. `PRODUCT *LAB*` shows LAB in red.
+- **Wide letters:** one or two round letters in each headline (O, S, C, G, R) are set in a
+  wide, thin face automatically. There is nothing to type; retyping a headline picks new
+  letters. In the "Two labs" subheading, starred words get a red highlighter stroke instead.
+- **Phone dock (Global → Header & footer):** the three labels on the floating bar phones
+  see at the bottom of the screen (Menu, the call to action, Work) and the menu's Close.
+- **Statement photos (Home → Manifesto):** four small square photos set inside the
+  opening sentence. Any photo works; the site crops it square and loads a small copy.
+- **About cards:** the pillar words come from About → Pillars; their photographs are the
+  ones in Home → Who we are, so a picture changed there changes on both pages.
+- **Card lines (Home → Who we are):** each card has a word and a one-line description
+  under it.
 - **Lists are one item per line.**
   - *Manifesto steps:* the large words, then `|`, then the rest:
     `It begins | with understanding.`

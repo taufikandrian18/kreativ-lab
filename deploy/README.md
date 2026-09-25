@@ -136,12 +136,30 @@ Publish any change in WordPress and watch **Actions** start a run.
 
 ## Updating the plugin
 
+The CMS never shows its own front end. Every visit to `/kreative-lab-cms/` outside the
+admin, and "Visit Site" in the admin bar, goes to the public site; a case study's
+WordPress link lands on its page there. The public address defaults to
+`https://website.taufikandrian.my.id/kreative-lab` and can be changed in wp-config.php
+with `define( 'KSL_PUBLIC_SITE_URL', '...' );`. The admin, REST, login and cron are
+unaffected.
+
 After a plugin change is merged (this repository's `wordpress/plugins/kreative-studio-lab`):
 
 ```sh
 ./scripts/deploy-cms-plugin.sh                                    # on your Mac
 cd /opt/kreative-lab-cms && sudo docker compose run --rm ksl-cli wp ksl seed   # on the VPS
 ```
+
+To bring copy the studio never edited up to the current wording (after a copy rewrite in
+`data/site-pages.json`), add `--refresh-copy`:
+
+```sh
+cd /opt/kreative-lab-cms && sudo docker compose run --rm ksl-cli wp ksl seed --refresh-copy
+```
+
+It replaces a field only when its stored text is still exactly a previous default (the
+`was` list beside each field) and prints each one it changes. Anything an editor typed
+is left alone, so it is safe to run on a live site.
 
 Then save any page in WordPress, or press **Run workflow**, to deploy. Until the plugin
 is updated, deploys still work: a Site Pages collection the server does not have yet is

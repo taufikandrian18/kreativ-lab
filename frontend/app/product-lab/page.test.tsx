@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import ProductLab from './page';
+import { sitePage } from '@/lib/site-content';
 
 const ITEMS = [
   'Packaging Design & Production',
@@ -21,7 +22,7 @@ describe('/product-lab (spec §4)', () => {
   it('leads with the headline and the positioning line', () => {
     render(<ProductLab />);
     expect(screen.getByRole('heading', { name: /PRODUCT LAB/i, level: 1 })).toBeInTheDocument();
-    expect(screen.getByText(/Where Ideas Become Products\./i)).toBeInTheDocument();
+    expect(screen.getByText(sitePage('product_lab', []).text('pl_subhead'))).toBeInTheDocument();
   });
 
   it('renders all four capability groups', () => {

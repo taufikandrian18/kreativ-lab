@@ -24,7 +24,7 @@ export default function ProductLab() {
             <MaskReveal as="h1" className="display-type">
               <Accented text={page.text('pl_heading')} />
             </MaskReveal>
-            <p className="type-subhead mt-8">{page.text('pl_subhead')}</p>
+            <p className="type-statement mt-8 max-w-[16ch]">{page.text('pl_subhead')}</p>
             <div className="mt-8 max-w-[46ch]">
               {page.lines('pl_body').map((paragraph) => (
                 <p key={paragraph.slice(0, 24)} className="font-body mt-4 text-base leading-relaxed">
@@ -44,7 +44,8 @@ export default function ProductLab() {
                 width={image?.width ?? 1024}
                 height={image?.height ?? 1448}
                 decoding="async"
-                fetchPriority="high"
+                // Eager, not fetchPriority="high" — see DeckFigure.
+                loading="eager"
                 className="h-auto w-full"
               />
             </Parallax>

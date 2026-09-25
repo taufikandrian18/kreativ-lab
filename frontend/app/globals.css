@@ -11,8 +11,8 @@
   --color-k-black: #000000;
   --color-k-paper: #FFFFFF;
 
-  --font-display: 'Anton', sans-serif;
-  --font-body: 'Archivo Variable', sans-serif;
+  --font-display: 'Archivo Flex', 'Arial Narrow', sans-serif;
+  --font-body: 'Inter Variable', 'Helvetica Neue', Arial, sans-serif;
 
   --type-body: clamp(1rem, 1.1vw, 1.25rem);
 
@@ -37,6 +37,18 @@ body {
   font-size: clamp(1.5rem, 2.6vw, 2.75rem);
   line-height: 1.05;
   letter-spacing: -0.02em;
+}
+
+/* The display family is one variable file; the cut is chosen here. Everything set in it
+   takes the narrow, heavy cut unless it says otherwise (.k-swap does). */
+.font-display,
+.display-type,
+.type-subhead {
+  font-stretch: 62%;
+  font-weight: 850;
+  /* A condensed face's own space is a sliver; at display size the words ran together
+     ("CLEANINFORM."). */
+  word-spacing: 0.08em;
 }
 
 .display-type {
@@ -160,5 +172,177 @@ body {
   /* Imagery, weighted to the right so a figure and its copy read as one spread. */
   .col-figure {
     grid-column: 6 / span 7;
+  }
+}
+
+/* SplitHeadline: the hero's letters are hidden from first paint, so hydration does not
+   show the finished headline, hide it, and then build it. Only under no-preference — a
+   reduced-motion visitor gets the headline in place from the first byte. The animation is
+   a failsafe, not the entrance: if the GSAP effect never runs, the letters appear after
+   5.5s rather than never (the preloader can hold the entrance back for up to 2.8s). It only ever sets the value GSAP ends on, so it cannot fight the
+   tween. The layout's <noscript> covers JS switched off. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-split-char] {
+    opacity: 0;
+    animation: k-split-failsafe 0.01s 5.5s forwards;
+  }
+}
+
+@keyframes k-split-failsafe {
+  to {
+    opacity: 1;
+  }
+}
+
+/* In @layer components, not unlayered: Tailwind v4 puts utilities in a cascade layer,
+   and unlayered CSS beats every layer, so a utility like pr-7 on a .k-pill was silently
+   ignored and the phone numbers on /contact ran into their own border. Inside the
+   components layer a utility on the element wins, as it should. */
+@layer components {
+  /* ── Crency direction (amendment 2026-09-24b) ─────────────────────────────────────── */
+
+  /* A swapped letter: Archivo at its widest and lightest inside a line of the same
+     face at its narrowest and heaviest. The
+     contrast is the point — one letter breathing in a line packed tight. Slightly larger
+     than its neighbours because a light stroke reads smaller than a heavy one at the same
+     size. Inline-block so it can be stretched on entrance without reflowing the line. */
+  .k-swap {
+    display: inline-block;
+    font-family: var(--font-display);
+    font-stretch: 125%;
+    font-weight: 200;
+    font-size: 1.06em;
+    line-height: 0.8;
+    letter-spacing: 0;
+    transform-origin: 50% 70%;
+  }
+
+  /* At phone sizes a 200-weight stroke is a hairline: the swapped O in "C O MPANY" read
+     as a gap in the word, not a letter. Heavier below 768px; the contrast in width
+     still carries the swap. */
+  @media (max-width: 767px) {
+    .k-swap {
+      font-weight: 380;
+    }
+  }
+
+  /* The statement step: sentence case, heavy grotesque, set centred. Crency's "We build
+     brands people love…" register — conversational where the display step shouts. Sits
+     between display and subhead, and is only used for one statement per section. */
+  .type-statement {
+    font-family: var(--font-body);
+    font-weight: 750;
+    font-size: clamp(1.75rem, 4.2vw, 4.75rem);
+    line-height: 1.04;
+    letter-spacing: -0.035em;
+  }
+
+  /* A square photograph set inline in a statement, where Crency sets its icon chips. The
+     height tracks the line so the chip sits in the sentence rather than beside it. */
+  .k-chip {
+    display: inline-block;
+    width: 0.92em;
+    height: 0.92em;
+    margin-inline: 0.12em;
+    vertical-align: -0.1em;
+    overflow: hidden;
+    border-radius: 0.14em;
+  }
+
+  /* Pill call to action with a round arrow badge — Crency's "design trust ↗". */
+  .k-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    border-radius: 999px;
+    padding: 0.5rem 0.5rem 0.5rem 1.75rem;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: clamp(1.125rem, 1.6vw, 1.625rem);
+    letter-spacing: -0.02em;
+    min-height: 44px;
+  }
+
+  .k-pill-arrow {
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 999px;
+    transition: transform 300ms ease-out;
+  }
+
+  .k-pill:hover .k-pill-arrow {
+    transform: rotate(45deg);
+  }
+
+  /* Signpost: an arrow-shaped plate with its depth showing behind it, turned in
+     perspective — Crency's "VIEW ALL CASES" boards. The shape is a static clip; only the
+     turn moves. */
+  .k-signpost {
+    position: relative;
+    display: inline-block;
+    transform-style: preserve-3d;
+    transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .k-signpost-face {
+    display: block;
+    font-stretch: 62%;
+    font-weight: 850;
+    word-spacing: 0.08em;
+    padding: 1.1rem 4.5rem 1.1rem 1.75rem;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 2.4vw, 2.75rem);
+    line-height: 1;
+    white-space: nowrap;
+    letter-spacing: -0.02em;
+    clip-path: polygon(0 0, calc(100% - 2.5rem) 0, 100% 50%, calc(100% - 2.5rem) 100%, 0 100%);
+  }
+
+  .k-signpost[data-point='left'] .k-signpost-face {
+    padding: 1.1rem 1.75rem 1.1rem 4.5rem;
+    clip-path: polygon(2.5rem 0, 100% 0, 100% 100%, 2.5rem 100%, 0 50%);
+  }
+
+  .k-signpost-depth {
+    position: absolute;
+    inset: 0;
+    clip-path: polygon(0 0, calc(100% - 2.5rem) 0, 100% 50%, calc(100% - 2.5rem) 100%, 0 100%);
+    transform: translate(-0.6rem, 0.5rem);
+  }
+
+  .k-signpost[data-point='left'] .k-signpost-depth {
+    clip-path: polygon(2.5rem 0, 100% 0, 100% 100%, 2.5rem 100%, 0 50%);
+    transform: translate(0.6rem, 0.5rem);
+  }
+}
+
+/* Preloader (components/chrome/Preloader.tsx). Shown only when the <head> boot script
+   has set data-preloader="on" — first page of a visit, motion allowed. With JS off the
+   attribute is never set, so the curtain never appears. */
+#k-preloader {
+  display: none;
+}
+
+html[data-preloader='on'] #k-preloader {
+  display: flex;
+  /* The hard cap. If the script never lifts the curtain, CSS does, at 2.8s. It only
+     ever writes the same end state the script does, so it cannot fight it. */
+  animation: k-preloader-failsafe 0.6s cubic-bezier(0.7, 0, 0.3, 1) 2.8s forwards;
+}
+
+html[data-preloader='on'] [data-preloader-mark] {
+  visibility: hidden;
+}
+
+html[data-preloader='on'] {
+  overflow: hidden;
+}
+
+@keyframes k-preloader-failsafe {
+  to {
+    transform: translateY(-115%);
+    visibility: hidden;
   }
 }
