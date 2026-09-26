@@ -11,7 +11,8 @@
     "test": "vitest run",
     "sync-fixture": "cp ../wordpress/plugins/kreative-studio-lab/tests/fixtures/rest-contract.json ./data/rest-contract.json && cp ../wordpress/plugins/kreative-studio-lab/data/site-pages.json ./data/site-pages.json",
     "fetch-cms": "node scripts/fetch-cms.mjs",
-    "sync-assets": "mkdir -p public/deck public/video && cp ../assets/web/*.webp public/deck/ && cp ../assets/video/* public/video/"
+    "sync-assets": "mkdir -p public/deck public/video && cp ../assets/web/*.webp public/deck/ && cp ../assets/video/* public/video/",
+    "sync-default-media": "WRITE_DEFAULT_MEDIA=1 vitest run lib/default-media.test.ts"
   },
   "dependencies": {
     "@fontsource-variable/archivo": "^5.3.0",

@@ -1,0 +1,123 @@
+{
+  "site_pages": {
+    "home": {
+      "hero_video_wide": "/video/hero-720.mp4",
+      "hero_video_narrow": "/video/hero-480.mp4",
+      "hero_poster": "/video/hero-poster.webp",
+      "hero_still": "/video/hero-still-reduced.webp",
+      "manifesto_chip_1": "/chips/03-04.webp",
+      "manifesto_chip_2": "/chips/01-02.webp",
+      "manifesto_chip_3": "/chips/06-01.webp",
+      "manifesto_chip_4": "/chips/04-01.webp",
+      "pillar_1_image": "/pillars/think.jpg",
+      "pillar_2_image": "/pillars/design.jpg",
+      "pillar_3_image": "/pillars/craft.jpg",
+      "pillar_4_image": "/pillars/experience.jpg"
+    },
+    "creative_lab": {
+      "cl_reel_wide": "/video/n8n-720.mp4",
+      "cl_reel_narrow": "/video/n8n-480.mp4",
+      "cl_reel_poster": "/video/n8n-poster.jpg"
+    }
+  },
+  "archive_projects": {
+    "01": {
+      "hero_image": "/openers/01-1060.webp",
+      "gallery": [
+        "/gallery/01-01.webp",
+        "/gallery/01-02.webp",
+        "/gallery/01-03.webp",
+        "/gallery/01-04.webp",
+        "/gallery/01-05.webp",
+        "/gallery/01-06.webp",
+        "/gallery/01-07.webp",
+        "/gallery/01-08.webp",
+        "/gallery/01-09.webp",
+        "/gallery/01-10.webp",
+        "/gallery/01-11.webp"
+      ],
+      "reel_wide": "/video/n8n-ooh-900.mp4",
+      "reel_narrow": "/video/n8n-ooh-560.mp4",
+      "reel_poster": "/video/n8n-ooh-poster.jpg"
+    },
+    "02": {
+      "hero_image": "/openers/02-1060.webp",
+      "gallery": [
+        "/gallery/02-01.webp",
+        "/gallery/02-02.webp",
+        "/gallery/02-04.webp",
+        "/gallery/02-05.webp"
+      ]
+    },
+    "03": {
+      "hero_image": "/openers/03-1060.webp",
+      "gallery": [
+        "/gallery/03-01.webp",
+        "/gallery/03-02.webp",
+        "/gallery/03-03.webp",
+        "/gallery/03-04.webp",
+        "/gallery/03-05.webp",
+        "/gallery/03-06.webp"
+      ]
+    },
+    "04": {
+      "hero_image": "/openers/04-1060.webp",
+      "gallery": [
+        "/gallery/04-01.webp",
+        "/gallery/04-02.webp",
+        "/gallery/04-03.webp",
+        "/gallery/04-04.webp"
+      ]
+    },
+    "05": {
+      "hero_image": "/openers/05-1060.webp",
+      "gallery": [
+        "/gallery/05-01.webp",
+        "/gallery/05-02.webp",
+        "/gallery/05-03.webp",
+        "/gallery/05-04.webp",
+        "/gallery/05-05.webp",
+        "/gallery/05-06.webp",
+        "/gallery/05-07.webp",
+        "/gallery/05-08.webp",
+        "/gallery/05-09.webp",
+        "/gallery/05-10.webp",
+        "/gallery/05-11.webp"
+      ]
+    },
+    "06": {
+      "hero_image": "/openers/06-1060.webp",
+      "gallery": [
+        "/gallery/06-01.webp",
+        "/gallery/06-02.webp"
+      ]
+    }
+  },
+  "client_logos": {
+    "Deus": "/logos/deus.png",
+    "BMW Motorrad": "/logos/bmw-motorrad.png",
+    "Unionwell": "/logos/unionwell.png",
+    "Jägermeister": "/logos/jagermeister.png",
+    "Howard Smith": "/logos/howard-smith.png",
+    "Jameson": "/logos/jameson.png",
+    "Von Dutch": "/logos/von-dutch.png",
+    "Shiny Bright": "/logos/shining-bright.png",
+    "Compass": "/logos/compass.png",
+    "XLSmart": "/logos/xlsmart.png",
+    "Cargloss": "/logos/cargloss.png",
+    "B-LOG": "/logos/b-log.png",
+    "Pocari Sweat": "/logos/pocari-sweat.png",
+    "N8N": "/logos/n8n.png",
+    "J&T Express": "/logos/j-t-express.png",
+    "Garuda Indonesia": "/logos/garuda-indonesia.png",
+    "Pertamina": "/logos/pertamina.png",
+    "Chelsea": "/logos/chelsea-fc.png",
+    "Erspo": "/logos/erspo.png",
+    "Nippon Paint": "/logos/nippon-paint.png",
+    "DRX": "/logos/drx.png",
+    "Kominfo": "/logos/kominfo.png",
+    "Kemenpora": "/logos/kemenpora.png",
+    "Sampoerna": "/logos/sampoerna.png",
+    "Grand Hyatt": "/logos/grand-hyatt.png"
+  }
+}

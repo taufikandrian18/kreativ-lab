@@ -9,7 +9,7 @@ import { sitePage } from '@/lib/site-content';
 // centred heading over a row of rounded cards, each a different fill, each with its own
 // line of copy. Cards are dealt in from alternating sides — tilted, scrubbed to scroll —
 // and lift on hover. Fills cycle through the three colours; nothing else is available.
-const PILLAR_ART = ['think', 'design', 'craft', 'experience'] as const;
+export const PILLAR_ART = ['think', 'design', 'craft', 'experience'] as const;
 
 const FILLS = [
   'bg-k-red text-k-paper',

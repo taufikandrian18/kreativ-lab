@@ -13,7 +13,7 @@ import { accentWords, sitePage } from '@/lib/site-content';
 // makes. Picked from the case-study galleries, so every chip is a real piece of work,
 // and cut down to 180px squares in public/chips: the chip shows at about 70px, and the
 // full gallery files cost 3–99KB each where the thumbnails cost 3–6KB.
-const CHIP_ART = ['03-04', '01-02', '06-01', '04-01'] as const;
+export const CHIP_ART = ['03-04', '01-02', '06-01', '04-01'] as const;
 
 /**
  * Deck page 02, edited in WordPress (Home → Manifesto), laid out after the Crency

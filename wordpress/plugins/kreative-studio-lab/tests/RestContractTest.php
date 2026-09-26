@@ -119,6 +119,25 @@ class Test_REST_Contract extends TestCase {
         );
     }
 
+    public function test_an_imported_default_carries_the_path_it_came_from() {
+        WP_Mock::userFunction( 'get_post_meta', [
+            'args'   => [ 12, KSL_REST_Contract::DEFAULT_ASSET_META, true ],
+            'return' => '/video/hero-poster.webp',
+        ] );
+        $this->assertSame(
+            [ 'url' => 'https://cms.test/p.webp', 'alt' => '', 'width' => 1920, 'height' => 1080, 'default_asset' => '/video/hero-poster.webp' ],
+            KSL_REST_Contract::shape_image( [ 'ID' => 12, 'url' => 'https://cms.test/p.webp', 'alt' => '', 'width' => 1920, 'height' => 1080 ] )
+        );
+    }
+
+    public function test_an_ordinary_upload_gets_no_default_asset_key() {
+        WP_Mock::userFunction( 'get_post_meta', [ 'args' => [ 13, KSL_REST_Contract::DEFAULT_ASSET_META, true ], 'return' => '' ] );
+        $this->assertSame(
+            [ 'url' => 'https://cms.test/v.mp4', 'mime' => 'video/mp4' ],
+            KSL_REST_Contract::shape_file( [ 'ID' => 13, 'url' => 'https://cms.test/v.mp4', 'mime_type' => 'video/mp4' ] )
+        );
+    }
+
     public function test_shape_archive_project_carries_featured_flag_and_reel() {
         $raw = [
             'archive_no' => '07', 'client' => 'C', 'industry' => 'I', 'year_range' => '2026',

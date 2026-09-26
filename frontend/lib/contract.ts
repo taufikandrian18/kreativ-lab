@@ -33,12 +33,15 @@ export interface ContractImage {
   width?: number | null;
   height?: number | null;
   variants?: { url: string; width: number }[];
+  /** The public/ file this upload was imported from (wp ksl seed --import-media). */
+  default_asset?: string;
 }
 
 /** A video or other non-image upload; localised by fetch-cms.mjs like images are. */
 export interface ContractFile {
   url: string | null;
   mime: string | null;
+  default_asset?: string;
 }
 
 export interface ArchiveProject {
