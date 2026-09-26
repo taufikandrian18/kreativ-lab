@@ -53,7 +53,8 @@ build in GitHub → **Actions**.
     ```
 - **Photographs:** upload full size. The site makes smaller copies itself.
 - **Videos:** MP4 only, exported at the size they should play at. The site does not
-  shrink videos, and a 40 MB file makes a slow page.
+  shrink videos, and a 40 MB file makes a slow page. WordPress accepts files up to
+  256 MB, but that is the ceiling, not a target: aim for under 10 MB per reel.
 - **Reels need a poster:** the first frame, as an image of the same shape. Without one,
   the reel is not shown, and the build stops to tell you why.
 - **Client logos:** upload a **black logo on a transparent background** (PNG or SVG). The
