@@ -6,7 +6,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import sharp from 'sharp';
-import { collectMedia, main, slugify as scriptSlugify, validateContent } from './fetch-cms.mjs';
+import { clearDefaultMedia, collectMedia, main, slugify as scriptSlugify, validateContent } from './fetch-cms.mjs';
 import { slugify } from '@/lib/slugify';
 
 function project(overrides: Record<string, unknown> = {}) {
@@ -206,5 +206,60 @@ describe('fetch-cms against a WordPress stand-in', () => {
     const before = readFileSync(dataFile, 'utf-8');
     await expect(run()).rejects.toThrow(/HTTP 404/);
     expect(readFileSync(dataFile, 'utf-8')).toBe(before);
+  });
+});
+
+describe('fetch-cms keeps imported defaults on the repository files', () => {
+  const img = (url: string | null, default_asset?: string) => ({
+    url,
+    alt: null,
+    width: url ? 100 : null,
+    height: url ? 100 : null,
+    ...(default_asset ? { default_asset } : {}),
+  });
+  const map = {
+    site_pages: { home: { hero_poster: '/video/hero-poster.webp', manifesto_chip_1: '/chips/a.webp' } },
+    archive_projects: { '01': { hero_image: '/openers/01-1060.webp', gallery: ['/gallery/1.webp', '/gallery/2.webp'] } },
+    client_logos: { Deus: '/logos/deus.png' },
+  };
+  const content = () => ({
+    site_pages: [
+      {
+        key: 'home',
+        fields: {
+          hero_poster: img('https://cms/poster.webp', '/video/hero-poster.webp'),
+          // A default moved into another slot is a real choice, so it is kept.
+          manifesto_chip_1: img('https://cms/b.webp', '/chips/b.webp'),
+        },
+      },
+    ],
+    archive_projects: [
+      {
+        archive_no: '01',
+        hero_image: img('https://cms/new.jpg'),
+        gallery: [img('https://cms/1.webp', '/gallery/1.webp'), img('https://cms/2.webp', '/gallery/2.webp')],
+        reel: { wide: { url: null, mime: null }, narrow: { url: null, mime: null }, poster: img(null) },
+      },
+    ],
+    client_logos: [{ name: 'Deus', logo: img('https://cms/deus.png', '/logos/deus.png'), order: 1 }],
+    site_settings: [],
+  });
+
+  it('empties a slot that still holds its own default, and nothing else', () => {
+    const c = content();
+    expect(clearDefaultMedia(c, map)).toBe(4);
+    expect(c.site_pages[0].fields.hero_poster.url).toBeNull();
+    expect(c.site_pages[0].fields.manifesto_chip_1.url).toBe('https://cms/b.webp');
+    expect(c.archive_projects[0].hero_image.url).toBe('https://cms/new.jpg');
+    expect(c.archive_projects[0].gallery.every((g) => g.url === null)).toBe(true);
+    expect(c.client_logos[0].logo.url).toBeNull();
+    expect(collectMedia(c).map((m) => m.url)).toEqual(['https://cms/b.webp', 'https://cms/new.jpg']);
+  });
+
+  it('keeps the whole gallery from WordPress once any image in it changes', () => {
+    const c = content();
+    c.archive_projects[0].gallery[1] = img('https://cms/other.webp');
+    clearDefaultMedia(c, map);
+    expect(c.archive_projects[0].gallery.map((g) => g.url)).toEqual(['https://cms/1.webp', 'https://cms/other.webp']);
   });
 });

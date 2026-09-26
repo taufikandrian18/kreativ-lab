@@ -4,6 +4,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 class KSL_REST_Contract {
+    /** Attachment meta: the public/ path an imported default was copied from. */
+    const DEFAULT_ASSET_META = '_ksl_default_asset';
+
     public static function register(): void {
         register_rest_field(
             KSL_CPT_Archive_Project::SLUG,
@@ -116,7 +119,7 @@ class KSL_REST_Contract {
             'alt'    => $img['alt'] ?? null,
             'width'  => isset( $img['width'] ) ? (int) $img['width'] : null,
             'height' => isset( $img['height'] ) ? (int) $img['height'] : null,
-        ];
+        ] + self::default_asset( $img );
     }
 
     /** A video or other upload: where it is and what it is, nothing else. */
@@ -125,7 +128,22 @@ class KSL_REST_Contract {
         return [
             'url'  => $file['url'] ?? null,
             'mime' => $file['mime_type'] ?? null,
-        ];
+        ] + self::default_asset( $file );
+    }
+
+    /**
+     * For an upload `wp ksl seed --import-media` made from one of the site's own files:
+     * `default_asset`, the path it came from. The build keeps serving the original from
+     * the repository while a field still holds its own default (frontend/scripts/
+     * fetch-cms.mjs). Every other upload gets no key, so the contract is unchanged for it.
+     */
+    private static function default_asset( array $item ): array {
+        $id = (int) ( $item['ID'] ?? $item['id'] ?? 0 );
+        if ( ! $id ) {
+            return [];
+        }
+        $path = get_post_meta( $id, self::DEFAULT_ASSET_META, true );
+        return is_string( $path ) && $path !== '' ? [ 'default_asset' => $path ] : [];
     }
 
     /**

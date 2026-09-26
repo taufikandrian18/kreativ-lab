@@ -31,6 +31,9 @@ const OPENER_HEIGHT: Readonly<Record<string, number>> = {
   '06': 1444,
 };
 
+/** Archive numbers that have an opener crop in public/openers. */
+export const OPENER_NUMBERS: readonly string[] = Object.keys(OPENER_HEIGHT);
+
 export function projectOpener(project: ArchiveProject): ProjectOpener | null {
   const image = cmsImage(project.hero_image);
   if (image) return { image, uploaded: true };

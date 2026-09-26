@@ -13,6 +13,7 @@
 // ahead on half-fetched content would publish a site with case studies missing, and the
 // live site is better left as it was than replaced with that.
 import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { mkdir, rm, writeFile } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
@@ -21,6 +22,7 @@ const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const OUT_FILE = join(ROOT, 'data/rest-contract.json');
 const MEDIA_DIR = join(ROOT, 'public/cms');
 const MEDIA_URL = '/cms';
+const DEFAULT_MEDIA = join(ROOT, 'data/default-media.json');
 
 // Widths generated for each photograph. A width the original cannot reach is skipped,
 // never upscaled; the original's own width is always the largest variant.
@@ -114,6 +116,66 @@ export function collectMedia(content) {
   };
   walk(content);
   return found;
+}
+
+/** The same field, emptied: the shape the contract gives a field nobody filled. */
+function emptied(node) {
+  return 'mime' in node
+    ? { url: null, mime: null }
+    : { url: null, alt: null, width: null, height: null };
+}
+
+/** True when `node` is the file `wp ksl seed --import-media` put into this very slot. */
+function isOwnDefault(node, path) {
+  return Boolean(path && node?.url && node.default_asset === path);
+}
+
+/**
+ * Empties every media field that still holds its own imported default (lib/default-media.ts),
+ * so the site renders it exactly as it did before the import: from the hand-cut files in
+ * public/, not from WordPress's copy. A default moved to a different slot, or any other
+ * upload, is kept and used. A gallery is all or nothing, as the site reads it: untouched,
+ * it falls back to the repository's tiles; with any change, all of it comes from WordPress.
+ * Returns how many fields were emptied.
+ */
+export function clearDefaultMedia(content, map) {
+  let cleared = 0;
+  const clear = (holder, key, path) => {
+    if (isOwnDefault(holder?.[key], path)) {
+      holder[key] = emptied(holder[key]);
+      cleared++;
+    }
+  };
+
+  for (const page of content.site_pages ?? []) {
+    for (const [name, path] of Object.entries(map.site_pages?.[page.key] ?? {})) {
+      clear(page.fields, name, path);
+    }
+  }
+
+  for (const project of content.archive_projects ?? []) {
+    const defaults = map.archive_projects?.[project.archive_no];
+    if (!defaults) continue;
+    clear(project, 'hero_image', defaults.hero_image);
+    if (project.reel) {
+      clear(project.reel, 'wide', defaults.reel_wide);
+      clear(project.reel, 'narrow', defaults.reel_narrow);
+      clear(project.reel, 'poster', defaults.reel_poster);
+    }
+    const filled = (project.gallery ?? []).filter((img) => img?.url);
+    const untouched =
+      filled.length > 0 &&
+      filled.length === (defaults.gallery ?? []).length &&
+      project.gallery.every((img, i) => !img?.url || isOwnDefault(img, defaults.gallery?.[i]));
+    if (untouched) {
+      project.gallery = project.gallery.map((img) => (img?.url ? (cleared++, emptied(img)) : img));
+    }
+  }
+
+  for (const logo of content.client_logos ?? []) {
+    clear(logo, 'logo', map.client_logos?.[logo.name]);
+  }
+  return cleared;
 }
 
 async function fetchCollection(baseUrl, restBase, field, { optional = false } = {}) {
@@ -214,6 +276,8 @@ export async function main({ outFile = OUT_FILE, mediaDir = MEDIA_DIR } = {}) {
     fetchCollection(baseUrl, 'site-pages', 'ksl_page', { optional: true }),
   ]);
   const content = { archive_projects, client_logos, site_settings, site_pages };
+  const kept = clearDefaultMedia(content, JSON.parse(readFileSync(DEFAULT_MEDIA, 'utf-8')));
+  if (kept > 0) console.log(`==> ${kept} fields still hold the site's own files; serving those from the repo`);
   validateContent(content);
 
   if (site_settings.length !== 1) {

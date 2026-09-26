@@ -166,6 +166,20 @@ It replaces a field only when its stored text is still exactly a previous defaul
 `was` list beside each field) and prints each one it changes. Anything an editor typed
 is left alone, so it is safe to run on a live site.
 
+To put the site's own photos, films and logos into the Media Library and into every empty
+media field (once, or again after new fallback files are added in `frontend/public/`):
+
+```sh
+cd /opt/kreative-lab-cms && sudo docker compose run --rm -v /var/www/kreativ-lab:/static:ro \
+  ksl-cli wp ksl seed --import-media --media-from=/static
+```
+
+It copies the files from the deployed static site (about 8 MB, 87 files), labels each
+with the path it came from, and fills only empty fields. It changes nothing on the live
+site: a field that still holds its own file is served from the original, and the build
+logs `N fields still hold the site's own files`. Re-running it reuses what is already
+imported. `--media-from` also takes a URL, such as the public site's address.
+
 Then save any page in WordPress, or press **Run workflow**, to deploy. Until the plugin
 is updated, deploys still work: a Site Pages collection the server does not have yet is
 treated as empty, and the site shows its current copy.

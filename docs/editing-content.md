@@ -22,6 +22,14 @@ build in GitHub → **Actions**.
 - **An empty field shows the current content.** Clearing a headline brings back the
   original; it never leaves a gap. The same goes for images and videos: leave one empty
   to keep the artwork the site has today.
+- **The site's own photos, films and logos are in the Media Library,** each already set
+  in its field, so you can see what is there. To change one, press the field's pencil or
+  **Remove** and choose a new file. While a field still holds the file that was put there
+  for it, the site keeps showing its original, sharper cut; editing that file's alt text
+  or crop in the Media Library changes nothing on the site. Choosing any other file,
+  including one of the site's own files in a different slot, is what the site shows.
+- **Case-study galleries change as a whole:** replace or remove any one image and the
+  gallery is built from exactly the images left in the slots.
 - **Red words:** in headlines, wrap words in stars. `PRODUCT *LAB*` shows LAB in red.
 - **Wide letters:** one or two round letters in each headline (O, S, C, G, R) are set in a
   wide, thin face automatically. There is nothing to type; retyping a headline picks new
