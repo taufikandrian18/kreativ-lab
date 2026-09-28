@@ -188,6 +188,16 @@ body {
   }
 }
 
+/* The 404's digits and mark (components/sections/LostCode.tsx): hidden until GSAP drops
+   them in, shown by this failsafe if it never does. Only with JS on — the boot script sets
+   data-preloader on every visit — so with JS off the number is simply there. */
+@media (prefers-reduced-motion: no-preference) {
+  html[data-preloader] [data-lost-in] {
+    opacity: 0;
+    animation: k-split-failsafe 0.01s 3.5s forwards;
+  }
+}
+
 @keyframes k-split-failsafe {
   to {
     opacity: 1;
