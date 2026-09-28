@@ -800,7 +800,8 @@
               "name": "nf_code",
               "label": "Code",
               "type": "text",
-              "default": "404"
+              "default": "404",
+              "instructions": "Shown huge at the top of the page. Every 0 is drawn as the red studio mark."
             },
             {
               "name": "nf_heading",
@@ -820,6 +821,13 @@
               "was": [
                 "That page is not in the lab. It may have moved, or the link may be wrong."
               ]
+            },
+            {
+              "name": "nf_path_label",
+              "label": "Label before the missing address",
+              "type": "text",
+              "default": "You asked for",
+              "instructions": "Shown with the address the visitor tried, so they can see what went wrong."
             },
             {
               "name": "nf_home_link",
